@@ -17,6 +17,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import mytunes.be.Playlist;
 import mytunes.be.Song;
+import mytunes.gui.model.SongModel;
 
 /**
  *
@@ -61,9 +62,16 @@ public class MyTunesController implements Initializable {
     @FXML
     private Button btnAddToList;
 
+    private SongModel songModel;
+
+    public MyTunesController() {
+        songModel = new SongModel();
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+
+        tableSongs.setItems(songModel.getSongs());
     }
 
 }
