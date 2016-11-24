@@ -11,7 +11,16 @@ import mytunes.be.Song;
 
 public class SongModel {
 
+    private static SongModel instance;
+
     private final ObservableList<Song> songs;
+
+    public static SongModel getInstance() {
+        if (instance == null) {
+            instance = new SongModel();
+        }
+        return instance;
+    }
 
     public SongModel() {
         songs = FXCollections.observableArrayList();
@@ -53,10 +62,10 @@ public class SongModel {
      * Creates some mockup songs
      */
     private void mockupSongs() {
-        Song song1 = new Song("Song One", "SomeArtist", "Classical", "7.52");
-        Song song2 = new Song("Song Two", "SomeArtist", "Rock", "5.52");
-        Song song3 = new Song("Song Three", "SomeArtist", "POP", "3.52");
-        Song song4 = new Song("Song Four", "SomeArtist", "Funk", "2.52");
+        Song song1 = new Song("Song One", "SomeArtist", "Classical", "7.52", "");
+        Song song2 = new Song("Song Two", "SomeArtist", "Rock", "5.52", "");
+        Song song3 = new Song("Song Three", "SomeArtist", "POP", "3.52", "");
+        Song song4 = new Song("Song Four", "SomeArtist", "Funk", "2.52", "");
 
         songs.add(song1);
         songs.add(song2);

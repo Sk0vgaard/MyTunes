@@ -11,12 +11,14 @@ public class Song {
     private final String artist;
     private final String category;
     private final String duration;
+    private final String path;
 
-    public Song(String title, String artist, String category, String duration) {
+    public Song(String title, String artist, String category, String duration, String path) {
         this.title = title;
         this.artist = artist;
         this.category = category;
         this.duration = duration;
+        this.path = path;
     }
 
     /**
@@ -49,6 +51,14 @@ public class Song {
      */
     public String getDuration() {
         return duration;
+    }
+
+    /**
+     *
+     * @return path to Song
+     */
+    public String getPath() {
+        return path;
     }
 
 }

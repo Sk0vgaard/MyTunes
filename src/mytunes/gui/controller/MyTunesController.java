@@ -84,11 +84,7 @@ public class MyTunesController implements Initializable {
     @FXML
     private TableColumn<Song, String> clmSongDuration;
 
-    private SongModel songModel;
-
-    public MyTunesController() {
-        songModel = new SongModel();
-    }
+    private final SongModel songModel = SongModel.getInstance();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -104,8 +100,6 @@ public class MyTunesController implements Initializable {
      */
     @FXML
     private void handleAddSong() throws IOException {
-//        Song newSong = new Song("Test", "Test", "Test", "1.00");
-//        songModel.addSong(newSong);
         Stage primStage = (Stage) btnAddSong.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/Song.fxml"));
         Parent root = loader.load();

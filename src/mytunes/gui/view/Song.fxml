@@ -8,8 +8,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="428.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.60" fx:controller="mytunes.gui.controller.SongController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="428.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mytunes.gui.controller.SongController">
    <children>
       <Label layoutX="100.0" layoutY="82.0" text="Title" />
       <Label layoutX="97.0" layoutY="130.0" text="Artist" />
@@ -18,9 +17,9 @@
       <Label layoutX="103.0" layoutY="275.0" text="File" />
       <TextField fx:id="txtTitle" layoutX="145.0" layoutY="78.0" promptText="What a wonderful world" />
       <TextField fx:id="txtArtist" layoutX="145.0" layoutY="126.0" promptText="Luis Armstrong" />
-      <TextField layoutX="145.0" layoutY="227.0" />
-      <TextField layoutX="145.0" layoutY="271.0" />
-      <ComboBox layoutX="145.0" layoutY="176.0" prefWidth="150.0">
+      <TextField fx:id="txtDuration" layoutX="145.0" layoutY="227.0" />
+      <TextField fx:id="txtPath" layoutX="145.0" layoutY="271.0" />
+      <ComboBox fx:id="comboCategory" layoutX="145.0" layoutY="176.0" prefWidth="150.0">
          <contextMenu>
             <ContextMenu>
               <items>
@@ -30,5 +29,7 @@
          </contextMenu>
       </ComboBox>
       <Button layoutX="320.0" layoutY="176.0" mnemonicParsing="false" text="More" />
+      <Button fx:id="btnAddSong" layoutX="328.0" layoutY="338.0" mnemonicParsing="false" onAction="#handleAddSong" text="Add" />
+      <Button layoutX="317.0" layoutY="271.0" mnemonicParsing="false" onAction="#handlePath" text="Choose" />
    </children>
 </AnchorPane>
