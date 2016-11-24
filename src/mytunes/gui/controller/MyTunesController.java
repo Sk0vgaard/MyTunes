@@ -13,6 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Slider;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import mytunes.be.Playlist;
@@ -60,6 +61,20 @@ public class MyTunesController implements Initializable {
     private Button btnDeleteSong;
     @FXML
     private Button btnAddToList;
+    @FXML
+    private TableColumn<Playlist, String> clmPlaylistName;
+    @FXML
+    private TableColumn<Playlist, Integer> clmPlaylistSongsAmount;
+    @FXML
+    private TableColumn<Playlist, String> clmPlaylistTotalDuration;
+    @FXML
+    private TableColumn<Song, String> clmSongTitle;
+    @FXML
+    private TableColumn<Song, String> clmSongArtist;
+    @FXML
+    private TableColumn<Song, String> clmSongCategory;
+    @FXML
+    private TableColumn<Song, String> clmSongDuration;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {

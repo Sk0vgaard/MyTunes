@@ -17,18 +17,18 @@
          <children>
             <TableView fx:id="tablePlaylists" layoutX="14.0" layoutY="121.0" prefHeight="398.0" prefWidth="191.0">
               <columns>
-                <TableColumn prefWidth="54.0" text="Name" />
-                <TableColumn minWidth="0.0" prefWidth="73.0" text="Songs" />
-                  <TableColumn prefWidth="63.0" text="Time" />
+                <TableColumn fx:id="clmPlaylistName" prefWidth="71.0" text="Name" />
+                <TableColumn fx:id="clmPlaylistSongsAmount" minWidth="0.0" prefWidth="56.0" text="Songs" />
+                  <TableColumn fx:id="clmPlaylistTotalDuration" prefWidth="63.0" text="Duration" />
               </columns>
             </TableView>
             <ListView fx:id="listPlaylist" layoutX="215.0" layoutY="121.0" prefHeight="398.0" prefWidth="200.0" />
             <TableView fx:id="tableSongs" layoutX="474.0" layoutY="121.0" prefHeight="398.0" prefWidth="303.0">
               <columns>
-                <TableColumn prefWidth="75.0" text="Title" />
-                <TableColumn prefWidth="75.0" text="Artist" />
-                  <TableColumn prefWidth="75.0" text="Category" />
-                  <TableColumn prefWidth="75.0" text="Time" />
+                <TableColumn fx:id="clmSongTitle" prefWidth="75.0" text="Title" />
+                <TableColumn fx:id="clmSongArtist" prefWidth="75.0" text="Artist" />
+                  <TableColumn fx:id="clmSongCategory" prefWidth="75.0" text="Category" />
+                  <TableColumn fx:id="clmSongDuration" prefWidth="75.0" text="Duration" />
               </columns>
             </TableView>
             <Label fx:id="lblIsPlaying" layoutX="332.0" layoutY="67.0" text="Something is playing">
@@ -54,7 +54,8 @@
             <Button fx:id="btnDeleteSong" layoutX="725.0" layoutY="529.0" mnemonicParsing="false" text="Delete" />
             <Button fx:id="btnAddToList" layoutX="429.0" layoutY="297.0" mnemonicParsing="false" text="&lt;-" />
             <Label layoutX="217.0" layoutY="103.0" text="Songs in playlist" />
-            <Label layoutX="474.0" layoutY="103.0" text="Songs" />
+
+            <Label layoutX="479.0" layoutY="103.0" text="Songs" />
          </children>
       </Pane>
    </children>
