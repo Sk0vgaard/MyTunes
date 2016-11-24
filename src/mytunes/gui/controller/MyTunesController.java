@@ -5,10 +5,14 @@
  */
 package mytunes.gui.controller;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -16,6 +20,9 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import mytunes.be.Playlist;
 import mytunes.be.Song;
 import mytunes.gui.model.SongModel;
@@ -85,8 +92,37 @@ public class MyTunesController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+        clmSongTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
+        clmSongArtist.setCellValueFactory(new PropertyValueFactory<>("artist"));
+        clmSongCategory.setCellValueFactory(new PropertyValueFactory<>("category"));
+        clmSongDuration.setCellValueFactory(new PropertyValueFactory<>("duration"));
         tableSongs.setItems(songModel.getSongs());
     }
 
+    /**
+     * Adds a new song to the model
+     */
+    @FXML
+    private void handleAddSong() throws IOException {
+//        Song newSong = new Song("Test", "Test", "Test", "1.00");
+//        songModel.addSong(newSong);
+        Stage primStage = (Stage) btnAddSong.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/Song.fxml"));
+        Parent root = loader.load();
+
+        Stage stageSongView = new Stage();
+        stageSongView.setScene(new Scene(root));
+        stageSongView.initModality(Modality.WINDOW_MODAL);
+        stageSongView.initOwner(primStage);
+        stageSongView.show();
+    }
+
+    /**
+     * Deletes the selected song from the model
+     */
+    @FXML
+    private void handleDeleteSong() {
+        Song selectedSong = tableSongs.getSelectionModel().getSelectedItem();
+        songModel.deleteSong(selectedSong);
+    }
 }
