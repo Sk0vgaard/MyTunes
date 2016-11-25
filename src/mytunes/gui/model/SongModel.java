@@ -37,7 +37,17 @@ public class SongModel {
      * @param songToSave
      */
     public void saveSong(Song songToSave) {
-        songs.add(songToSave);
+        for (Song song : songs) {
+            if (song.getId() == songToSave.getId()) {
+                song.setTitle(songToSave.getTitle());
+                song.setArtist(songToSave.getArtist());
+                song.setCategory(songToSave.getCategory());
+                song.setDuration(songToSave.getDuration());
+            } else {
+                songs.add(songToSave);
+            }
+            break;
+        }
     }
 
     /**

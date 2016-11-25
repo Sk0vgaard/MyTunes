@@ -5,8 +5,11 @@
  */
 package mytunes.be;
 
+import mytunes.bll.IDCreator;
+
 public class Song {
 
+    private final int id;
     private String title;
     private String artist;
     private String category;
@@ -19,6 +22,7 @@ public class Song {
         this.category = category;
         this.duration = duration;
         this.path = path;
+        id = IDCreator.createID();
     }
 
     /**
@@ -59,6 +63,15 @@ public class Song {
      */
     public String getPath() {
         return path;
+    }
+
+    /**
+     * Gets the id of the Song
+     *
+     * @return
+     */
+    public int getId() {
+        return id;
     }
 
     /**

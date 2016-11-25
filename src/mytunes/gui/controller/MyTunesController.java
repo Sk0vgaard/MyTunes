@@ -38,7 +38,7 @@ public class MyTunesController implements Initializable {
     @FXML
     private ListView<Song> listPlaylist;
     @FXML
-    private TableView<Song> tableSongs;
+    public TableView<Song> tableSongs;
     @FXML
     private Label lblIsPlaying;
     @FXML

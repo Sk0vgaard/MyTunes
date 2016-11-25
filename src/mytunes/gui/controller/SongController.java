@@ -11,6 +11,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -74,13 +75,22 @@ public class SongController implements Initializable {
      */
     @FXML
     private void handleSaveSong() {
-        Song newSong = new Song(
-                txtTitle.getText(),
-                txtArtist.getText(),
-                comboCategory.getSelectionModel().getSelectedItem(),
-                txtDuration.getText(),
-                txtPath.getText());
-        songModel.saveSong(newSong);
+        if (txtTitle.getText().isEmpty()) {
+            Song newSong = new Song(
+                    txtTitle.getText(),
+                    txtArtist.getText(),
+                    comboCategory.getSelectionModel().getSelectedItem(),
+                    txtDuration.getText(),
+                    txtPath.getText());
+            songModel.saveSong(newSong);
+        } else {
+            //TODO ALH: Fix this shit!
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/MyTunesController.fxml"));
+            MyTunesController myTunesController = loader.getController();
+            Song selectedSong = myTunesController.tableSongs.getSelectionModel().getSelectedItem();
+            songModel.saveSong(selectedSong);
+
+        }
 
         Stage modalStage = (Stage) btnSaveSong.getScene().getWindow();
         modalStage.close();
