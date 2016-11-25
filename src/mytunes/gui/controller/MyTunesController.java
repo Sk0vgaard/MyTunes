@@ -7,6 +7,7 @@ package mytunes.gui.controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Paths;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -149,7 +150,7 @@ public class MyTunesController implements Initializable {
      */
     @FXML
     private void handlePlaySong() {
-        Media baby = new Media("/mytunes/assets/mp3/baby.mp3");
+        Media baby = new Media(Paths.get("D:/Programmering/Java/Netbeans/MyTunes/src/mytunes/assets/mp3/baby.mp3").toUri().toString());
         MediaPlayer mediaPlayer = new MediaPlayer(baby);
         mediaPlayer.play();
     }
