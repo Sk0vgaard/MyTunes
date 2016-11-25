@@ -27,13 +27,13 @@ import mytunes.gui.model.SongModel;
 public class SongController implements Initializable {
 
     @FXML
-    private TextField txtTitle;
+    public TextField txtTitle;
     @FXML
-    private TextField txtArtist;
+    public TextField txtArtist;
     @FXML
-    private TextField txtDuration;
+    public TextField txtDuration;
     @FXML
-    private ComboBox<String> comboCategory;
+    public ComboBox<String> comboCategory;
 
     private final ObservableList<String> categories;
 
@@ -41,7 +41,13 @@ public class SongController implements Initializable {
     @FXML
     private TextField txtPath;
     @FXML
-    private Button btnAddSong;
+    private Button btnSaveSong;
+    @FXML
+    private Button btnAddCategory;
+    @FXML
+    private Button btnChooseSong;
+    @FXML
+    private TextField txtNewCategory;
 
     public SongController() {
         this.categories = FXCollections.observableArrayList(
@@ -67,18 +73,27 @@ public class SongController implements Initializable {
      * Adds a song to the model
      */
     @FXML
-    private void handleAddSong() {
+    private void handleSaveSong() {
         Song newSong = new Song(
                 txtTitle.getText(),
                 txtArtist.getText(),
                 comboCategory.getSelectionModel().getSelectedItem(),
                 txtDuration.getText(),
                 txtPath.getText());
-        songModel.addSong(newSong);
+        songModel.saveSong(newSong);
 
-        Stage modalStage = (Stage) btnAddSong.getScene().getWindow();
+        Stage modalStage = (Stage) btnSaveSong.getScene().getWindow();
         modalStage.close();
 
+    }
+
+    /**
+     * Adds the category to the ObservableList
+     */
+    @FXML
+    private void handleAddCategory() {
+        categories.add(txtNewCategory.getText());
+        txtNewCategory.setText("");
     }
 
     /**

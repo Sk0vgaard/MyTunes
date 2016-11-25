@@ -30,10 +30,10 @@ public class SongModel {
     /**
      * Adds the parsed song to the ObservableList of songs
      *
-     * @param newSong
+     * @param songToSave
      */
-    public void addSong(Song newSong) {
-        songs.add(newSong);
+    public void saveSong(Song songToSave) {
+        songs.add(songToSave);
     }
 
     /**

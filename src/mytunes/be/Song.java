@@ -7,11 +7,11 @@ package mytunes.be;
 
 public class Song {
 
-    private final String title;
-    private final String artist;
-    private final String category;
-    private final String duration;
-    private final String path;
+    private String title;
+    private String artist;
+    private String category;
+    private String duration;
+    private String path;
 
     public Song(String title, String artist, String category, String duration, String path) {
         this.title = title;
@@ -59,6 +59,46 @@ public class Song {
      */
     public String getPath() {
         return path;
+    }
+
+    /**
+     *
+     * @param title
+     */
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    /**
+     *
+     * @param artist
+     */
+    public void setArtist(String artist) {
+        this.artist = artist;
+    }
+
+    /**
+     *
+     * @param category
+     */
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    /**
+     *
+     * @param duration
+     */
+    public void setDuration(String duration) {
+        this.duration = duration;
+    }
+
+    /**
+     *
+     * @param path
+     */
+    public void setPath(String path) {
+        this.path = path;
     }
 
 }

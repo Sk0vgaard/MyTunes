@@ -21,6 +21,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import mytunes.be.Playlist;
@@ -118,5 +120,37 @@ public class MyTunesController implements Initializable {
     private void handleDeleteSong() {
         Song selectedSong = tableSongs.getSelectionModel().getSelectedItem();
         songModel.deleteSong(selectedSong);
+    }
+
+    /**
+     * Edit the selected song
+     */
+    @FXML
+    private void handleEditSong() throws IOException {
+        Stage primStage = (Stage) btnAddSong.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/Song.fxml"));
+        Parent root = loader.load();
+
+        SongController songController = loader.getController();
+
+        songController.txtTitle.setText(tableSongs.getSelectionModel().getSelectedItem().getTitle());
+        songController.txtArtist.setText(tableSongs.getSelectionModel().getSelectedItem().getArtist());
+        songController.txtDuration.setText(tableSongs.getSelectionModel().getSelectedItem().getDuration());
+
+        Stage stageSongView = new Stage();
+        stageSongView.setScene(new Scene(root));
+        stageSongView.initModality(Modality.WINDOW_MODAL);
+        stageSongView.initOwner(primStage);
+        stageSongView.show();
+    }
+
+    /**
+     * Plays the song
+     */
+    @FXML
+    private void handlePlaySong() {
+        Media baby = new Media("/mytunes/assets/mp3/baby.mp3");
+        MediaPlayer mediaPlayer = new MediaPlayer(baby);
+        mediaPlayer.play();
     }
 }
