@@ -155,7 +155,7 @@ public class MyTunesController implements Initializable {
      * Stop the playing of songs
      */
     @FXML
-    private void handleStopSong() {
+    private void handleStopPlayer() {
         songModel.stopMediaPlayer();
     }
 }

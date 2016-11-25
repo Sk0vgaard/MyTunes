@@ -5,6 +5,7 @@
  */
 package mytunes.gui.model;
 
+import java.nio.file.Paths;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.media.Media;
@@ -69,11 +70,18 @@ public class SongModel {
         Song song2 = new Song("Song Two", "SomeArtist", "Rock", "5.52", "");
         Song song3 = new Song("Song Three", "SomeArtist", "POP", "3.52", "");
         Song song4 = new Song("Song Four", "SomeArtist", "Funk", "2.52", "");
+        Song baby = new Song(
+                "Baby",
+                "Justin Bieber",
+                "POP",
+                "2.5",
+                Paths.get("D:/Programmering/Java/Netbeans/MyTunes/src/mytunes/assets/mp3/baby.mp3").toUri().toString());
 
         songs.add(song1);
         songs.add(song2);
         songs.add(song3);
         songs.add(song4);
+        songs.add(baby);
     }
 
     /**
