@@ -7,7 +7,6 @@ package mytunes.gui.controller;
 
 import java.io.IOException;
 import java.net.URL;
-import java.nio.file.Paths;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,8 +21,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import mytunes.be.Playlist;
@@ -146,12 +143,19 @@ public class MyTunesController implements Initializable {
     }
 
     /**
-     * Plays the song
+     * Sends the song to the myTunesPlayer
      */
     @FXML
     private void handlePlaySong() {
-        Media baby = new Media(Paths.get("D:/Programmering/Java/Netbeans/MyTunes/src/mytunes/assets/mp3/baby.mp3").toUri().toString());
-        MediaPlayer mediaPlayer = new MediaPlayer(baby);
-        mediaPlayer.play();
+        Song selectedSong = tableSongs.getSelectionModel().getSelectedItem();
+        songModel.playSelectedSong(selectedSong);
+    }
+
+    /**
+     * Stop the playing of songs
+     */
+    @FXML
+    private void handleStopSong() {
+        songModel.stopMediaPlayer();
     }
 }

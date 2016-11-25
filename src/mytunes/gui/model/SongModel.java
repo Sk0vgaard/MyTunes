@@ -7,11 +7,14 @@ package mytunes.gui.model;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.media.Media;
 import mytunes.be.Song;
+import mytunes.bll.MusicPlayer;
 
 public class SongModel {
 
     private static SongModel instance;
+    private MusicPlayer musicPlayer;
 
     private final ObservableList<Song> songs;
 
@@ -71,6 +74,23 @@ public class SongModel {
         songs.add(song2);
         songs.add(song3);
         songs.add(song4);
+    }
+
+    /**
+     * Parse the selected song to the MusicPlayer to play it
+     *
+     * @param selectedSong
+     */
+    public void playSelectedSong(Song selectedSong) {
+        Media songToPlay = new Media(selectedSong.getPath());
+        musicPlayer.play(songToPlay);
+    }
+
+    /**
+     * Stops the myTunesPlayer
+     */
+    public void stopMediaPlayer() {
+        musicPlayer.stop();
     }
 
 }
