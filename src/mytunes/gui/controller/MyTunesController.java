@@ -25,6 +25,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import mytunes.be.Playlist;
 import mytunes.be.Song;
+import mytunes.gui.model.PlaylistModel;
 import mytunes.gui.model.SongModel;
 
 /**
@@ -85,6 +86,7 @@ public class MyTunesController implements Initializable {
     private TableColumn<Song, String> clmSongDuration;
 
     private final SongModel songModel = SongModel.getInstance();
+    private final PlaylistModel playListModel = PlaylistModel.getInstance();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -93,6 +95,12 @@ public class MyTunesController implements Initializable {
         clmSongCategory.setCellValueFactory(new PropertyValueFactory<>("category"));
         clmSongDuration.setCellValueFactory(new PropertyValueFactory<>("duration"));
         tableSongs.setItems(songModel.getSongs());
+
+        //TODO ALH: Consider table instead of list?
+        clmPlaylistName.setCellValueFactory(new PropertyValueFactory<>("title"));
+        clmPlaylistSongsAmount.setCellValueFactory(new PropertyValueFactory<>("amountOfSongs"));
+        clmPlaylistTotalDuration.setCellValueFactory(new PropertyValueFactory<>("duration"));
+        listPlaylist.setItems(playListModel.getCurrentPlayList());
     }
 
     /**
@@ -130,10 +138,11 @@ public class MyTunesController implements Initializable {
         Parent root = loader.load();
 
         SongController songController = loader.getController();
-
-        songController.txtTitle.setText(tableSongs.getSelectionModel().getSelectedItem().getTitle());
-        songController.txtArtist.setText(tableSongs.getSelectionModel().getSelectedItem().getArtist());
-        songController.txtDuration.setText(tableSongs.getSelectionModel().getSelectedItem().getDuration());
+        Song songToEdit = tableSongs.getSelectionModel().getSelectedItem();
+        songController.txtTitle.setText(songToEdit.getTitle());
+        songController.txtArtist.setText(songToEdit.getArtist());
+        songController.txtDuration.setText(songToEdit.getDuration());
+        songController.setCurrentSong(songToEdit);
 
         Stage stageSongView = new Stage();
         stageSongView.setScene(new Scene(root));
@@ -157,5 +166,13 @@ public class MyTunesController implements Initializable {
     @FXML
     private void handleStopPlayer() {
         songModel.stopMediaPlayer();
+    }
+
+    /**
+     * Adds selected song to playlist
+     */
+    @FXML
+    private void handleAddSongToPlaylist() {
+        playListModel.addToCurrentPlaylist(tableSongs.getSelectionModel().getSelectedItem());
     }
 }

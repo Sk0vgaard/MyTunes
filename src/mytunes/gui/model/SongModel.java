@@ -37,16 +37,19 @@ public class SongModel {
      * @param songToSave
      */
     public void saveSong(Song songToSave) {
+        songs.add(songToSave);
+        //TODO ALH: FIX THIS SHIT!
+        //deleteMockSong();
+    }
+
+    /**
+     * Looks for empty mock song
+     */
+    private void deleteMockSong() {
         for (Song song : songs) {
-            if (song.getId() == songToSave.getId()) {
-                song.setTitle(songToSave.getTitle());
-                song.setArtist(songToSave.getArtist());
-                song.setCategory(songToSave.getCategory());
-                song.setDuration(songToSave.getDuration());
-            } else {
-                songs.add(songToSave);
+            if (song.getTitle().equals("")) {
+                songs.remove(song);
             }
-            break;
         }
     }
 
@@ -57,7 +60,7 @@ public class SongModel {
      */
     public void deleteSong(Song selectedSong) {
         for (Song song : songs) {
-            if (song.getTitle().equals(selectedSong.getTitle())) {
+            if (song.getId() == (selectedSong.getId())) {
                 songs.remove(song);
                 break;
             }

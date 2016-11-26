@@ -11,7 +11,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -35,6 +34,8 @@ public class SongController implements Initializable {
     public TextField txtDuration;
     @FXML
     public ComboBox<String> comboCategory;
+
+    private Song selectedSong;
 
     private final ObservableList<String> categories;
 
@@ -75,7 +76,7 @@ public class SongController implements Initializable {
      */
     @FXML
     private void handleSaveSong() {
-        if (txtTitle.getText().isEmpty()) {
+        if (selectedSong == null) {
             Song newSong = new Song(
                     txtTitle.getText(),
                     txtArtist.getText(),
@@ -84,12 +85,16 @@ public class SongController implements Initializable {
                     txtPath.getText());
             songModel.saveSong(newSong);
         } else {
-            //TODO ALH: Fix this shit!
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/MyTunesController.fxml"));
-            MyTunesController myTunesController = loader.getController();
-            Song selectedSong = myTunesController.tableSongs.getSelectionModel().getSelectedItem();
-            songModel.saveSong(selectedSong);
-
+            selectedSong.setTitle(txtTitle.getText());
+            selectedSong.setArtist(txtArtist.getText());
+            selectedSong.setDuration(txtDuration.getText());
+            Song lastSong = songModel.getSongs().get(songModel.getSongs().size() - 1);
+            if (lastSong.getTitle().equals("")) {
+                songModel.deleteSong(lastSong);
+            } else {
+                Song mockSong = new Song("", "", "", "", "");
+                songModel.saveSong(mockSong);
+            }
         }
 
         Stage modalStage = (Stage) btnSaveSong.getScene().getWindow();
@@ -114,6 +119,15 @@ public class SongController implements Initializable {
     @FXML
     private void handlePath(ActionEvent event) {
         //TODO ALH: Open file dialog and get the path to the file on selection
+    }
+
+    /**
+     * Updates the current song
+     *
+     * @param selectedSong
+     */
+    public void setCurrentSong(Song selectedSong) {
+        this.selectedSong = selectedSong;
     }
 
 }
