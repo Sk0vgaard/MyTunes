@@ -5,7 +5,7 @@
  */
 package mytunes.gui.model;
 
-import java.nio.file.Paths;
+import java.io.File;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.media.Media;
@@ -15,7 +15,7 @@ import mytunes.bll.MusicPlayer;
 public class SongModel {
 
     private static SongModel instance;
-    private MusicPlayer musicPlayer;
+    private final MusicPlayer musicPlayer = MusicPlayer.getInstance();
 
     private final ObservableList<Song> songs;
 
@@ -88,7 +88,7 @@ public class SongModel {
                 "Justin Bieber",
                 "POP",
                 "2.5",
-                Paths.get("D:/Programmering/Java/Netbeans/MyTunes/src/mytunes/assets/mp3/baby.mp3").toUri().toString());
+                "D:/Programmering/Java/Netbeans/MyTunes/src/mytunes/assets/mp3/baby.mp3");
 
         songs.add(song1);
         songs.add(song2);
@@ -103,7 +103,8 @@ public class SongModel {
      * @param selectedSong
      */
     public void playSelectedSong(Song selectedSong) {
-        Media songToPlay = new Media(selectedSong.getPath());
+        Media songToPlay = new Media(new File(selectedSong.getPath()).toURI().toString());
+        System.out.println(songToPlay.getSource());
         musicPlayer.play(songToPlay);
     }
 

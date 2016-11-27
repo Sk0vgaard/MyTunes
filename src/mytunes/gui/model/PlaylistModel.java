@@ -9,10 +9,19 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import mytunes.be.Playlist;
 import mytunes.be.Song;
+import mytunes.bll.PlaylistManager;
 
 public class PlaylistModel {
 
     private static PlaylistModel instance;
+
+    private final PlaylistManager playlistManager;
+
+    private final ObservableList<Playlist> playlists;
+
+    private Playlist currentPlaylist;
+
+    private final ObservableList<String> currentPlayListAsString;
 
     public static PlaylistModel getInstance() {
         if (instance == null) {
@@ -21,14 +30,11 @@ public class PlaylistModel {
         return instance;
     }
 
-    private final ObservableList<Playlist> playlists;
-
-    private final ObservableList<Song> currentPlayList;
-
     private PlaylistModel() {
         playlists = FXCollections.observableArrayList();
-        currentPlayList = FXCollections.observableArrayList();
-        currentPlayList.add(new Song("Test", "Test", "", "", ""));
+        currentPlayListAsString = FXCollections.observableArrayList();
+        playlistManager = new PlaylistManager();
+        currentPlaylist = new Playlist("", 0, "0");
 
     }
 
@@ -36,8 +42,8 @@ public class PlaylistModel {
         return playlists;
     }
 
-    public ObservableList<Song> getCurrentPlayList() {
-        return currentPlayList;
+    public ObservableList<String> getCurrentPlayList() {
+        return currentPlayListAsString;
     }
 
     /**
@@ -55,7 +61,33 @@ public class PlaylistModel {
      * @param song
      */
     public void addToCurrentPlaylist(Song song) {
-        currentPlayList.add(song);
+        currentPlaylist.addSong(song);
+        currentPlayListAsString.add(currentPlaylist.getSongs().size() + ". " + song.getTitle());
+    }
+
+    /**
+     * Remove selected song from playlist
+     *
+     * @param song
+     */
+    public void removeFromCurrentPlaylist(String song) {
+        int position = currentPlayListAsString.indexOf(song);
+        currentPlayListAsString.remove(song);
+        currentPlaylist.removeSong(position);
+    }
+
+    /**
+     * Create new playlisy
+     */
+    public void createPlaylist() {
+
+    }
+
+    /**
+     * Start the current playlist
+     */
+    public void playPlaylist() {
+        //TODO ALH: Finish this
     }
 
 }

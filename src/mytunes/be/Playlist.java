@@ -5,6 +5,7 @@
  */
 package mytunes.be;
 
+import java.util.ArrayList;
 import mytunes.bll.IDCreator;
 
 public class Playlist {
@@ -12,6 +13,7 @@ public class Playlist {
     private final int id;
     private String name;
     private int amountOfSongs;
+    private ArrayList<Song> songs;
     private String duration;
 
     public Playlist(String name, int amountOfSongs, String duration) {
@@ -19,6 +21,7 @@ public class Playlist {
         this.name = name;
         this.amountOfSongs = amountOfSongs;
         this.duration = duration;
+        songs = new ArrayList<>();
     }
 
     public int getId() {
@@ -45,8 +48,20 @@ public class Playlist {
         return duration;
     }
 
+    public ArrayList<Song> getSongs() {
+        return songs;
+    }
+
     public void setDuration(String duration) {
         this.duration = duration;
+    }
+
+    public void addSong(Song song) {
+        songs.add(song);
+    }
+
+    public void removeSong(int position) {
+        songs.remove(position);
     }
 
 }

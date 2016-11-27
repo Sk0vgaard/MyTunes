@@ -8,6 +8,7 @@ package mytunes.gui.controller;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -37,7 +38,7 @@ public class MyTunesController implements Initializable {
     @FXML
     private TableView<Playlist> tablePlaylists;
     @FXML
-    private ListView<Song> listPlaylist;
+    private ListView<String> listPlaylist;
     @FXML
     public TableView<Song> tableSongs;
     @FXML
@@ -53,23 +54,13 @@ public class MyTunesController implements Initializable {
     @FXML
     private Slider sliderVolume;
     @FXML
-    private Button btnDeletePlaylist;
-    @FXML
     private Button btnSearch;
-    @FXML
-    private Button btnMoveSongUp;
-    @FXML
-    private Button btnMoveSongDown;
-    @FXML
-    private Button btnRemoveFromList;
     @FXML
     private Button btnAddSong;
     @FXML
     private Button btnEditSong;
     @FXML
     private Button btnDeleteSong;
-    @FXML
-    private Button btnAddToList;
     @FXML
     private TableColumn<Playlist, String> clmPlaylistName;
     @FXML
@@ -96,10 +87,11 @@ public class MyTunesController implements Initializable {
         clmSongDuration.setCellValueFactory(new PropertyValueFactory<>("duration"));
         tableSongs.setItems(songModel.getSongs());
 
-        //TODO ALH: Consider table instead of list?
         clmPlaylistName.setCellValueFactory(new PropertyValueFactory<>("title"));
         clmPlaylistSongsAmount.setCellValueFactory(new PropertyValueFactory<>("amountOfSongs"));
         clmPlaylistTotalDuration.setCellValueFactory(new PropertyValueFactory<>("duration"));
+        //TODO ALH: ADD PLAYLISTS
+
         listPlaylist.setItems(playListModel.getCurrentPlayList());
     }
 
@@ -156,8 +148,12 @@ public class MyTunesController implements Initializable {
      */
     @FXML
     private void handlePlaySong() {
-        Song selectedSong = tableSongs.getSelectionModel().getSelectedItem();
-        songModel.playSelectedSong(selectedSong);
+        if (tableSongs.getSelectionModel().getSelectedItem() == null) {
+            playListModel.playPlaylist();
+        } else {
+            Song selectedSong = tableSongs.getSelectionModel().getSelectedItem();
+            songModel.playSelectedSong(selectedSong);
+        }
     }
 
     /**
@@ -174,5 +170,36 @@ public class MyTunesController implements Initializable {
     @FXML
     private void handleAddSongToPlaylist() {
         playListModel.addToCurrentPlaylist(tableSongs.getSelectionModel().getSelectedItem());
+    }
+
+    /**
+     * Moves the selected song up in the playlist
+     *
+     * @param event
+     */
+    @FXML
+    private void handleMoveSongUp(ActionEvent event) {
+    }
+
+    @FXML
+    private void handleMoveSongDown(ActionEvent event) {
+    }
+
+    @FXML
+    private void handleRemoveSongFromList(ActionEvent event) {
+        playListModel.removeFromCurrentPlaylist(listPlaylist.getSelectionModel().getSelectedItem());
+    }
+
+    @FXML
+    private void handleNewPlaylist(ActionEvent event) {
+
+    }
+
+    @FXML
+    private void handleEditPlaylist(ActionEvent event) {
+    }
+
+    @FXML
+    private void handleDeletePlaylist(ActionEvent event) {
     }
 }
