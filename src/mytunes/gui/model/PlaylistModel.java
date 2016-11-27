@@ -53,6 +53,13 @@ public class PlaylistModel {
      */
     public void addToCurrentPlaylist(Song song) {
         currentPlaylist.addSong(song);
+        addToCurrentPlaylistAsString(song);
+    }
+
+    /**
+     * Add to current playlist as String
+     */
+    private void addToCurrentPlaylistAsString(Song song) {
         currentPlayListAsString.add(currentPlaylist.getSongs().size() + ". " + song.getTitle());
     }
 
@@ -65,6 +72,29 @@ public class PlaylistModel {
         int position = currentPlayListAsString.indexOf(song);
         currentPlayListAsString.remove(song);
         currentPlaylist.removeSong(position);
+    }
+
+    /**
+     * Move song up on current playlist
+     *
+     * @param selectedSong
+     */
+    public void moveSongUp(String selectedSong) {
+        String[] songInfo = selectedSong.split("([0-9. ]+ )");
+        int index = 0;
+        Song matchingSong = null;
+        for (Song song : currentPlaylist.getSongs()) {
+            if (song.getTitle().equals(songInfo[1])) {
+                index = currentPlaylist.getSongs().indexOf(song);
+                matchingSong = song;
+            }
+        }
+        currentPlaylist.getSongs().set(index, matchingSong);
+        currentPlayListAsString.clear();
+        for (Song song : currentPlaylist.getSongs()) {
+            addToCurrentPlaylistAsString(song);
+        }
+
     }
 
     /**

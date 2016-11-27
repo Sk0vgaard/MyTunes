@@ -181,6 +181,7 @@ public class MyTunesController implements Initializable {
      */
     @FXML
     private void handleMoveSongUp(ActionEvent event) {
+        playListModel.moveSongUp(listPlaylist.getSelectionModel().getSelectedItem());
     }
 
     @FXML
