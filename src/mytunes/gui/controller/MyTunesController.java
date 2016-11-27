@@ -78,6 +78,7 @@ public class MyTunesController implements Initializable {
 
     private final SongModel songModel = SongModel.getInstance();
     private final PlaylistModel playListModel = PlaylistModel.getInstance();
+    private Stage primStage;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -87,12 +88,13 @@ public class MyTunesController implements Initializable {
         clmSongDuration.setCellValueFactory(new PropertyValueFactory<>("duration"));
         tableSongs.setItems(songModel.getSongs());
 
-        clmPlaylistName.setCellValueFactory(new PropertyValueFactory<>("title"));
+        listPlaylist.setItems(playListModel.getCurrentPlayList());
+
+        clmPlaylistName.setCellValueFactory(new PropertyValueFactory<>("name"));
         clmPlaylistSongsAmount.setCellValueFactory(new PropertyValueFactory<>("amountOfSongs"));
         clmPlaylistTotalDuration.setCellValueFactory(new PropertyValueFactory<>("duration"));
-        //TODO ALH: ADD PLAYLISTS
+        tablePlaylists.setItems(playListModel.getPlaylists());
 
-        listPlaylist.setItems(playListModel.getCurrentPlayList());
     }
 
     /**
@@ -100,7 +102,7 @@ public class MyTunesController implements Initializable {
      */
     @FXML
     private void handleAddSong() throws IOException {
-        Stage primStage = (Stage) btnAddSong.getScene().getWindow();
+        primStage = (Stage) btnAddSong.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/Song.fxml"));
         Parent root = loader.load();
 
@@ -125,7 +127,7 @@ public class MyTunesController implements Initializable {
      */
     @FXML
     private void handleEditSong() throws IOException {
-        Stage primStage = (Stage) btnAddSong.getScene().getWindow();
+        primStage = (Stage) btnAddSong.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/Song.fxml"));
         Parent root = loader.load();
 
@@ -191,15 +193,43 @@ public class MyTunesController implements Initializable {
     }
 
     @FXML
-    private void handleNewPlaylist(ActionEvent event) {
+    private void handleNewPlaylist(ActionEvent event) throws IOException {
+        primStage = (Stage) btnAddSong.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/Playlist.fxml"));
+        Parent root = loader.load();
 
+        Stage stagePlaylistView = new Stage();
+        stagePlaylistView.setScene(new Scene(root));
+        stagePlaylistView.initModality(Modality.WINDOW_MODAL);
+        stagePlaylistView.initOwner(primStage);
+        stagePlaylistView.show();
     }
 
     @FXML
-    private void handleEditPlaylist(ActionEvent event) {
+    private void handleEditPlaylist(ActionEvent event) throws IOException {
+        primStage = (Stage) btnAddSong.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/Playlist.fxml"));
+        Parent root = loader.load();
+
+        PlaylistController playlistController = loader.getController();
+        Playlist selectedPlaylist = tablePlaylists.getSelectionModel().getSelectedItem();
+        playlistController.setPlaylistName(selectedPlaylist.getName());
+        playlistController.setSelectedPlaylist(selectedPlaylist);
+
+        Stage stagePlaylistView = new Stage();
+        stagePlaylistView.setScene(new Scene(root));
+        stagePlaylistView.initModality(Modality.WINDOW_MODAL);
+        stagePlaylistView.initOwner(primStage);
+        stagePlaylistView.show();
     }
 
     @FXML
     private void handleDeletePlaylist(ActionEvent event) {
+        playListModel.deletePlaylist(tablePlaylists.getSelectionModel().getSelectedItem());
+    }
+
+    @FXML
+    private void handleSelectedPlaylist() {
+        playListModel.showSelectedPlayList(tablePlaylists.getSelectionModel().getSelectedItem());
     }
 }

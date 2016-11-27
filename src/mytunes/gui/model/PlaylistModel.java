@@ -19,7 +19,7 @@ public class PlaylistModel {
 
     private final ObservableList<Playlist> playlists;
 
-    private Playlist currentPlaylist;
+    private final Playlist currentPlaylist;
 
     private final ObservableList<String> currentPlayListAsString;
 
@@ -47,15 +47,6 @@ public class PlaylistModel {
     }
 
     /**
-     * Adds the parsed playlist to the ObservableList
-     *
-     * @param playlist
-     */
-    public void addPlaylist(Playlist playlist) {
-        playlists.add(playlist);
-    }
-
-    /**
      * Adds the parsed to the current playlist
      *
      * @param song
@@ -77,10 +68,42 @@ public class PlaylistModel {
     }
 
     /**
-     * Create new playlisy
+     * Create new playlist
+     *
+     * @param name
      */
-    public void createPlaylist() {
+    public void createPlaylist(String name) {
+        if (playlists.contains(name)) {
 
+        }
+        Playlist newPlayList = new Playlist(name, currentPlaylist.getSongs().size(), "");
+        for (Song song : currentPlaylist.getSongs()) {
+            newPlayList.addSong(song);
+        }
+        //TODO ALH: Set total duration
+        playlists.add(newPlayList);
+    }
+
+    /**
+     * Show selected playlist
+     *
+     * @param playlist
+     */
+    public void showSelectedPlayList(Playlist playlist) {
+        currentPlaylist.removeSongs();
+        currentPlayListAsString.clear();
+        for (Song song : playlist.getSongs()) {
+            addToCurrentPlaylist(song);
+        }
+    }
+
+    /**
+     * Delete selected playlist
+     *
+     * @param playlist
+     */
+    public void deletePlaylist(Playlist playlist) {
+        playlists.remove(playlist);
     }
 
     /**

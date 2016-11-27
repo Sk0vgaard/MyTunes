@@ -15,7 +15,7 @@
    <children>
       <Pane layoutX="7.0" layoutY="9.0" prefHeight="594.0" prefWidth="791.0">
          <children>
-            <TableView fx:id="tablePlaylists" layoutX="14.0" layoutY="121.0" prefHeight="398.0" prefWidth="191.0">
+            <TableView fx:id="tablePlaylists" layoutX="14.0" layoutY="121.0" onMousePressed="#handleSelectedPlaylist" prefHeight="398.0" prefWidth="191.0">
               <columns>
                 <TableColumn fx:id="clmPlaylistName" prefWidth="71.0" text="Name" />
                 <TableColumn fx:id="clmPlaylistSongsAmount" minWidth="0.0" prefWidth="56.0" text="Songs" />

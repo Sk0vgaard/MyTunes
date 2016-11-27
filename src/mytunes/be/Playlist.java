@@ -13,7 +13,7 @@ public class Playlist {
     private final int id;
     private String name;
     private int amountOfSongs;
-    private ArrayList<Song> songs;
+    private final ArrayList<Song> songs;
     private String duration;
 
     public Playlist(String name, int amountOfSongs, String duration) {
@@ -62,6 +62,13 @@ public class Playlist {
 
     public void removeSong(int position) {
         songs.remove(position);
+    }
+
+    /**
+     * Removes all songs from playlist
+     */
+    public void removeSongs() {
+        songs.clear();
     }
 
 }

@@ -34,12 +34,6 @@ public class SongController implements Initializable {
     public TextField txtDuration;
     @FXML
     public ComboBox<String> comboCategory;
-
-    private Song selectedSong;
-
-    private final ObservableList<String> categories;
-
-    private final SongModel songModel = SongModel.getInstance();
     @FXML
     private TextField txtPath;
     @FXML
@@ -50,6 +44,12 @@ public class SongController implements Initializable {
     private Button btnChooseSong;
     @FXML
     private TextField txtNewCategory;
+
+    private Song selectedSong;
+
+    private final ObservableList<String> categories;
+
+    private final SongModel songModel = SongModel.getInstance();
 
     public SongController() {
         this.categories = FXCollections.observableArrayList(
