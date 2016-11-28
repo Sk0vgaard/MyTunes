@@ -76,13 +76,19 @@ public class MyTunesController implements Initializable {
     @FXML
     private TableColumn<Song, String> clmSongDuration;
 
+    private static MyTunesController instance;
+
     private final SongModel songModel = SongModel.getInstance();
     private final PlaylistModel playListModel = PlaylistModel.getInstance();
     private Stage primStage;
 
+    public static MyTunesController getInstance() {
+        return instance;
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        clmSongTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
+        clmSongTitle.setCellValueFactory(i -> i.getValue().getTitle());
         clmSongArtist.setCellValueFactory(new PropertyValueFactory<>("artist"));
         clmSongCategory.setCellValueFactory(new PropertyValueFactory<>("category"));
         clmSongDuration.setCellValueFactory(new PropertyValueFactory<>("duration"));
@@ -95,6 +101,10 @@ public class MyTunesController implements Initializable {
         clmPlaylistTotalDuration.setCellValueFactory(new PropertyValueFactory<>("duration"));
         tablePlaylists.setItems(playListModel.getPlaylists());
 
+    }
+
+    public void updateTables() {
+        tableSongs.refresh();
     }
 
     /**
@@ -133,7 +143,7 @@ public class MyTunesController implements Initializable {
 
         SongController songController = loader.getController();
         Song songToEdit = tableSongs.getSelectionModel().getSelectedItem();
-        songController.txtTitle.setText(songToEdit.getTitle());
+        songController.txtTitle.setText(songToEdit.getTitle().get());
         songController.txtArtist.setText(songToEdit.getArtist());
         songController.txtDuration.setText(songToEdit.getDuration());
         songController.setCurrentSong(songToEdit);

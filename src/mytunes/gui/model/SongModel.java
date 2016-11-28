@@ -11,11 +11,14 @@ import javafx.collections.ObservableList;
 import javafx.scene.media.Media;
 import mytunes.be.Song;
 import mytunes.bll.MusicPlayer;
+import mytunes.gui.controller.MyTunesController;
 
 public class SongModel {
 
     private static SongModel instance;
     private final MusicPlayer musicPlayer = MusicPlayer.getInstance();
+
+    private final MyTunesController myTunesController = MyTunesController.getInstance();
 
     private final ObservableList<Song> songs;
 
@@ -38,8 +41,7 @@ public class SongModel {
      */
     public void saveSong(Song songToSave) {
         songs.add(songToSave);
-        //TODO ALH: FIX THIS SHIT!
-        //deleteMockSong();
+        myTunesController.updateTables();
     }
 
     /**

@@ -5,6 +5,7 @@
  */
 package mytunes.gui.controller;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -75,7 +76,7 @@ public class SongController implements Initializable {
      * Adds a song to the model
      */
     @FXML
-    private void handleSaveSong() {
+    private void handleSaveSong() throws IOException {
         if (selectedSong == null) {
             Song newSong = new Song(
                     txtTitle.getText(),
@@ -88,13 +89,6 @@ public class SongController implements Initializable {
             selectedSong.setTitle(txtTitle.getText());
             selectedSong.setArtist(txtArtist.getText());
             selectedSong.setDuration(txtDuration.getText());
-            Song lastSong = songModel.getSongs().get(songModel.getSongs().size() - 1);
-            if (lastSong.getTitle().equals("")) {
-                songModel.deleteSong(lastSong);
-            } else {
-                Song mockSong = new Song("", "", "", "", "");
-                songModel.saveSong(mockSong);
-            }
         }
 
         Stage modalStage = (Stage) btnSaveSong.getScene().getWindow();

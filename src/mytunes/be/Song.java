@@ -5,19 +5,21 @@
  */
 package mytunes.be;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import mytunes.bll.IDCreator;
 
 public class Song {
 
     private final int id;
-    private String title;
+    private final StringProperty title = new SimpleStringProperty();
     private String artist;
     private String category;
     private String duration;
     private String path;
 
     public Song(String title, String artist, String category, String duration, String path) {
-        this.title = title;
+        setTitle(title);
         this.artist = artist;
         this.category = category;
         this.duration = duration;
@@ -29,7 +31,7 @@ public class Song {
      *
      * @return title
      */
-    public String getTitle() {
+    public StringProperty getTitle() {
         return title;
     }
 
@@ -79,7 +81,7 @@ public class Song {
      * @param title
      */
     public void setTitle(String title) {
-        this.title = title;
+        this.title.set(title);
     }
 
     /**
