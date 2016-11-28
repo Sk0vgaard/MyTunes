@@ -82,6 +82,7 @@ public class MyTunesController implements Initializable
     When the new btnSaveSong is clicked a method should be called, preferably in a new controller for the newly created window
      */
     @FXML
+
     private void handleAddButton(ActionEvent event) throws IOException
     {
         Stage primStage = (Stage) txtSearch.getScene().getWindow();
@@ -100,6 +101,7 @@ public class MyTunesController implements Initializable
     @FXML
     private void handleEditButton(ActionEvent event) throws IOException
     {
+
         Stage primStage = (Stage) txtSearch.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/NewEditSongView.fxml"));
         Parent root = loader.load();
