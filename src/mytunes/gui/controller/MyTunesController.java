@@ -71,7 +71,6 @@ public class MyTunesController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
-        // TODO
         songModel = SongModel.getInstance();
         tableSongs.setItems(songModel.getSongs());
     }

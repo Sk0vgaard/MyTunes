@@ -7,6 +7,7 @@ package mytunes.gui.controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -28,7 +29,7 @@ public class NewEditSongController implements Initializable
     @FXML
     private TextField txtArtist;
     @FXML
-    private ComboBox<?> comboGenre;
+    private ComboBox<String> comboGenre;
     @FXML
     private Button btnMore;
     @FXML
@@ -46,8 +47,24 @@ public class NewEditSongController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
-        // TODO
+        
         songModel = SongModel.getInstance();
+        comboGenre.setItems(FXCollections.observableArrayList(
+                "Rock",
+                "POP",
+                "Jazz",
+                "Opera",
+                "Classical",
+                "Dubstep",
+                "Techno",
+                "Country",
+                "Hip Hop",
+                "Soul",
+                "Blues",
+                "Reggie"
+                
+        ));
+        comboGenre.setVisibleRowCount(6);
     }    
 
     @FXML
