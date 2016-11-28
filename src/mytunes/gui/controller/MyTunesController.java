@@ -20,6 +20,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import mytunes.be.Playlist;
@@ -67,11 +68,13 @@ public class MyTunesController implements Initializable {
     @FXML
     private Button btnAddSong;
 
-
-    public void initialize(URL url, ResourceBundle rb)
-    {
+    public void initialize(URL url, ResourceBundle rb) {
 
         songModel = SongModel.getInstance();
+        clmSongTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
+        clmSongArtist.setCellValueFactory(new PropertyValueFactory<>("artist"));
+        clmSongGenre.setCellValueFactory(new PropertyValueFactory<>("genre"));
+        clmSongDuration.setCellValueFactory(new PropertyValueFactory<>("duration"));
         tableSongs.setItems(songModel.getSongs());
     }
 
