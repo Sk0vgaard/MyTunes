@@ -8,7 +8,6 @@ package mytunes.gui.controller;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -97,7 +96,7 @@ public class MyTunesController implements Initializable {
         clmSongDuration.setCellValueFactory(i -> i.getValue().getDuration());
         tableSongs.setItems(songModel.getSongs());
 
-        clmCurrentPlaylistTrack.setCellValueFactory(column -> new ReadOnlyObjectWrapper<>(tableCurrentPlaylist.getItems().indexOf(column.getValue())).asString());
+        //clmCurrentPlaylistTrack.setCellValueFactory(column -> new ReadOnlyObjectWrapper<>(tableCurrentPlaylist.getItems().indexOf(column.getValue())).asString());
         clmCurrentPlaylistTitle.setCellValueFactory(i -> i.getValue().getTitle());
         tableCurrentPlaylist.setItems(playListModel.getCurrentPlayList().getSongs());
 
@@ -185,18 +184,10 @@ public class MyTunesController implements Initializable {
         playListModel.addToCurrentPlaylist(tableSongs.getSelectionModel().getSelectedItem());
     }
 
-    /**
-     * Moves the selected song up in the playlist
-     *
-     * @param event
-     */
     @FXML
-    private void handleMoveSongUp(ActionEvent event) {
-
-    }
-
-    @FXML
-    private void handleMoveSongDown(ActionEvent event) {
+    private void handleMoveSong(ActionEvent event) {
+        Button clickedButton = (Button) event.getSource();
+        playListModel.moveSong(tableCurrentPlaylist.getSelectionModel().getSelectedItem(), clickedButton.getText().toLowerCase());
     }
 
     @FXML

@@ -21,8 +21,6 @@ public class PlaylistModel {
 
     private final Playlist currentPlaylist;
 
-    private final ObservableList<String> currentPlayListAsString;
-
     public static PlaylistModel getInstance() {
         if (instance == null) {
             instance = new PlaylistModel();
@@ -32,7 +30,6 @@ public class PlaylistModel {
 
     private PlaylistModel() {
         playlists = FXCollections.observableArrayList();
-        currentPlayListAsString = FXCollections.observableArrayList();
         playlistManager = new PlaylistManager();
         currentPlaylist = new Playlist("", 0, "0");
 
@@ -53,14 +50,6 @@ public class PlaylistModel {
      */
     public void addToCurrentPlaylist(Song song) {
         currentPlaylist.addSong(song);
-        addToCurrentPlaylistAsString(song);
-    }
-
-    /**
-     * Add to current playlist as String
-     */
-    private void addToCurrentPlaylistAsString(Song song) {
-        currentPlayListAsString.add(currentPlaylist.getSongs().size() + ". " + song.getTitle());
     }
 
     /**
@@ -68,9 +57,8 @@ public class PlaylistModel {
      *
      * @param song
      */
-    public void removeFromCurrentPlaylist(String song) {
-        int position = currentPlayListAsString.indexOf(song);
-        currentPlayListAsString.remove(song);
+    public void removeFromCurrentPlaylist(Song song) {
+        int position = currentPlaylist.getSongs().indexOf(song);
         currentPlaylist.removeSong(position);
     }
 
@@ -78,23 +66,10 @@ public class PlaylistModel {
      * Move song up on current playlist
      *
      * @param selectedSong
+     * @param direction
      */
-    public void moveSongUp(String selectedSong) {
-        String[] songInfo = selectedSong.split("([0-9. ]+ )");
-        int index = 0;
-        Song matchingSong = null;
-        for (Song song : currentPlaylist.getSongs()) {
-            if (song.getTitle().equals(songInfo[1])) {
-                index = currentPlaylist.getSongs().indexOf(song);
-                matchingSong = song;
-            }
-        }
-        currentPlaylist.getSongs().set(index, matchingSong);
-        currentPlayListAsString.clear();
-        for (Song song : currentPlaylist.getSongs()) {
-            addToCurrentPlaylistAsString(song);
-        }
-
+    public void moveSong(Song selectedSong, String direction) {
+        currentPlaylist.moveSong(selectedSong, direction);
     }
 
     /**
@@ -103,9 +78,6 @@ public class PlaylistModel {
      * @param name
      */
     public void createPlaylist(String name) {
-        if (playlists.contains(name)) {
-
-        }
         Playlist newPlayList = new Playlist(name, currentPlaylist.getSongs().size(), "");
         for (Song song : currentPlaylist.getSongs()) {
             newPlayList.addSong(song);
@@ -120,11 +92,7 @@ public class PlaylistModel {
      * @param playlist
      */
     public void showSelectedPlayList(Playlist playlist) {
-        currentPlaylist.removeSongs();
-        currentPlayListAsString.clear();
-        for (Song song : playlist.getSongs()) {
-            addToCurrentPlaylist(song);
-        }
+        //TODO ALH: Create this
     }
 
     /**

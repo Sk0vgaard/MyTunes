@@ -5,6 +5,7 @@
  */
 package mytunes.be;
 
+import java.util.Collections;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -76,6 +77,21 @@ public class Playlist {
      */
     public void removeSongs() {
         songs.clear();
+    }
+
+    /**
+     * Move song in playlist
+     *
+     * @param song
+     * @param direction
+     */
+    public void moveSong(Song song, String direction) {
+        int index = songs.indexOf(song);
+        if (direction.equals("up")) {
+            Collections.swap(songs, index, index - 1);
+        } else {
+            Collections.swap(songs, index, index + 1);
+        }
     }
 
 }
