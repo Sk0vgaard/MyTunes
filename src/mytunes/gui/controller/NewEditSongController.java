@@ -65,6 +65,7 @@ public class NewEditSongController implements Initializable
                 
         ));
         comboGenre.setVisibleRowCount(6);
+        comboGenre.getSelectionModel().selectFirst();
     }    
 
     @FXML
