@@ -26,7 +26,6 @@ public class SongModel {
     /*TODO ALH FOR RASMUS: It should not be possible to instantiate more than one Object of this class.
     In order to achieve this we should use a "Singleton".
      */
-<<<<<<< HEAD
 
     public SongModel()
     {
@@ -37,8 +36,7 @@ public class SongModel {
     {
         return songs;
     }
-    
-=======
+
     
     private static SongModel instance;
     
@@ -55,5 +53,4 @@ public class SongModel {
         }
         return instance;
     }
->>>>>>> origin/alpha
 }

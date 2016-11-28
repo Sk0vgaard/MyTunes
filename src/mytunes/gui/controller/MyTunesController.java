@@ -76,14 +76,6 @@ public class MyTunesController implements Initializable {
  /*TODO ALH: In this window we should see TextFields to add information, possibly a combobox to select the category and finally a button to save the information
     When the new btnSaveSong is clicked a method should be called, preferably in a new controller for the newly created window
      */
-<<<<<<< HEAD
-
-    
-    
-    
-    
-    
-=======
     @FXML
     private void handleEditButton(ActionEvent event) throws IOException {
         Stage primStage = (Stage) txtSearch.getScene().getWindow();
@@ -98,5 +90,4 @@ public class MyTunesController implements Initializable {
 
         editStage.show();
     }
->>>>>>> origin/alpha
 }
