@@ -14,6 +14,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TableColumn;
@@ -29,7 +30,8 @@ import mytunes.gui.model.SongModel;
  *
  * @author gta1
  */
-public class MyTunesController implements Initializable {
+public class MyTunesController implements Initializable
+{
 
     @FXML
     private TableView<Playlist> tablePlaylists;
@@ -52,8 +54,6 @@ public class MyTunesController implements Initializable {
     @FXML
     private TableColumn<Song, String> clmSongArtist;
     @FXML
-    private TableColumn<Song, String> clmSongCategory;
-    @FXML
     private TableColumn<Song, String> clmSongDuration;
     @FXML
     private TableView<Song> tableCurrentPlaylist;
@@ -61,14 +61,19 @@ public class MyTunesController implements Initializable {
     private TableColumn<Song, String> clmCurrentPlaylistTrack;
     @FXML
     private TableColumn<Song, String> clmCurrentPlaylistTitle;
-    
-    
+
     private SongModel songModel;
-    
+    @FXML
+    private TableColumn<Song, String> clmSongGenre;
+    @FXML
+    private Button btnAddSong;
+
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
+    public void initialize(URL url, ResourceBundle rb)
+    {
         // TODO
         songModel = SongModel.getInstance();
+        tableSongs.setItems(songModel.getSongs());
     }
 
     /*TODO ALH: We should be able to add to our Observable List in the model
@@ -76,16 +81,9 @@ public class MyTunesController implements Initializable {
  /*TODO ALH: In this window we should see TextFields to add information, possibly a combobox to select the category and finally a button to save the information
     When the new btnSaveSong is clicked a method should be called, preferably in a new controller for the newly created window
      */
-<<<<<<< HEAD
-
-    
-    
-    
-    
-    
-=======
     @FXML
-    private void handleEditButton(ActionEvent event) throws IOException {
+    private void handleAddButton(ActionEvent event) throws IOException
+    {
         Stage primStage = (Stage) txtSearch.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/NewEditSongView.fxml"));
         Parent root = loader.load();
@@ -98,5 +96,21 @@ public class MyTunesController implements Initializable {
 
         editStage.show();
     }
->>>>>>> origin/alpha
+
+    @FXML
+    private void handleEditButton(ActionEvent event) throws IOException
+    {
+        Stage primStage = (Stage) txtSearch.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/NewEditSongView.fxml"));
+        Parent root = loader.load();
+
+        Stage editStage = new Stage();
+        editStage.setScene(new Scene(root));
+
+        editStage.initModality(Modality.WINDOW_MODAL);
+        editStage.initOwner(primStage);
+
+        editStage.show();
+    }
+
 }
