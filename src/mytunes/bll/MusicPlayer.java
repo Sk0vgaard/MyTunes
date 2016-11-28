@@ -8,6 +8,7 @@ package mytunes.bll;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaException;
 import javafx.scene.media.MediaPlayer;
+import mytunes.be.Song;
 
 public class MusicPlayer {
 
@@ -17,7 +18,7 @@ public class MusicPlayer {
 
     private boolean isPlaying = false;
 
-    private String currentSong;
+    private Song currentSong;
 
     public static MusicPlayer getInstance() {
         if (instance == null) {
@@ -36,13 +37,13 @@ public class MusicPlayer {
      * @param fileName of the song to be played/paused.
      * @throws MediaException
      */
-    public void playSong(String fileName) throws MediaException {
+    public void playSong(Song song) throws MediaException {
         //Pick the song to be played and put it in the myTunesPlayer.
-        Media pick = new Media("file:///" + System.getProperty("user.dir").replace('\\', '/') + "/src/mytunes/assets/mp3/" + fileName);
+        Media pick = new Media("file:///" + System.getProperty("user.dir").replace('\\', '/') + "/src/mytunes/assets/mp3/" + song.getFileName());
         myTunesPlayer = new MediaPlayer(pick);
         myTunesPlayer.play();
         isPlaying = true;
-        currentSong = fileName;
+        currentSong = song;
     }
 
     /**
@@ -75,7 +76,7 @@ public class MusicPlayer {
         return isPlaying;
     }
 
-    public String getCurrentSong() {
+    public Song getCurrentSong() {
         return currentSong;
     }
 }

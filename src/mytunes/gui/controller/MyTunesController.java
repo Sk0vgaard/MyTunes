@@ -70,7 +70,9 @@ public class MyTunesController implements Initializable {
 
     private SongModel songModel;
 
+    private static final String IDLE_TEXT = "Enjoy your music!";
     private static final String IS_PLAYING = " is playing";
+    private static final String IS_PAUSED = " is paused";
     private static final String PLAY = "Play";
     private static final String PAUSE = "Pause";
 
@@ -85,6 +87,8 @@ public class MyTunesController implements Initializable {
         clmSongGenre.setCellValueFactory(new PropertyValueFactory<>("genre"));
         clmSongDuration.setCellValueFactory(new PropertyValueFactory<>("duration"));
         tableSongs.setItems(songModel.getSongs());
+
+        lblIsPlaying.setText(IDLE_TEXT);
     }
 
     /*TODO ALH: We should be able to add to our Observable List in the model
@@ -142,13 +146,14 @@ public class MyTunesController implements Initializable {
         Song selectedSong = tableSongs.getSelectionModel().getSelectedItem();
         if (btnPlay.getText().equals(PLAY)) {
             if (selectedSong != null) {
-                songModel.playSelectedSong(selectedSong.getFileName());
+                songModel.playSelectedSong(selectedSong);
                 btnPlay.setText(PAUSE);
                 lblIsPlaying.setText(selectedSong.getTitle() + IS_PLAYING);
             }
         } else {
             songModel.pausePlaying();
             btnPlay.setText(PLAY);
+            lblIsPlaying.setText(songModel.getCurrentSongPlaying().getTitle() + IS_PAUSED);
         }
     }
 
@@ -161,5 +166,17 @@ public class MyTunesController implements Initializable {
     private void handleStopButton(ActionEvent event) {
         songModel.stopPlaying();
         btnPlay.setText("Play");
+        lblIsPlaying.setText(IDLE_TEXT);
+    }
+
+    @FXML
+    private void handleSearch(ActionEvent event) {
+        songModel.searchSong(txtSearch.getText());
+    }
+
+    @FXML
+    private void handleClearSearch(ActionEvent event) {
+        songModel.clearSearch();
+        txtSearch.setText("");
     }
 }

@@ -5,6 +5,7 @@
  */
 package mytunes.gui.model;
 
+import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import mytunes.be.Song;
@@ -15,6 +16,8 @@ public class SongModel {
     private static SongModel instance;
 
     private final ObservableList<Song> songs;
+
+    private ArrayList<Song> savedSongs;
 
     private final MusicPlayer musicPlayer;
 
@@ -37,6 +40,7 @@ public class SongModel {
     private SongModel() {
         songs = FXCollections.observableArrayList();
         musicPlayer = MusicPlayer.getInstance();
+        savedSongs = new ArrayList<>();
         mockupSongs();
     }
 
@@ -79,7 +83,7 @@ public class SongModel {
      *
      * @param song
      */
-    public void playSelectedSong(String song) {
+    public void playSelectedSong(Song song) {
         //Check if the MusicPlayer is currentplay at all
         if (musicPlayer.isPlaying()) {
             //If it is playing, then check if it is the same song we want to resume
@@ -96,6 +100,15 @@ public class SongModel {
     }
 
     /**
+     * Get current song playing
+     *
+     * @return
+     */
+    public Song getCurrentSongPlaying() {
+        return musicPlayer.getCurrentSong();
+    }
+
+    /**
      * Pauses playing of current song in MusicPlayer
      */
     public void pausePlaying() {
@@ -108,6 +121,34 @@ public class SongModel {
     public void stopPlaying() {
         if (musicPlayer.isPlaying()) {
             musicPlayer.stopPlaying();
+        }
+    }
+
+    /**
+     * Search for song
+     *
+     * @param searchString
+     */
+    public void searchSong(String searchString) {
+        ArrayList<Song> songsFromSearch = new ArrayList<>();
+        savedSongs.addAll(songs);
+        songs.clear();
+        for (Song savedSong : savedSongs) {
+            if (savedSong.getTitle().toLowerCase().contains(searchString)) {
+                songsFromSearch.add(savedSong);
+            }
+        }
+        songs.addAll(songsFromSearch);
+    }
+
+    /**
+     * Reset search
+     */
+    public void clearSearch() {
+        if (!savedSongs.isEmpty()) {
+            songs.clear();
+            songs.addAll(savedSongs);
+            savedSongs.clear();
         }
     }
 }
