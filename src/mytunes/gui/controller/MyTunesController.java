@@ -30,8 +30,7 @@ import mytunes.gui.model.SongModel;
  *
  * @author gta1
  */
-public class MyTunesController implements Initializable
-{
+public class MyTunesController implements Initializable {
 
     @FXML
     private TableView<Playlist> tablePlaylists;
@@ -69,8 +68,7 @@ public class MyTunesController implements Initializable
     private Button btnAddSong;
 
     @Override
-    public void initialize(URL url, ResourceBundle rb)
-    {
+    public void initialize(URL url, ResourceBundle rb) {
         // TODO
         songModel = SongModel.getInstance();
         tableSongs.setItems(songModel.getSongs());
@@ -83,8 +81,7 @@ public class MyTunesController implements Initializable
      */
     @FXML
 
-    private void handleAddButton(ActionEvent event) throws IOException
-    {
+    private void handleAddButton(ActionEvent event) throws IOException {
         Stage primStage = (Stage) txtSearch.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/NewEditSongView.fxml"));
         Parent root = loader.load();
@@ -99,8 +96,7 @@ public class MyTunesController implements Initializable
     }
 
     @FXML
-    private void handleEditButton(ActionEvent event) throws IOException
-    {
+    private void handleEditButton(ActionEvent event) throws IOException {
 
         Stage primStage = (Stage) txtSearch.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/NewEditSongView.fxml"));
@@ -115,4 +111,5 @@ public class MyTunesController implements Initializable
         editStage.show();
     }
 
+    //TODO ALH: We should have a method that reacts on the play button
 }

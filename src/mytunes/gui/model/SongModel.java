@@ -43,4 +43,5 @@ public class SongModel {
         return songs;
     }
 
+    //TODO ALH: We should have a method to play the selected song
 }
