@@ -13,7 +13,7 @@ public class SongModel {
 
     private static SongModel instance;
 
-    private ObservableList<Song> songs;
+    private final ObservableList<Song> songs;
 
     //TODO ALH: We need to be able to retrieve the List, so that we can show it in the GUI
     //TODO ALH: We need a method to add songs to the List, so that our other awesome developers can call this method and add a new song!
