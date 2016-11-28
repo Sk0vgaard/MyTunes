@@ -71,6 +71,8 @@ public class MyTunesController implements Initializable {
     private TableColumn<Song, String> clmSongGenre;
     @FXML
     private Button btnAddSong;
+    @FXML
+    private Button btnPlay;
 
     public void initialize(URL url, ResourceBundle rb) {
 
@@ -127,10 +129,12 @@ public class MyTunesController implements Initializable {
 
         editStage.show();
     }
-
-    //TODO ALH: We should have a method that reacts on the play button
-    //TODO ALH: It could be cool if the result of this method was also that the lblIsPlaying was also updated...
-
+    
+    /**
+     * Gets the current selected song and calls the play method of the MusicPlaer.
+     * Changes the text of the play button appropriately. 
+     * @param event 
+     */
     @FXML
     private void handlePlayButton(ActionEvent event)
     {
@@ -139,17 +143,30 @@ public class MyTunesController implements Initializable {
         {
             try
             {
-                musicPlayer.playSong(selectedSong.getFileName());
+                boolean changePlayButton = musicPlayer.playSong(selectedSong.getFileName());
+                if(changePlayButton)
+                {
+                    btnPlay.setText("Pause");
+                }
+                else
+                {
+                    btnPlay.setText("Play");
+                }
             } catch (MediaException ex)
             {
                 System.out.println("You got error!");
             }
         }        
     }
-
+    
+    /**
+     * Stop the song playing and sets the text of the play button to "Play".
+     * @param event 
+     */
     @FXML
     private void handleStopButton(ActionEvent event)
     {
         musicPlayer.stopSong();
+        btnPlay.setText("Play");
     }
 }

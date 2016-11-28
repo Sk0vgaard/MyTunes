@@ -51,18 +51,22 @@ public class SongModel {
         Song song1 = new Song("Song", "SomeArtist", "Classical", "3.42");
         Song song2 = new Song("Song", "SomeArtist", "Classical", "3.42");
         Song song3 = new Song("Song", "SomeArtist", "Classical", "3.42");
-        Song song4 = new Song("Song", "SomeArtist", "Classical", "3.42");
+        Song happyRock = new Song("HappyRock", 
+                "SomeArtist", 
+                "Rock", 
+                "1.45");
         Song baby = new Song(
                 "Baby",
                 "Justin Bieber",
                 "POP",
                 "2.5");
+        happyRock.setFileName("happyrock.mp3");
         baby.setFileName("baby.mp3");
 
         songs.add(song1);
         songs.add(song2);
         songs.add(song3);
-        songs.add(song4);
+        songs.add(happyRock);
         songs.add(baby);
     }
 
