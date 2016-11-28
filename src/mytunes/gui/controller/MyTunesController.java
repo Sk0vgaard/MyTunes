@@ -112,4 +112,5 @@ public class MyTunesController implements Initializable {
     }
 
     //TODO ALH: We should have a method that reacts on the play button
+    //TODO ALH: It could be cool if the result of this method was also that the lblIsPlaying was also updated...
 }
