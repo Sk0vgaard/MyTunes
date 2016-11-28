@@ -50,8 +50,6 @@ public class MyTunesController implements Initializable {
     @FXML
     private Slider sliderVolume;
     @FXML
-    private Button btnSearch;
-    @FXML
     private Button btnAddSong;
     @FXML
     private Button btnEditSong;
@@ -234,5 +232,10 @@ public class MyTunesController implements Initializable {
     @FXML
     private void handleSelectedPlaylist() {
         playListModel.showSelectedPlayList(tablePlaylists.getSelectionModel().getSelectedItem());
+    }
+
+    @FXML
+    private void handleSearch() {
+        songModel.searchSong(txtSearch.getText().toLowerCase());
     }
 }

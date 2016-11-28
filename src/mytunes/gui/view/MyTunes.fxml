@@ -43,7 +43,7 @@
             <Button layoutX="14.0" layoutY="529.0" mnemonicParsing="false" onAction="#handleNewPlaylist" text="New" />
             <Button layoutX="84.0" layoutY="529.0" mnemonicParsing="false" onAction="#handleEditPlaylist" text="Edit" />
             <Button layoutX="148.0" layoutY="529.0" mnemonicParsing="false" onAction="#handleDeletePlaylist" text="Delete" />
-            <Button fx:id="btnSearch" layoutX="724.0" layoutY="14.0" mnemonicParsing="false" text="Search" />
+            <Button layoutX="724.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleSearch" text="Search" />
             <Button layoutX="215.0" layoutY="529.0" mnemonicParsing="false" onAction="#handleMoveSong" text="Up" />
             <Button layoutX="256.0" layoutY="529.0" mnemonicParsing="false" onAction="#handleMoveSong" text="Down" />
             <Button layoutX="352.0" layoutY="529.0" mnemonicParsing="false" onAction="#handleRemoveSongFromList" text="Remove" />
@@ -61,6 +61,7 @@
                 <TableColumn fx:id="clmCurrentPlaylistTitle" prefWidth="148.0" text="Title" />
               </columns>
             </TableView>
+            <Button layoutX="512.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleClear" text="Clear" />
          </children>
       </Pane>
    </children>

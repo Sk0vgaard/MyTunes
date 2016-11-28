@@ -6,6 +6,7 @@
 package mytunes.gui.model;
 
 import java.io.File;
+import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.media.Media;
@@ -21,6 +22,7 @@ public class SongModel {
     private final MyTunesController myTunesController = MyTunesController.getInstance();
 
     private final ObservableList<Song> songs;
+    private final ArrayList<Song> savedSongs;
 
     public static SongModel getInstance() {
         if (instance == null) {
@@ -31,6 +33,7 @@ public class SongModel {
 
     public SongModel() {
         songs = FXCollections.observableArrayList();
+        savedSongs = new ArrayList<>();
         mockupSongs();
     }
 
@@ -103,5 +106,22 @@ public class SongModel {
      */
     public void stopMediaPlayer() {
         musicPlayer.stop();
+    }
+
+    /**
+     * Search for song
+     *
+     * @param searchString
+     */
+    public void searchSong(String searchString) {
+        ArrayList<Song> songsFromSearch = new ArrayList<>();
+        savedSongs.addAll(songs);
+        songs.clear();
+        for (Song savedSong : savedSongs) {
+            if (savedSong.getTitle().get().toLowerCase().contains(searchString)) {
+                songsFromSearch.add(savedSong);
+            }
+        }
+        songs.addAll(songsFromSearch);
     }
 }
