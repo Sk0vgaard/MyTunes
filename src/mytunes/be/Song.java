@@ -13,17 +13,22 @@ public class Song {
 
     private final int id;
     private final StringProperty title = new SimpleStringProperty();
-    private String artist;
-    private String category;
-    private String duration;
-    private String path;
+    private final StringProperty artist = new SimpleStringProperty();
+    ;
+    private final StringProperty category = new SimpleStringProperty();
+    ;
+    private final StringProperty duration = new SimpleStringProperty();
+    ;
+    private final StringProperty path = new SimpleStringProperty();
+
+    ;
 
     public Song(String title, String artist, String category, String duration, String path) {
         setTitle(title);
-        this.artist = artist;
-        this.category = category;
-        this.duration = duration;
-        this.path = path;
+        setArtist(artist);
+        setCategory(category);
+        setDuration(duration);
+        setPath(path);
         id = IDCreator.createID();
     }
 
@@ -39,7 +44,7 @@ public class Song {
      *
      * @return artist
      */
-    public String getArtist() {
+    public StringProperty getArtist() {
         return artist;
     }
 
@@ -47,7 +52,7 @@ public class Song {
      *
      * @return category
      */
-    public String getCategory() {
+    public StringProperty getCategory() {
         return category;
     }
 
@@ -55,7 +60,7 @@ public class Song {
      *
      * @return duration
      */
-    public String getDuration() {
+    public StringProperty getDuration() {
         return duration;
     }
 
@@ -63,7 +68,7 @@ public class Song {
      *
      * @return path to Song
      */
-    public String getPath() {
+    public StringProperty getPath() {
         return path;
     }
 
@@ -89,7 +94,7 @@ public class Song {
      * @param artist
      */
     public void setArtist(String artist) {
-        this.artist = artist;
+        this.artist.set(artist);
     }
 
     /**
@@ -97,7 +102,7 @@ public class Song {
      * @param category
      */
     public void setCategory(String category) {
-        this.category = category;
+        this.category.set(category);
     }
 
     /**
@@ -105,7 +110,7 @@ public class Song {
      * @param duration
      */
     public void setDuration(String duration) {
-        this.duration = duration;
+        this.duration.set(duration);
     }
 
     /**
@@ -113,6 +118,6 @@ public class Song {
      * @param path
      */
     public void setPath(String path) {
-        this.path = path;
+        this.path.set(path);
     }
 }

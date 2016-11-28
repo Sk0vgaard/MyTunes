@@ -41,18 +41,6 @@ public class SongModel {
      */
     public void saveSong(Song songToSave) {
         songs.add(songToSave);
-        myTunesController.updateTables();
-    }
-
-    /**
-     * Looks for empty mock song
-     */
-    private void deleteMockSong() {
-        for (Song song : songs) {
-            if (song.getTitle().equals("")) {
-                songs.remove(song);
-            }
-        }
     }
 
     /**
@@ -105,7 +93,7 @@ public class SongModel {
      * @param selectedSong
      */
     public void playSelectedSong(Song selectedSong) {
-        Media songToPlay = new Media(new File(selectedSong.getPath()).toURI().toString());
+        Media songToPlay = new Media(new File(selectedSong.getPath().get()).toURI().toString());
         System.out.println(songToPlay.getSource());
         musicPlayer.play(songToPlay);
     }
