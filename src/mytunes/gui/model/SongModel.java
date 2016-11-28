@@ -56,9 +56,27 @@ public class SongModel {
      * Creates some mockup songs
      */
     private void mockupSongs() {
-        Song song1 = new Song("Song", "SomeArtist", "Classical", "3.42");
-        Song song2 = new Song("Song", "SomeArtist", "Classical", "3.42");
-        Song song3 = new Song("Song", "SomeArtist", "Classical", "3.42");
+
+        Song excited = new Song(
+                "I'm So excited",
+                "Pointer Sisters",
+                "POP",
+                "3.42");
+        excited.setFileName("excited.mp3");
+
+        Song beatIt = new Song(
+                "Beat It",
+                "Michael Jackson",
+                "POP", "3.42");
+        beatIt.setFileName("beatIt.mp3");
+
+        Song bohemian = new Song(
+                "Bohemian Rhapsody",
+                "Queen",
+                "POP",
+                "6.06");
+        bohemian.setFileName("bohemian.mp3");
+
         Song happyRock = new Song("HappyRock",
                 "SomeArtist",
                 "Rock",
@@ -71,9 +89,9 @@ public class SongModel {
         happyRock.setFileName("happyrock.mp3");
         baby.setFileName("baby.mp3");
 
-        songs.add(song1);
-        songs.add(song2);
-        songs.add(song3);
+        songs.add(excited);
+        songs.add(beatIt);
+        songs.add(bohemian);
         songs.add(happyRock);
         songs.add(baby);
     }

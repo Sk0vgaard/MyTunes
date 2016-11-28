@@ -10,9 +10,9 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="606.0" prefWidth="805.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mytunes.gui.controller.MyTunesController">
+<AnchorPane id="AnchorPane" prefHeight="606.0" prefWidth="824.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mytunes.gui.controller.MyTunesController">
    <children>
-      <Pane layoutX="7.0" layoutY="9.0" prefHeight="594.0" prefWidth="791.0">
+      <Pane layoutX="7.0" layoutY="9.0" prefHeight="594.0" prefWidth="811.0">
          <children>
             <TableView fx:id="tablePlaylists" layoutX="14.0" layoutY="121.0" prefHeight="398.0" prefWidth="191.0">
               <columns>
@@ -21,12 +21,12 @@
                   <TableColumn fx:id="clmPlaylistTotalDuration" prefWidth="63.0" text="Duration" />
               </columns>
             </TableView>
-            <TableView fx:id="tableSongs" layoutX="474.0" layoutY="121.0" prefHeight="398.0" prefWidth="303.0">
+            <TableView fx:id="tableSongs" layoutX="474.0" layoutY="121.0" prefHeight="398.0" prefWidth="331.0">
               <columns>
-                <TableColumn fx:id="clmSongTitle" prefWidth="75.0" text="Title" />
-                <TableColumn fx:id="clmSongArtist" prefWidth="75.0" text="Artist" />
-                  <TableColumn fx:id="clmSongGenre" prefWidth="75.0" text="Genre" />
-                  <TableColumn fx:id="clmSongDuration" prefWidth="75.0" text="Duration" />
+                <TableColumn fx:id="clmSongTitle" prefWidth="108.0" text="Title" />
+                <TableColumn fx:id="clmSongArtist" prefWidth="90.0" text="Artist" />
+                  <TableColumn fx:id="clmSongGenre" prefWidth="76.0" text="Genre" />
+                  <TableColumn fx:id="clmSongDuration" prefWidth="56.0" text="Duration" />
               </columns>
             </TableView>
             <Label fx:id="lblIsPlaying" layoutX="332.0" layoutY="67.0" text="Something is playing">
