@@ -17,4 +17,20 @@ public class SongModel {
     /*TODO ALH FOR RASMUS: It should not be possible to instantiate more than one Object of this class.
     In order to achieve this we should use a "Singleton".
      */
+    
+    private static SongModel instance;
+    
+    /**
+     * If SongModel has not been instantiated, make a new instance off of it and return it.
+     * If there already is an instance of SongModel, return that instance.
+     * @return 
+     */
+    public static SongModel getInstance()
+    {
+        if(instance == null)
+        {
+            instance = new SongModel();
+        }
+        return instance;
+    }
 }

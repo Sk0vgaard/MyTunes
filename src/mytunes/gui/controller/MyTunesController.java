@@ -23,6 +23,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import mytunes.be.Playlist;
 import mytunes.be.Song;
+import mytunes.gui.model.SongModel;
 
 /**
  *
@@ -60,10 +61,14 @@ public class MyTunesController implements Initializable {
     private TableColumn<Song, String> clmCurrentPlaylistTrack;
     @FXML
     private TableColumn<Song, String> clmCurrentPlaylistTitle;
-
+    
+    
+    private SongModel songModel;
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        songModel = SongModel.getInstance();
     }
 
     /*TODO ALH: We should be able to add to our Observable List in the model

@@ -8,6 +8,7 @@ package mytunes.gui.controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
+import mytunes.gui.model.SongModel;
 
 /**
  * FXML Controller class
@@ -16,6 +17,7 @@ import javafx.fxml.Initializable;
  */
 public class NewEditSongController implements Initializable
 {
+    private SongModel songModel;
 
     /**
      * Initializes the controller class.
@@ -24,6 +26,7 @@ public class NewEditSongController implements Initializable
     public void initialize(URL url, ResourceBundle rb)
     {
         // TODO
+        songModel = SongModel.getInstance();
     }    
     
 }
