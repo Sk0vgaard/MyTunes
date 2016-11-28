@@ -19,6 +19,8 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import mytunes.be.Playlist;
@@ -94,5 +96,12 @@ public class MyTunesController implements Initializable {
     @FXML
     private void handlePlayButton(ActionEvent event)
     {
+//        System.out.println(System.getProperty("user.dir"));
+        //Gets the file of the song.
+        Media pick = new Media("file:///" + System.getProperty("user.dir").replace('\\', '/') + "/src/mytunes/assets/mp3/" + "baby.mp3");
+        //Creates a mediaPlayer with that song. Remember to store th reference to the player.
+        MediaPlayer player = new MediaPlayer(pick);
+        //Plays the song.
+        player.play();
     }
 }
