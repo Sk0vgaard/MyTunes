@@ -47,8 +47,8 @@
             <Button layoutX="215.0" layoutY="529.0" mnemonicParsing="false" text="Up" />
             <Button layoutX="256.0" layoutY="529.0" mnemonicParsing="false" text="Down" />
             <Button layoutX="352.0" layoutY="529.0" mnemonicParsing="false" text="Remove" />
-            <Button fx:id="btnAddSong" layoutX="474.0" layoutY="529.0" mnemonicParsing="false" onAction="#handleAddButton" text="Add" />
-            <Button layoutX="607.0" layoutY="529.0" mnemonicParsing="false" onAction="#handleEditButton" text="Edit" />
+            <Button layoutX="474.0" layoutY="529.0" mnemonicParsing="false" onAction="#handleSongTableButton" text="Add" />
+            <Button layoutX="607.0" layoutY="529.0" mnemonicParsing="false" onAction="#handleSongTableButton" text="Edit" />
             <Button layoutX="725.0" layoutY="529.0" mnemonicParsing="false" text="Delete" />
             <Button layoutX="429.0" layoutY="297.0" mnemonicParsing="false" text="&lt;-" />
             <Label layoutX="217.0" layoutY="103.0" text="Songs in playlist" />

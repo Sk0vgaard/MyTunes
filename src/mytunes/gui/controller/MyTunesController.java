@@ -64,8 +64,6 @@ public class MyTunesController implements Initializable {
     @FXML
     private TableColumn<Song, String> clmSongGenre;
     @FXML
-    private Button btnAddSong;
-    @FXML
     private Button btnPlay;
 
     private SongModel songModel;
@@ -91,13 +89,10 @@ public class MyTunesController implements Initializable {
         lblIsPlaying.setText(IDLE_TEXT);
     }
 
-    /*TODO ALH: We should be able to add to our Observable List in the model
-    In order to do so a new modal window should pop-up  when we click the btnAddSong*/
- /*TODO ALH: In this window we should see TextFields to add information, possibly a combobox to select the category and finally a button to save the information
-    When the new btnSaveSong is clicked a method should be called, preferably in a new controller for the newly created window
-     */
     @FXML
-    private void handleAddButton(ActionEvent event) throws IOException {
+    private void handleSongTableButton(ActionEvent event) throws IOException {
+        Button clickedButton = (Button) event.getSource();
+
         Stage primStage = (Stage) txtSearch.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/NewEditSongView.fxml"));
         Parent root = loader.load();
@@ -108,31 +103,20 @@ public class MyTunesController implements Initializable {
         editStage.initModality(Modality.WINDOW_MODAL);
         editStage.initOwner(primStage);
 
-        editStage.show();
-    }
-
-    @FXML
-    private void handleEditButton(ActionEvent event) throws IOException {
-
-        Stage primStage = (Stage) txtSearch.getScene().getWindow();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/NewEditSongView.fxml"));
-        Parent root = loader.load();
-
-        NewEditSongController songController = loader.getController();
-        Song songToEdit = tableSongs.getSelectionModel().getSelectedItem();
-        songController.setTxtTitle(songToEdit.getTitle());
-        songController.setTxtArtist(songToEdit.getArtist());
-        songController.setTxtDuration(songToEdit.getDuration());
-        songController.setComboGenre(songToEdit.getGenre());
-        songController.setCurrentSong(songToEdit);
-
-        Stage editStage = new Stage();
-        editStage.setScene(new Scene(root));
-
-        editStage.initModality(Modality.WINDOW_MODAL);
-        editStage.initOwner(primStage);
-
-        editStage.show();
+        if (clickedButton.getText().equals("Add")) {
+            editStage.show();
+        } else {
+            Song songToEdit = tableSongs.getSelectionModel().getSelectedItem();
+            if (songToEdit != null) {
+                NewEditSongController songController = loader.getController();
+                songController.setTxtTitle(songToEdit.getTitle());
+                songController.setTxtArtist(songToEdit.getArtist());
+                songController.setTxtDuration(songToEdit.getDuration());
+                songController.setComboGenre(songToEdit.getGenre());
+                songController.setCurrentSong(songToEdit);
+                editStage.show();
+            }
+        }
     }
 
     /**
@@ -171,7 +155,10 @@ public class MyTunesController implements Initializable {
 
     @FXML
     private void handleSearch(ActionEvent event) {
-        songModel.searchSong(txtSearch.getText());
+        String search = txtSearch.getText();
+        if (!search.equals("")) {
+            songModel.searchSong(search);
+        }
     }
 
     @FXML
