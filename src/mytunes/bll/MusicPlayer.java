@@ -5,6 +5,9 @@
  */
 package mytunes.bll;
 
+import java.io.IOException;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaException;
 import javafx.scene.media.MediaPlayer;
 
 public class MusicPlayer {
@@ -20,11 +23,16 @@ public class MusicPlayer {
         return instance;
     }
     
-    public void playSong()
+    public void playSong(String fileName) throws MediaException
     {
-        
+        Media pick = new Media("file:///" + System.getProperty("user.dir").replace('\\', '/') + "/src/mytunes/assets/mp3/" + fileName);
+        myTunesPlayer = new MediaPlayer(pick);
+        myTunesPlayer.play();        
     }
-
-    //TODO ALH: Here we should be able to play a song parsed to a play method
+    
+    public void stopSong()
+    {
+        myTunesPlayer.stop();
+    }
     //ALH ALH: I guess it would be nice to be able to stop the song, even though it may be Bieber...
 }
