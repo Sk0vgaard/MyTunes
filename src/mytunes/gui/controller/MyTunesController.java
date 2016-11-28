@@ -98,7 +98,7 @@ public class MyTunesController implements Initializable {
     private void handleEditButton(ActionEvent event) throws IOException
     {
         Stage primStage = (Stage) txtSearch.getScene().getWindow();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/NewEditView.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/NewEditSongView.fxml"));
         Parent root = loader.load();
         
         Stage editStage = new Stage();

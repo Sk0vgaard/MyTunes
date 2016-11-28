@@ -14,7 +14,7 @@ import javafx.fxml.Initializable;
  *
  * @author Rasmus
  */
-public class NewEditController implements Initializable
+public class NewEditSongController implements Initializable
 {
 
     /**
