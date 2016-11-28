@@ -8,6 +8,7 @@ package mytunes.gui.controller;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,7 +17,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -36,8 +36,6 @@ public class MyTunesController implements Initializable {
 
     @FXML
     private TableView<Playlist> tablePlaylists;
-    @FXML
-    private ListView<String> listPlaylist;
     @FXML
     public TableView<Song> tableSongs;
     @FXML
@@ -84,6 +82,12 @@ public class MyTunesController implements Initializable {
     public static MyTunesController getInstance() {
         return instance;
     }
+    @FXML
+    private TableView<Song> tableCurrentPlaylist;
+    @FXML
+    private TableColumn<Song, String> clmCurrentPlaylistTrack;
+    @FXML
+    private TableColumn<Song, String> clmCurrentPlaylistTitle;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -93,7 +97,9 @@ public class MyTunesController implements Initializable {
         clmSongDuration.setCellValueFactory(i -> i.getValue().getDuration());
         tableSongs.setItems(songModel.getSongs());
 
-        listPlaylist.setItems(playListModel.getCurrentPlayList());
+        clmCurrentPlaylistTrack.setCellValueFactory(column -> new ReadOnlyObjectWrapper<>(tableCurrentPlaylist.getItems().indexOf(column.getValue())).asString());
+        clmCurrentPlaylistTitle.setCellValueFactory(i -> i.getValue().getTitle());
+        tableCurrentPlaylist.setItems(playListModel.getCurrentPlayList().getSongs());
 
         clmPlaylistName.setCellValueFactory(i -> i.getValue().getName());
         clmPlaylistSongsAmount.setCellValueFactory(i -> i.getValue().getAmountOfSongs().asString());
@@ -186,7 +192,7 @@ public class MyTunesController implements Initializable {
      */
     @FXML
     private void handleMoveSongUp(ActionEvent event) {
-        playListModel.moveSongUp(listPlaylist.getSelectionModel().getSelectedItem());
+
     }
 
     @FXML
@@ -195,7 +201,7 @@ public class MyTunesController implements Initializable {
 
     @FXML
     private void handleRemoveSongFromList(ActionEvent event) {
-        playListModel.removeFromCurrentPlaylist(listPlaylist.getSelectionModel().getSelectedItem());
+
     }
 
     @FXML

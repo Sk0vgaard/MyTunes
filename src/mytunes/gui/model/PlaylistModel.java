@@ -42,8 +42,8 @@ public class PlaylistModel {
         return playlists;
     }
 
-    public ObservableList<String> getCurrentPlayList() {
-        return currentPlayListAsString;
+    public Playlist getCurrentPlayList() {
+        return currentPlaylist;
     }
 
     /**

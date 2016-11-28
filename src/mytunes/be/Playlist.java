@@ -5,11 +5,12 @@
  */
 package mytunes.be;
 
-import java.util.ArrayList;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import mytunes.bll.IDCreator;
 
 public class Playlist {
@@ -17,7 +18,7 @@ public class Playlist {
     private final int id;
     private StringProperty name = new SimpleStringProperty();
     private IntegerProperty amountOfSongs = new SimpleIntegerProperty();
-    private final ArrayList<Song> songs;
+    private final ObservableList<Song> songs;
     private StringProperty duration = new SimpleStringProperty();
 
     ;
@@ -27,7 +28,7 @@ public class Playlist {
         setName(name);
         setAmountOfSongs(amountOfSongs);
         setDuration(duration);
-        songs = new ArrayList<>();
+        songs = FXCollections.observableArrayList();
     }
 
     public int getId() {
@@ -54,7 +55,7 @@ public class Playlist {
         return duration;
     }
 
-    public ArrayList<Song> getSongs() {
+    public ObservableList<Song> getSongs() {
         return songs;
     }
 
