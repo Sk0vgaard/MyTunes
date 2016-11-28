@@ -7,48 +7,37 @@ package mytunes.be;
 
 public class Song {
 
-        private String title;
-        private String artist;
-        private String genre;
-        private double duration;
-        
-        
-        
+    private String title;
+    private String artist;
+    private String genre;
+    private String duration;
+    private String path;
 
-    /*TODO ALH: A song object should be able to hold information
-    All the information needs to be assigned when a new Song object is "constructed"...
-    We shoule also be able get the info
-    Perhaps it could be useful to update the information at some point?*/
-
-    public Song(String title, String artist, String genre, double duration)
-    {
+    public Song(String title, String artist, String genre, String duration) {
         this.title = title;
         this.artist = artist;
         this.genre = genre;
         this.duration = duration;
     }
 
-    public String getTitle()
-    {
+    public String getTitle() {
         return title;
     }
 
-    public String getArtist()
-    {
+    public String getArtist() {
         return artist;
     }
 
-    public String getGenre()
-    {
+    public String getGenre() {
         return genre;
     }
 
-    public double getDuration()
-    {
+    public String getDuration() {
         return duration;
     }
-    
-    
-    
-    
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
 }

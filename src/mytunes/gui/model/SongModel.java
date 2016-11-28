@@ -33,6 +33,7 @@ public class SongModel {
 
     private SongModel() {
         songs = FXCollections.observableArrayList();
+        mockupSongs();
     }
 
     /**
@@ -41,6 +42,28 @@ public class SongModel {
      */
     public ObservableList<Song> getSongs() {
         return songs;
+    }
+
+    /**
+     * Creates some mockup songs
+     */
+    private void mockupSongs() {
+        Song song1 = new Song("Song", "SomeArtist", "Classical", "3.42");
+        Song song2 = new Song("Song", "SomeArtist", "Classical", "3.42");
+        Song song3 = new Song("Song", "SomeArtist", "Classical", "3.42");
+        Song song4 = new Song("Song", "SomeArtist", "Classical", "3.42");
+        Song baby = new Song(
+                "Baby",
+                "Justin Bieber",
+                "POP",
+                "2.5");
+        baby.setPath("D:/Programmering/Java/Netbeans/MyTunes/src/mytunes/assets/mp3/baby.mp3");
+
+        songs.add(song1);
+        songs.add(song2);
+        songs.add(song3);
+        songs.add(song4);
+        songs.add(baby);
     }
 
     //TODO ALH: We should have a method to play the selected song
