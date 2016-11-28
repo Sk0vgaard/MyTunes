@@ -5,10 +5,15 @@
  */
 package mytunes.gui.controller;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -16,6 +21,8 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import mytunes.be.Playlist;
 import mytunes.be.Song;
 
@@ -86,4 +93,20 @@ public class MyTunesController implements Initializable {
  /*TODO ALH: In this window we should see TextFields to add information, possibly a combobox to select the category and finally a button to save the information
     When the new btnSaveSong is clicked a method should be called, preferably in a new controller for the newly created window
      */
+
+    @FXML
+    private void handleEditButton(ActionEvent event) throws IOException
+    {
+        Stage primStage = (Stage) txtSearch.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/NewEditView.fxml"));
+        Parent root = loader.load();
+        
+        Stage editStage = new Stage();
+        editStage.setScene(new Scene(root));
+        
+        editStage.initModality(Modality.WINDOW_MODAL);
+        editStage.initOwner(primStage);
+        
+        editStage.show();
+    }
 }
