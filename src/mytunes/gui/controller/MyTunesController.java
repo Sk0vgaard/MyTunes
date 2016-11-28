@@ -21,12 +21,10 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.media.MediaException;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import mytunes.be.Playlist;
 import mytunes.be.Song;
-import mytunes.bll.MusicPlayer;
 import mytunes.gui.model.SongModel;
 
 /**
@@ -63,10 +61,6 @@ public class MyTunesController implements Initializable {
     private TableColumn<Song, String> clmCurrentPlaylistTrack;
     @FXML
     private TableColumn<Song, String> clmCurrentPlaylistTitle;
-
-    private SongModel songModel;
-    private MusicPlayer musicPlayer;
-    
     @FXML
     private TableColumn<Song, String> clmSongGenre;
     @FXML
@@ -74,10 +68,18 @@ public class MyTunesController implements Initializable {
     @FXML
     private Button btnPlay;
 
+    private SongModel songModel;
+
+    private static final String IS_PLAYING = " is playing";
+    private static final String PLAY = "Play";
+    private static final String PAUSE = "Pause";
+
+    @Override
     public void initialize(URL url, ResourceBundle rb) {
 
         songModel = SongModel.getInstance();
-        musicPlayer = MusicPlayer.getInstance();
+
+        //Add songs from the model and show them in the tableSongs
         clmSongTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         clmSongArtist.setCellValueFactory(new PropertyValueFactory<>("artist"));
         clmSongGenre.setCellValueFactory(new PropertyValueFactory<>("genre"));
@@ -91,7 +93,6 @@ public class MyTunesController implements Initializable {
     When the new btnSaveSong is clicked a method should be called, preferably in a new controller for the newly created window
      */
     @FXML
-
     private void handleAddButton(ActionEvent event) throws IOException {
         Stage primStage = (Stage) txtSearch.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/NewEditSongView.fxml"));
@@ -129,44 +130,36 @@ public class MyTunesController implements Initializable {
 
         editStage.show();
     }
-    
+
     /**
-     * Gets the current selected song and calls the play method of the MusicPlaer.
-     * Changes the text of the play button appropriately. 
-     * @param event 
+     * Gets the current selected song and calls the play method of the
+     * MusicPlaer. Changes the text of the play button appropriately.
+     *
+     * @param event
      */
     @FXML
-    private void handlePlayButton(ActionEvent event)
-    {
+    private void handlePlayButton(ActionEvent event) {
         Song selectedSong = tableSongs.getSelectionModel().getSelectedItem();
-        if(selectedSong != null)
-        {
-            try
-            {
-                boolean changePlayButton = musicPlayer.playSong(selectedSong.getFileName());
-                if(changePlayButton)
-                {
-                    btnPlay.setText("Pause");
-                }
-                else
-                {
-                    btnPlay.setText("Play");
-                }
-            } catch (MediaException ex)
-            {
-                System.out.println("You got error!");
+        if (btnPlay.getText().equals(PLAY)) {
+            if (selectedSong != null) {
+                songModel.playSelectedSong(selectedSong.getFileName());
+                btnPlay.setText(PAUSE);
+                lblIsPlaying.setText(selectedSong.getTitle() + IS_PLAYING);
             }
-        }        
+        } else {
+            songModel.pausePlaying();
+            btnPlay.setText(PLAY);
+        }
     }
-    
+
     /**
      * Stop the song playing and sets the text of the play button to "Play".
-     * @param event 
+     *
+     * @param event
      */
     @FXML
-    private void handleStopButton(ActionEvent event)
-    {
-        musicPlayer.stopSong();
+    private void handleStopButton(ActionEvent event) {
+        songModel.stopPlaying();
         btnPlay.setText("Play");
     }
 }
