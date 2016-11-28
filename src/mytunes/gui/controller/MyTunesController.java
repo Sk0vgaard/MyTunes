@@ -52,8 +52,6 @@ public class MyTunesController implements Initializable {
     @FXML
     private TableColumn<Song, String> clmSongArtist;
     @FXML
-    private TableColumn<Song, String> clmSongCategory;
-    @FXML
     private TableColumn<Song, String> clmSongDuration;
     @FXML
     private TableView<Song> tableCurrentPlaylist;
@@ -64,6 +62,8 @@ public class MyTunesController implements Initializable {
     
     
     private SongModel songModel;
+    @FXML
+    private TableColumn<?, ?> clmSongGenre;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -89,5 +89,10 @@ public class MyTunesController implements Initializable {
         editStage.initOwner(primStage);
 
         editStage.show();
+    }
+
+    @FXML
+    private void handlePlayButton(ActionEvent event)
+    {
     }
 }
