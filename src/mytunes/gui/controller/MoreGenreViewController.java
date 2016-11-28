@@ -11,6 +11,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -30,16 +31,21 @@ public class MoreGenreViewController implements Initializable
     public void initialize(URL url, ResourceBundle rb)
     {
         // TODO
-    }    
+    }
 
     @FXML
     private void btnHandleCancel(ActionEvent event)
     {
+        // get a handle to the stage
+        Stage stage = (Stage) txtNewGenre.getScene().getWindow();
+        // do what you have to do
+        stage.close();
     }
 
     @FXML
     private void btnHandleOk(ActionEvent event)
     {
+        
     }
-    
+
 }
