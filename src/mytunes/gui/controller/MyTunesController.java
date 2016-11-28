@@ -14,9 +14,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -35,39 +33,13 @@ public class MyTunesController implements Initializable {
     @FXML
     private TableView<Playlist> tablePlaylists;
     @FXML
-    private ListView<Song> listPlaylist;
-    @FXML
     private TableView<Song> tableSongs;
     @FXML
     private Label lblIsPlaying;
     @FXML
     private TextField txtSearch;
     @FXML
-    private Button btnPlay;
-    @FXML
-    private Button btnPrevious;
-    @FXML
-    private Button btnNext;
-    @FXML
     private Slider sliderVolume;
-    @FXML
-    private Button btnDeletePlaylist;
-    @FXML
-    private Button btnSearch;
-    @FXML
-    private Button btnMoveSongUp;
-    @FXML
-    private Button btnMoveSongDown;
-    @FXML
-    private Button btnRemoveFromList;
-    @FXML
-    private Button btnAddSong;
-    @FXML
-    private Button btnEditSong;
-    @FXML
-    private Button btnDeleteSong;
-    @FXML
-    private Button btnAddToList;
     @FXML
     private TableColumn<Playlist, String> clmPlaylistName;
     @FXML
@@ -82,6 +54,12 @@ public class MyTunesController implements Initializable {
     private TableColumn<Song, String> clmSongCategory;
     @FXML
     private TableColumn<Song, String> clmSongDuration;
+    @FXML
+    private TableView<Song> tableCurrentPlaylist;
+    @FXML
+    private TableColumn<Song, String> clmCurrentPlaylistTrack;
+    @FXML
+    private TableColumn<Song, String> clmCurrentPlaylistTitle;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -93,20 +71,18 @@ public class MyTunesController implements Initializable {
  /*TODO ALH: In this window we should see TextFields to add information, possibly a combobox to select the category and finally a button to save the information
     When the new btnSaveSong is clicked a method should be called, preferably in a new controller for the newly created window
      */
-
     @FXML
-    private void handleEditButton(ActionEvent event) throws IOException
-    {
+    private void handleEditButton(ActionEvent event) throws IOException {
         Stage primStage = (Stage) txtSearch.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/NewEditSongView.fxml"));
         Parent root = loader.load();
-        
+
         Stage editStage = new Stage();
         editStage.setScene(new Scene(root));
-        
+
         editStage.initModality(Modality.WINDOW_MODAL);
         editStage.initOwner(primStage);
-        
+
         editStage.show();
     }
 }
