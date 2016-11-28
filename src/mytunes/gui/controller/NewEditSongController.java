@@ -21,6 +21,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import mytunes.be.Song;
 import mytunes.gui.model.SongModel;
 
 /**
@@ -55,7 +56,9 @@ public class NewEditSongController implements Initializable
     {
         //TODO
     }
-    
+
+    private Song currentSong;
+
     /**
      * Initializes the controller class.
      */
@@ -83,6 +86,7 @@ public class NewEditSongController implements Initializable
     }
 
     @FXML
+
     private void handleMoreButton(ActionEvent event) throws IOException
     {
         Stage primStage = (Stage) txtTitle.getScene().getWindow();
@@ -96,6 +100,7 @@ public class NewEditSongController implements Initializable
         editStage.initOwner(primStage);
 
         editStage.show();
+
     }
 
     @FXML
@@ -106,6 +111,36 @@ public class NewEditSongController implements Initializable
     @FXML
     private void handleSaveButton(ActionEvent event)
     {
+    }
+
+    public void setTxtTitle(String newString)
+    {
+        this.txtTitle.setText(newString);
+    }
+
+    public void setTxtArtist(String newString)
+    {
+        this.txtArtist.setText(newString);
+    }
+
+    public void setTxtDuration(String newString)
+    {
+        this.txtDuration.setText(newString);
+    }
+
+    public void setTxtFile(String newString)
+    {
+        this.txtFile.setText(newString);
+    }
+
+    public void setCurrentSong(Song songToEdit)
+    {
+        currentSong = songToEdit;
+    }
+
+    public void setComboGenre(String comboGenre)
+    {
+        this.comboGenre.getSelectionModel().select(comboGenre);
     }
 
 }

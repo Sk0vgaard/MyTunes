@@ -19,6 +19,11 @@ public class MusicPlayer {
         }
         return instance;
     }
+    
+    public void playSong()
+    {
+        
+    }
 
     //TODO ALH: Here we should be able to play a song parsed to a play method
     //ALH ALH: I guess it would be nice to be able to stop the song, even though it may be Bieber...

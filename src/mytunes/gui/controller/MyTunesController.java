@@ -106,6 +106,14 @@ public class MyTunesController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/NewEditSongView.fxml"));
         Parent root = loader.load();
 
+        NewEditSongController songController = loader.getController();
+        Song songToEdit = tableSongs.getSelectionModel().getSelectedItem();
+        songController.setTxtTitle(songToEdit.getTitle());
+        songController.setTxtArtist(songToEdit.getArtist());
+        songController.setTxtDuration(songToEdit.getDuration());
+        songController.setComboGenre(songToEdit.getGenre());
+        songController.setCurrentSong(songToEdit);
+
         Stage editStage = new Stage();
         editStage.setScene(new Scene(root));
 
