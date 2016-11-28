@@ -6,21 +6,27 @@
 package mytunes.be;
 
 import java.util.ArrayList;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import mytunes.bll.IDCreator;
 
 public class Playlist {
 
     private final int id;
-    private String name;
-    private int amountOfSongs;
+    private StringProperty name = new SimpleStringProperty();
+    private IntegerProperty amountOfSongs = new SimpleIntegerProperty();
     private final ArrayList<Song> songs;
-    private String duration;
+    private StringProperty duration = new SimpleStringProperty();
+
+    ;
 
     public Playlist(String name, int amountOfSongs, String duration) {
         this.id = IDCreator.createID();
-        this.name = name;
-        this.amountOfSongs = amountOfSongs;
-        this.duration = duration;
+        setName(name);
+        setAmountOfSongs(amountOfSongs);
+        setDuration(duration);
         songs = new ArrayList<>();
     }
 
@@ -28,23 +34,23 @@ public class Playlist {
         return id;
     }
 
-    public String getName() {
+    public StringProperty getName() {
         return name;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name.set(name);
     }
 
-    public int getAmountOfSongs() {
+    public IntegerProperty getAmountOfSongs() {
         return amountOfSongs;
     }
 
     public void setAmountOfSongs(int amountOfSongs) {
-        this.amountOfSongs = amountOfSongs;
+        this.amountOfSongs.set(id);
     }
 
-    public String getDuration() {
+    public StringProperty getDuration() {
         return duration;
     }
 
@@ -53,7 +59,7 @@ public class Playlist {
     }
 
     public void setDuration(String duration) {
-        this.duration = duration;
+        this.duration.set(duration);
     }
 
     public void addSong(Song song) {

@@ -21,7 +21,6 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import mytunes.be.Playlist;
@@ -64,7 +63,7 @@ public class MyTunesController implements Initializable {
     @FXML
     private TableColumn<Playlist, String> clmPlaylistName;
     @FXML
-    private TableColumn<Playlist, Integer> clmPlaylistSongsAmount;
+    private TableColumn<Playlist, String> clmPlaylistSongsAmount;
     @FXML
     private TableColumn<Playlist, String> clmPlaylistTotalDuration;
     @FXML
@@ -96,9 +95,9 @@ public class MyTunesController implements Initializable {
 
         listPlaylist.setItems(playListModel.getCurrentPlayList());
 
-        clmPlaylistName.setCellValueFactory(new PropertyValueFactory<>("name"));
-        clmPlaylistSongsAmount.setCellValueFactory(new PropertyValueFactory<>("amountOfSongs"));
-        clmPlaylistTotalDuration.setCellValueFactory(new PropertyValueFactory<>("duration"));
+        clmPlaylistName.setCellValueFactory(i -> i.getValue().getName());
+        clmPlaylistSongsAmount.setCellValueFactory(i -> i.getValue().getAmountOfSongs().asString());
+        clmPlaylistTotalDuration.setCellValueFactory(i -> i.getValue().getDuration());
         tablePlaylists.setItems(playListModel.getPlaylists());
 
     }
@@ -220,7 +219,7 @@ public class MyTunesController implements Initializable {
 
         PlaylistController playlistController = loader.getController();
         Playlist selectedPlaylist = tablePlaylists.getSelectionModel().getSelectedItem();
-        playlistController.setPlaylistName(selectedPlaylist.getName());
+        playlistController.setPlaylistName(selectedPlaylist.getName().get());
         playlistController.setSelectedPlaylist(selectedPlaylist);
 
         Stage stagePlaylistView = new Stage();
