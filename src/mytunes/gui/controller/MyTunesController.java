@@ -21,6 +21,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import mytunes.be.Playlist;
@@ -64,20 +66,23 @@ public class MyTunesController implements Initializable {
     @FXML
     private TableColumn<Song, String> clmSongGenre;
     @FXML
-    private Button btnPlay;
+    private ImageView btnPlay;
+
+    private final Image play = new Image(getClass().getResourceAsStream("/mytunes/assets/icons/play.png"));
+    private final Image pause = new Image(getClass().getResourceAsStream("/mytunes/assets/icons/pause.png"));
 
     private SongModel songModel;
 
     private static final String IDLE_TEXT = "Enjoy your music!";
     private static final String IS_PLAYING = " is playing";
     private static final String IS_PAUSED = " is paused";
-    private static final String PLAY = "Play";
-    private static final String PAUSE = "Pause";
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
         songModel = SongModel.getInstance();
+
+        btnPlay.setImage(play);
 
         //Add songs from the model and show them in the tableSongs
         clmSongTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
@@ -126,17 +131,17 @@ public class MyTunesController implements Initializable {
      * @param event
      */
     @FXML
-    private void handlePlayButton(ActionEvent event) {
+    private void handlePlayButton() {
         Song selectedSong = tableSongs.getSelectionModel().getSelectedItem();
-        if (btnPlay.getText().equals(PLAY)) {
+        if (btnPlay.getImage() == play) {
             if (selectedSong != null) {
                 songModel.playSelectedSong(selectedSong);
-                btnPlay.setText(PAUSE);
+                btnPlay.setImage(pause);
                 lblIsPlaying.setText(selectedSong.getTitle() + IS_PLAYING);
             }
         } else {
             songModel.pausePlaying();
-            btnPlay.setText(PLAY);
+            btnPlay.setImage(play);
             lblIsPlaying.setText(songModel.getCurrentSongPlaying().getTitle() + IS_PAUSED);
         }
     }
@@ -147,14 +152,14 @@ public class MyTunesController implements Initializable {
      * @param event
      */
     @FXML
-    private void handleStopButton(ActionEvent event) {
+    private void handleStopButton() {
         songModel.stopPlaying();
-        btnPlay.setText("Play");
+        btnPlay.setImage(play);
         lblIsPlaying.setText(IDLE_TEXT);
     }
 
     @FXML
-    private void handleSearch(ActionEvent event) {
+    private void handleSearch() {
         String search = txtSearch.getText();
         if (!search.equals("")) {
             songModel.searchSong(search);

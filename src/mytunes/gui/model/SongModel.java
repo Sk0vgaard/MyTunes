@@ -17,7 +17,7 @@ public class SongModel {
 
     private final ObservableList<Song> songs;
 
-    private ArrayList<Song> savedSongs;
+    private final ArrayList<Song> savedSongs;
 
     private final MusicPlayer musicPlayer;
 

@@ -6,6 +6,8 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
@@ -35,15 +37,11 @@
                </font>
             </Label>
             <TextField fx:id="txtSearch" layoutX="526.0" layoutY="14.0" prefHeight="25.0" prefWidth="142.0" />
-            <Button fx:id="btnPlay" layoutX="129.0" layoutY="35.0" mnemonicParsing="false" onAction="#handlePlayButton" text="Play" />
-            <Button layoutX="10.0" layoutY="35.0" mnemonicParsing="false" text="Previous" />
-            <Button layoutX="178.0" layoutY="35.0" mnemonicParsing="false" text="Next" />
-            <Slider fx:id="sliderVolume" layoutX="40.0" layoutY="74.0" />
+            <Slider fx:id="sliderVolume" layoutX="40.0" layoutY="74.0" value="50.0" />
             <Label layoutX="19.0" layoutY="103.0" text="Playlists" />
             <Button layoutX="14.0" layoutY="529.0" mnemonicParsing="false" text="New" />
             <Button layoutX="84.0" layoutY="529.0" mnemonicParsing="false" text="Edit" />
             <Button layoutX="148.0" layoutY="529.0" mnemonicParsing="false" text="Delete" />
-            <Button layoutX="668.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleSearch" text="Search" />
             <Button layoutX="215.0" layoutY="529.0" mnemonicParsing="false" text="Up" />
             <Button layoutX="256.0" layoutY="529.0" mnemonicParsing="false" text="Down" />
             <Button layoutX="352.0" layoutY="529.0" mnemonicParsing="false" text="Remove" />
@@ -60,8 +58,32 @@
                 <TableColumn fx:id="clmCurrentPlaylistTitle" prefWidth="149.0" text="Title" />
               </columns>
             </TableView>
-            <Button layoutX="82.0" layoutY="35.0" mnemonicParsing="false" onAction="#handleStopButton" text="Stop" />
             <Button layoutX="729.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleClearSearch" text="Clear" />
+            <ImageView fx:id="btnPlay" fitHeight="43.0" fitWidth="51.0" layoutX="127.0" layoutY="26.0" onMouseClicked="#handlePlayButton" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../assets/icons/play.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="43.0" fitWidth="45.0" layoutX="80.0" layoutY="26.0" onMouseClicked="#handleStopButton" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../assets/icons/stop.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="43.0" fitWidth="45.0" layoutX="177.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../assets/icons/forward.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="43.0" fitWidth="45.0" layoutX="32.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../assets/icons/backward.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="33.0" fitWidth="38.0" layoutX="678.0" layoutY="10.0" onMouseClicked="#handleSearch" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../assets/icons/search.png" />
+               </image>
+            </ImageView>
          </children>
       </Pane>
    </children>
