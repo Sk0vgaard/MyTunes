@@ -14,6 +14,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import mytunes.be.Song;
 import mytunes.gui.model.SongModel;
 
 /**
@@ -21,8 +22,8 @@ import mytunes.gui.model.SongModel;
  *
  * @author Rasmus
  */
-public class NewEditSongController implements Initializable
-{
+public class NewEditSongController implements Initializable {
+
     private SongModel songModel;
     @FXML
     private TextField txtTitle;
@@ -41,12 +42,13 @@ public class NewEditSongController implements Initializable
     @FXML
     private Button btnSave;
 
+    private Song currentSong;
+
     /**
      * Initializes the controller class.
      */
     @Override
-    public void initialize(URL url, ResourceBundle rb)
-    {
+    public void initialize(URL url, ResourceBundle rb) {
 
         songModel = SongModel.getInstance();
         comboGenre.setItems(FXCollections.observableArrayList(
@@ -62,25 +64,45 @@ public class NewEditSongController implements Initializable
                 "Soul",
                 "Blues",
                 "Reggie"
-                
         ));
         comboGenre.setVisibleRowCount(6);
         comboGenre.getSelectionModel().selectFirst();
-    }    
-
-    @FXML
-    private void handleMoreButton(ActionEvent event)
-    {
     }
 
     @FXML
-    private void handleChooseButton(ActionEvent event)
-    {
+    private void handleMoreButton(ActionEvent event) {
     }
 
     @FXML
-    private void handleSaveButton(ActionEvent event)
-    {
+    private void handleChooseButton(ActionEvent event) {
     }
-    
+
+    @FXML
+    private void handleSaveButton(ActionEvent event) {
+    }
+
+    public void setTxtTitle(String newString) {
+        this.txtTitle.setText(newString);
+    }
+
+    public void setTxtArtist(String newString) {
+        this.txtArtist.setText(newString);
+    }
+
+    public void setTxtDuration(String newString) {
+        this.txtDuration.setText(newString);
+    }
+
+    public void setTxtFile(String newString) {
+        this.txtFile.setText(newString);
+    }
+
+    public void setCurrentSong(Song songToEdit) {
+        currentSong = songToEdit;
+    }
+
+    public void setComboGenre(String comboGenre) {
+        this.comboGenre.getSelectionModel().select(comboGenre);
+    }
+
 }
