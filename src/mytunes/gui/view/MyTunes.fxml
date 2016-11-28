@@ -27,7 +27,7 @@
               <columns>
                 <TableColumn fx:id="clmSongTitle" prefWidth="75.0" text="Title" />
                 <TableColumn fx:id="clmSongArtist" prefWidth="75.0" text="Artist" />
-                  <TableColumn fx:id="clmSongCategory" prefWidth="75.0" text="Category" />
+                  <TableColumn fx:id="clmSongGenre" prefWidth="75.0" text="Genre" />
                   <TableColumn fx:id="clmSongDuration" prefWidth="75.0" text="Duration" />
               </columns>
             </TableView>

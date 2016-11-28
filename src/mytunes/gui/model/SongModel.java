@@ -5,7 +5,16 @@
  */
 package mytunes.gui.model;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import mytunes.be.Song;
+
 public class SongModel {
+    
+     private ObservableList<Song> songs;
+     
+     
+     
 
     /* TODO ALH: Here we should have a List (the fish bucket!)
     This List should be "Observable", so that the visible items are automatically updated when we add to the List
@@ -17,4 +26,15 @@ public class SongModel {
     /*TODO ALH FOR RASMUS: It should not be possible to instantiate more than one Object of this class.
     In order to achieve this we should use a "Singleton".
      */
+
+    public SongModel()
+    {
+        songs = FXCollections.observableArrayList();
+    }
+
+    public ObservableList<Song> getSongs()
+    {
+        return songs;
+    }
+    
 }
