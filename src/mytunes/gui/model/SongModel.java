@@ -31,7 +31,7 @@ public class SongModel {
         return instance;
     }
 
-    public SongModel() {
+    private SongModel() {
         songs = FXCollections.observableArrayList();
     }
 
