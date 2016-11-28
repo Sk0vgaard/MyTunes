@@ -57,7 +57,7 @@ public class SongModel {
                 "Justin Bieber",
                 "POP",
                 "2.5");
-        baby.setFilePath("D:/Programmering/Java/Netbeans/MyTunes/src/mytunes/assets/mp3/baby.mp3");
+        baby.setFileName("baby.mp3");
 
         songs.add(song1);
         songs.add(song2);

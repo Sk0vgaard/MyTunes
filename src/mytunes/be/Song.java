@@ -11,7 +11,7 @@ public class Song {
     private String artist;
     private String genre;
     private String duration;
-    private String filePath;
+    private String fileName;
 
     public Song(String title, String artist, String genre, String duration) {
         this.title = title;
@@ -53,20 +53,20 @@ public class Song {
     }
     
     /**
-     * Sets the filePath of the song.
+     * Sets the fileName of the song.
      * @param path 
      */
-    public void setFilePath(String path) {
-        this.filePath = path;
+    public void setFileName(String path) {
+        this.fileName = path;
     }
     
     /**
-     * Gets the filePath of the song.
+     * Gets the fileName of the song.
      * @return 
      */
-    public String getFilePatch()
+    public String getFileName()
     {
-        return filePath;
+        return fileName;
     }
 
 }

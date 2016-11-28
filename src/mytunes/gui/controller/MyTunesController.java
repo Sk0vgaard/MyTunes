@@ -21,10 +21,12 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.media.MediaException;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import mytunes.be.Playlist;
 import mytunes.be.Song;
+import mytunes.bll.MusicPlayer;
 import mytunes.gui.model.SongModel;
 
 /**
@@ -63,6 +65,8 @@ public class MyTunesController implements Initializable {
     private TableColumn<Song, String> clmCurrentPlaylistTitle;
 
     private SongModel songModel;
+    private MusicPlayer musicPlayer;
+    
     @FXML
     private TableColumn<Song, String> clmSongGenre;
     @FXML
@@ -71,6 +75,7 @@ public class MyTunesController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
 
         songModel = SongModel.getInstance();
+        musicPlayer = MusicPlayer.getInstance();
         clmSongTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         clmSongArtist.setCellValueFactory(new PropertyValueFactory<>("artist"));
         clmSongGenre.setCellValueFactory(new PropertyValueFactory<>("genre"));
@@ -125,4 +130,26 @@ public class MyTunesController implements Initializable {
 
     //TODO ALH: We should have a method that reacts on the play button
     //TODO ALH: It could be cool if the result of this method was also that the lblIsPlaying was also updated...
+
+    @FXML
+    private void handlePlayButton(ActionEvent event)
+    {
+        Song selectedSong = tableSongs.getSelectionModel().getSelectedItem();
+        if(selectedSong != null)
+        {
+            try
+            {
+                musicPlayer.playSong(selectedSong.getFileName());
+            } catch (MediaException ex)
+            {
+                System.out.println("You got error!");
+            }
+        }        
+    }
+
+    @FXML
+    private void handleStopButton(ActionEvent event)
+    {
+        musicPlayer.stopSong();
+    }
 }
