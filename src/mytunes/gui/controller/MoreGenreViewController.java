@@ -21,6 +21,7 @@ import javafx.stage.Stage;
 public class MoreGenreViewController implements Initializable
 {
 
+    
     @FXML
     private TextField txtNewGenre;
 
@@ -45,7 +46,12 @@ public class MoreGenreViewController implements Initializable
     @FXML
     private void btnHandleOk(ActionEvent event)
     {
+        NewEditSongController.getGenreList().add(txtNewGenre.getText());    
         
+        // get a handle to the stage
+        Stage stage = (Stage) txtNewGenre.getScene().getWindow();
+        // do what you have to do
+        stage.close();
     }
 
 }

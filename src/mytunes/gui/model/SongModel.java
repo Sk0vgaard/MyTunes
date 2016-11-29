@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import mytunes.be.Song;
+import mytunes.bll.FileManager;
 import mytunes.bll.MusicPlayer;
 
 public class SongModel {
@@ -21,6 +22,8 @@ public class SongModel {
     private final ArrayList<Song> savedSongs;
 
     private final MusicPlayer musicPlayer;
+
+    private final FileManager fileManager;
 
     //TODO ALH: We need to be able to retrieve the List, so that we can show it in the GUI
     //TODO ALH: We need a method to add songs to the List, so that our other awesome developers can call this method and add a new song!
@@ -43,6 +46,7 @@ public class SongModel {
         currentPlaylist = FXCollections.observableArrayList();
         musicPlayer = MusicPlayer.getInstance();
         savedSongs = new ArrayList<>();
+        fileManager = new FileManager();
         mockupSongs();
     }
 
@@ -182,7 +186,7 @@ public class SongModel {
         savedSongs.addAll(songs);
         songs.clear();
         for (Song savedSong : savedSongs) {
-            if (savedSong.getTitle().toLowerCase().contains(searchString)) {
+            if (savedSong.getTitle().get().toLowerCase().contains(searchString)) {
                 songsFromSearch.add(savedSong);
             }
         }
@@ -198,5 +202,12 @@ public class SongModel {
             songs.addAll(savedSongs);
             savedSongs.clear();
         }
+    }
+
+    /**
+     * Find song
+     */
+    public void openFileDialog() {
+        fileManager.openFile();
     }
 }

@@ -16,7 +16,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TableColumn;
@@ -90,10 +89,10 @@ public class MyTunesController implements Initializable {
         btnPlay.setImage(play);
 
         //Add songs from the model and show them in the tableSongs
-        clmSongTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
-        clmSongArtist.setCellValueFactory(new PropertyValueFactory<>("artist"));
-        clmSongGenre.setCellValueFactory(new PropertyValueFactory<>("genre"));
-        clmSongDuration.setCellValueFactory(new PropertyValueFactory<>("duration"));
+        clmSongTitle.setCellValueFactory(i -> i.getValue().getTitle());
+        clmSongArtist.setCellValueFactory(i -> i.getValue().getArtist());
+        clmSongGenre.setCellValueFactory(i -> i.getValue().getGenre());
+        clmSongDuration.setCellValueFactory(i -> i.getValue().getDuration());
         tableSongs.setItems(songModel.getSongs());
         clmCurrentPlaylistTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         tableCurrentPlaylist.setItems(songModel.getCurrentPlaylist());
@@ -130,8 +129,10 @@ public class MyTunesController implements Initializable {
     }
 
     @FXML
-    private void handleSongTableButton(ActionEvent event) throws IOException {
-        Button clickedButton = (Button) event.getSource();
+    private void handleSongTableButton(MouseEvent event) throws IOException {
+        System.out.println("Test");
+
+        ImageView selectedImage = (ImageView) event.getSource();
 
         Stage primStage = (Stage) txtSearch.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/NewEditSongView.fxml"));
@@ -143,16 +144,16 @@ public class MyTunesController implements Initializable {
         editStage.initModality(Modality.WINDOW_MODAL);
         editStage.initOwner(primStage);
 
-        if (clickedButton.getText().equals("Add")) {
+        if (selectedImage.getId().equals("add")) {
             editStage.show();
-        } else {
+        } else if (selectedImage.getId().equals("editSong")) {
             Song songToEdit = tableSongs.getSelectionModel().getSelectedItem();
             if (songToEdit != null) {
                 NewEditSongController songController = loader.getController();
-                songController.setTxtTitle(songToEdit.getTitle());
-                songController.setTxtArtist(songToEdit.getArtist());
-                songController.setTxtDuration(songToEdit.getDuration());
-                songController.setComboGenre(songToEdit.getGenre());
+                songController.setTxtTitle(songToEdit.getTitle().get());
+                songController.setTxtArtist(songToEdit.getArtist().get());
+                songController.setTxtDuration(songToEdit.getDuration().get());
+                songController.setComboGenre(songToEdit.getGenre().get());
                 songController.setCurrentSong(songToEdit);
                 editStage.show();
             }
@@ -221,8 +222,8 @@ public class MyTunesController implements Initializable {
      * Select the next song in the currently selected tableView.
      */
     @FXML
-    private void handleSkipForwardButton()
-    {
+    private void handleSkipForwardButton() {
+        TableView.TableViewSelectionModel<Song> selectedView = tableSongs.getSelectionModel();
         selectedView.selectNext();
     }
 
@@ -230,8 +231,15 @@ public class MyTunesController implements Initializable {
      * Select the previous song from the selected tableView.
      */
     @FXML
-    private void handleSkipBackwardButton()
-    {
+    private void handleSkipBackwardButton() {
+        TableView.TableViewSelectionModel<Song> selectedView = tableSongs.getSelectionModel();
         selectedView.selectPrevious();
+    }
+
+    @FXML
+    private void handleSongDeleteButton(MouseEvent event)
+    {
+        Song songToDelete = tableSongs.getSelectionModel().getSelectedItem();
+        songModel.getSongs().remove(songToDelete);
     }
 }
