@@ -6,7 +6,6 @@
 package mytunes.gui.controller;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -109,7 +108,12 @@ public class NewEditSongController implements Initializable {
     }
 
     @FXML
-    private void handleSaveButton() throws InvocationTargetException {
+    private void handleSaveButton() {
+        currentSong.setTitle(txtTitle.getText());
+        currentSong.setArtist(txtArtist.getText());
+        currentSong.setGenre(comboGenre.getValue());
+        currentSong.setDuration(txtDuration.getText());
+        currentSong.setFileName(txtFile.getText());
 
         if (!currentSong.getTitle().get().equals("")) {
             setSongInfo();

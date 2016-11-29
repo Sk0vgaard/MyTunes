@@ -31,6 +31,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import mytunes.be.Playlist;
 import mytunes.be.Song;
+import mytunes.bll.MusicPlayer;
 import mytunes.gui.model.SongModel;
 
 /**
@@ -83,8 +84,7 @@ public class MyTunesController implements Initializable
     private static final String IS_PAUSED = " is paused";
 
     TableView.TableViewSelectionModel<Song> selectedView;
-    @FXML
-    private ImageView btnAddSong11;
+    TableView.TableViewSelectionModel<Song> playingView;
 
     @Override
     public void initialize(URL url, ResourceBundle rb)
@@ -107,6 +107,7 @@ public class MyTunesController implements Initializable
 
         lblIsPlaying.setText(IDLE_TEXT);
         selectedView = tableSongs.getSelectionModel(); //Setting the default view to tableSongs.
+        playingView = tableSongs.getSelectionModel(); //Setting the default playingView.
 
         //Adds a listener to tableSongs.
         tableSongs.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Song>()
@@ -190,6 +191,7 @@ public class MyTunesController implements Initializable
             if (selectedSong != null)
             {
                 songModel.playSelectedSong(selectedSong);
+                playingView = selectedView;
                 btnPlay.setImage(pause);
                 lblIsPlaying.setText(selectedSong.getTitle().get() + IS_PLAYING);
             }
@@ -242,18 +244,26 @@ public class MyTunesController implements Initializable
      * Select the next song in the currently selected tableView.
      */
     @FXML
-    private void handleSkipForwardButton()
-    {
-        selectedView.selectNext();
+    private void handleSkipForwardButton() {
+        Song currentSong = songModel.getCurrentSongPlaying();
+        songModel.stopPlaying();
+        playingView.select(currentSong);        
+        playingView.selectNext();
+        songModel.playSelectedSong(selectedView.getSelectedItem());
+        btnPlay.setImage(pause);
     }
 
     /**
      * Select the previous song from the selected tableView.
      */
     @FXML
-    private void handleSkipBackwardButton()
-    {
-        selectedView.selectPrevious();
+    private void handleSkipBackwardButton() {
+        Song currentSong = songModel.getCurrentSongPlaying();
+        songModel.stopPlaying();
+        playingView.select(currentSong);        
+        playingView.selectPrevious();
+        songModel.playSelectedSong(selectedView.getSelectedItem());
+        btnPlay.setImage(pause);
     }
 
     @FXML
@@ -263,7 +273,7 @@ public class MyTunesController implements Initializable
 
         Alert alert = new Alert(AlertType.CONFIRMATION);
         alert.setTitle("Confirmation Dialog");
-        alert.setHeaderText("Are you sure you want to delete the song: " + songToDelete.getTitle().get());
+        alert.setHeaderText("Are you sure you want to delete the song: " + "\n\n" + songToDelete.getTitle().get());
         alert.setContentText("Press 'OK' to delete.");
 
         Optional<ButtonType> result = alert.showAndWait();
@@ -276,5 +286,45 @@ public class MyTunesController implements Initializable
     @FXML
     private void handleReplay() {
         songModel.replaySong();
+    }
+
+    @FXML
+    private void handleSongToPlaylist(MouseEvent event)
+    {
+        Song songToAdd = tableSongs.getSelectionModel().getSelectedItem();
+        songModel.getCurrentPlaylist().add(songToAdd);
+        
+    }
+
+    @FXML
+    private void handleRemoveSongFromPlaylistButton(MouseEvent event)
+    {
+        Song songToRemoveFromPlaylist = tableCurrentPlaylist.getSelectionModel().getSelectedItem();
+
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation Dialog");
+        alert.setHeaderText("Are you sure you want to remove the song: " + "\n\n" + songToRemoveFromPlaylist.getTitle().get());
+        alert.setContentText("Press 'OK' to remove.");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK)
+        {
+            songModel.getCurrentPlaylist().remove(songToRemoveFromPlaylist);
+        }
+    }
+
+    @FXML
+    private void handleRemovePlaylist(MouseEvent event)
+    {
+    }
+
+    @FXML
+    private void handleNewPlaylist(MouseEvent event)
+    {
+    }
+
+    @FXML
+    private void handleEditPlaylist(MouseEvent event)
+    {
     }
 }

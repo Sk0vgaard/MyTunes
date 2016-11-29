@@ -107,29 +107,10 @@ public class SongModel {
         songs.add(bohemian);
         songs.add(happyRock);
         songs.add(baby);
-
-        Song beatIt2 = new Song(
-                "Beat It",
-                "Michael Jackson",
-                "POP", "3.42");
-        beatIt2.setFileName("beatIt.mp3");
-
-        Song bohemian2 = new Song(
-                "Bohemian Rhapsody",
-                "Queen",
-                "POP",
-                "6.06");
-        bohemian2.setFileName("bohemian.mp3");
-
-        Song happyRock2 = new Song("HappyRock",
-                "SomeArtist",
-                "Rock",
-                "1.45");
-        happyRock2.setFileName("happyrock.mp3");
-
-        currentPlaylist.add(beatIt2);
-        currentPlaylist.add(bohemian2);
-        currentPlaylist.add(happyRock2);
+        
+        currentPlaylist.add(beatIt);
+        currentPlaylist.add(bohemian);
+        currentPlaylist.add(happyRock);
     }
 
     /**
