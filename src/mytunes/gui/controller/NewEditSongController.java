@@ -109,7 +109,8 @@ public class NewEditSongController implements Initializable {
     }
 
     @FXML
-    private void handleSaveButton() throws InvocationTargetException {
+    private void handleSaveButton() 
+    {
         currentSong.setTitle(txtTitle.getText());
         currentSong.setArtist(txtArtist.getText());
         currentSong.setGenre(comboGenre.getValue());

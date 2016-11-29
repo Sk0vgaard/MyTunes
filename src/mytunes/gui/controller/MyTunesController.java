@@ -263,7 +263,7 @@ public class MyTunesController implements Initializable
 
         Alert alert = new Alert(AlertType.CONFIRMATION);
         alert.setTitle("Confirmation Dialog");
-        alert.setHeaderText("Are you sure you want to delete the song: " + songToDelete.getTitle().get());
+        alert.setHeaderText("Are you sure you want to delete the song: " + "\n\n" + songToDelete.getTitle().get());
         alert.setContentText("Press 'OK' to delete.");
 
         Optional<ButtonType> result = alert.showAndWait();
@@ -276,5 +276,30 @@ public class MyTunesController implements Initializable
     @FXML
     private void handleReplay() {
         songModel.replaySong();
+    }
+
+    @FXML
+    private void handleSongToPlaylist(MouseEvent event)
+    {
+        Song songToAdd = tableSongs.getSelectionModel().getSelectedItem();
+        songModel.getCurrentPlaylist().add(songToAdd);
+        
+    }
+
+    @FXML
+    private void handleRemoveSongFromPlaylistButton(MouseEvent event)
+    {
+        Song songToRemoveFromPlaylist = tableCurrentPlaylist.getSelectionModel().getSelectedItem();
+
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation Dialog");
+        alert.setHeaderText("Are you sure you want to remove the song: " + "\n\n" + songToRemoveFromPlaylist.getTitle().get());
+        alert.setContentText("Press 'OK' to remove.");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK)
+        {
+            songModel.getCurrentPlaylist().remove(songToRemoveFromPlaylist);
+        }
     }
 }
