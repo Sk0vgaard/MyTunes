@@ -69,7 +69,6 @@ public class MyTunesController implements Initializable {
 
     private final Image play = new Image(getClass().getResourceAsStream("/mytunes/assets/icons/play.png"));
     private final Image pause = new Image(getClass().getResourceAsStream("/mytunes/assets/icons/pause.png"));
-    private final Image addSong = new Image(getClass().getResourceAsStream("/mytunes/assets/icons/add.png"));
 
     private SongModel songModel;
 

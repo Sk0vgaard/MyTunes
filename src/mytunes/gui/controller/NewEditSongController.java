@@ -48,33 +48,26 @@ public class NewEditSongController implements Initializable {
     private Button btnChoose;
     @FXML
     private Button btnSave;
-
-    private static ObservableList<String> genreList = FXCollections.observableArrayList(
-                "Rock",
-                "POP",
-                "Jazz",
-                "Opera",
-                "Classical",
-                "Dubstep",
-                "Techno",
-                "Country",
-                "Hip Hop",
-                "Soul",
-                "Blues",
-                "Reggae");
-
-    private Song currentSong = new Song("title", "artist", "genre", "duration");
-
     @FXML
     private Button btnCancel;
 
+    private static ObservableList<String> genreList = FXCollections.observableArrayList(
+            "Rock",
+            "POP",
+            "Jazz",
+            "Opera",
+            "Classical",
+            "Dubstep",
+            "Techno",
+            "Country",
+            "Hip Hop",
+            "Soul",
+            "Blues",
+            "Reggae");
 
-    public NewEditSongController() {
-        //TODO
-    }
+    private Song currentSong;
 
-    public static ObservableList<String> getGenreList()
-    {
+    public static ObservableList<String> getGenreList() {
         return genreList;
     }
 
@@ -86,8 +79,7 @@ public class NewEditSongController implements Initializable {
      */
     @Override
 
-    public void initialize(URL url, ResourceBundle rb)
-    {
+    public void initialize(URL url, ResourceBundle rb) {
         songModel = SongModel.getInstance();
         comboGenre.setItems(genreList);
         comboGenre.setVisibleRowCount(6);
@@ -124,7 +116,11 @@ public class NewEditSongController implements Initializable {
         currentSong.setDuration(txtDuration.getText());
         currentSong.setFileName(txtFile.getText());
 
-        songModel.getSongs().add(currentSong);
+        if (currentSong != null) {
+
+        } else {
+            songModel.getSongs().add(currentSong);
+        }
 
         // get a handle to the stage
         Stage stage = (Stage) txtTitle.getScene().getWindow();
