@@ -223,7 +223,6 @@ public class MyTunesController implements Initializable {
      */
     @FXML
     private void handleSkipForwardButton() {
-        TableView.TableViewSelectionModel<Song> selectedView = tableSongs.getSelectionModel();
         selectedView.selectNext();
     }
 
@@ -232,7 +231,6 @@ public class MyTunesController implements Initializable {
      */
     @FXML
     private void handleSkipBackwardButton() {
-        TableView.TableViewSelectionModel<Song> selectedView = tableSongs.getSelectionModel();
         selectedView.selectPrevious();
     }
 
