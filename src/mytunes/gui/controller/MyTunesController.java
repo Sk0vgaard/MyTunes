@@ -27,6 +27,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import mytunes.be.Playlist;
 import mytunes.be.Song;
+import mytunes.bll.MusicPlayer;
 import mytunes.gui.model.SongModel;
 
 /**
@@ -78,6 +79,7 @@ public class MyTunesController implements Initializable {
     private static final String IS_PAUSED = " is paused";
 
     TableView.TableViewSelectionModel<Song> selectedView;
+    TableView.TableViewSelectionModel<Song> playingView;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -99,6 +101,7 @@ public class MyTunesController implements Initializable {
 
         lblIsPlaying.setText(IDLE_TEXT);
         selectedView = tableSongs.getSelectionModel(); //Setting the default view to tableSongs.
+        playingView = tableSongs.getSelectionModel(); //Setting the default playingView.
 
         //Adds a listener to tableSongs.
         tableSongs.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Song>() {
@@ -170,6 +173,7 @@ public class MyTunesController implements Initializable {
         if (btnPlay.getImage() == play) {
             if (selectedSong != null) {
                 songModel.playSelectedSong(selectedSong);
+                playingView = selectedView;
                 btnPlay.setImage(pause);
                 lblIsPlaying.setText(selectedSong.getTitle().get() + IS_PLAYING);
             }
@@ -218,7 +222,12 @@ public class MyTunesController implements Initializable {
      */
     @FXML
     private void handleSkipForwardButton() {
-        selectedView.selectNext();
+        Song currentSong = songModel.getCurrentSongPlaying();
+        songModel.stopPlaying();
+        playingView.select(currentSong);        
+        playingView.selectNext();
+        songModel.playSelectedSong(selectedView.getSelectedItem());
+        btnPlay.setImage(pause);
     }
 
     /**
@@ -226,7 +235,12 @@ public class MyTunesController implements Initializable {
      */
     @FXML
     private void handleSkipBackwardButton() {
-        selectedView.selectPrevious();
+        Song currentSong = songModel.getCurrentSongPlaying();
+        songModel.stopPlaying();
+        playingView.select(currentSong);        
+        playingView.selectPrevious();
+        songModel.playSelectedSong(selectedView.getSelectedItem());
+        btnPlay.setImage(pause);
     }
 
     @FXML
