@@ -8,6 +8,8 @@ package mytunes.gui.controller;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -77,6 +79,8 @@ public class MyTunesController implements Initializable {
     private static final String IDLE_TEXT = "Enjoy your music!";
     private static final String IS_PLAYING = " is playing";
     private static final String IS_PAUSED = " is paused";
+    
+    TableView.TableViewSelectionModel<Song> selectedView;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -91,8 +95,38 @@ public class MyTunesController implements Initializable {
         clmSongGenre.setCellValueFactory(new PropertyValueFactory<>("genre"));
         clmSongDuration.setCellValueFactory(new PropertyValueFactory<>("duration"));
         tableSongs.setItems(songModel.getSongs());
+        clmCurrentPlaylistTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
+        tableCurrentPlaylist.setItems(songModel.getCurrentPlaylist());
 
-        lblIsPlaying.setText(IDLE_TEXT);
+        lblIsPlaying.setText(IDLE_TEXT); 
+        selectedView = tableSongs.getSelectionModel(); //Setting the default view to tableSongs.
+        
+        //Adds a listener to tableSongs.
+        tableSongs.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Song>() {
+            @Override
+            public void changed(ObservableValue<? extends Song> observable, Song oldValue, Song newValue)
+            {
+                if(newValue != null) //If newValue (new selection in the model) is not null.
+                {
+                    //Clears the tableCurrentPlaylist selection.
+                    tableCurrentPlaylist.getSelectionModel().clearSelection();
+                    //Updates the selectedView to the new selected view.
+                    selectedView = tableSongs.getSelectionModel();
+                }
+            }
+        });
+        //Same as above, just opposite.
+        tableCurrentPlaylist.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Song>() {
+            @Override
+            public void changed(ObservableValue<? extends Song> observable, Song oldValue, Song newValue)
+            {
+                if(newValue != null)
+                {
+                    tableSongs.getSelectionModel().clearSelection();
+                    selectedView = tableCurrentPlaylist.getSelectionModel();
+                }
+            }
+        });
     }
 
     @FXML
@@ -132,8 +166,10 @@ public class MyTunesController implements Initializable {
      * @param event
      */
     @FXML
-    private void handlePlayButton() {
-        Song selectedSong = tableSongs.getSelectionModel().getSelectedItem();
+    private void handlePlayButton(MouseEvent event) {
+        
+        
+        Song selectedSong = selectedView.getSelectedItem();        
         if (btnPlay.getImage() == play) {
             if (selectedSong != null) {
                 songModel.playSelectedSong(selectedSong);
@@ -145,6 +181,8 @@ public class MyTunesController implements Initializable {
             btnPlay.setImage(play);
             lblIsPlaying.setText(songModel.getCurrentSongPlaying().getTitle() + IS_PAUSED);
         }
+        
+        
     }
 
     /**
@@ -158,7 +196,10 @@ public class MyTunesController implements Initializable {
         btnPlay.setImage(play);
         lblIsPlaying.setText(IDLE_TEXT);
     }
-
+    
+    /**
+     * Searches for songs containing the query.
+     */
     @FXML
     private void handleSearch() {
         String search = txtSearch.getText();
@@ -166,24 +207,31 @@ public class MyTunesController implements Initializable {
             songModel.searchSong(search);
         }
     }
-
+    
+    /**
+     * Clears the query and shows all songs.
+     */
     @FXML
     private void handleClearSearch() {
         songModel.clearSearch();
         txtSearch.setText("");
     }
-
+    
+    /**
+     * Select the next song in the currently selected tableView.
+     */
     @FXML
     private void handleSkipForwardButton()
     {
-        TableView.TableViewSelectionModel<Song> selectedView = tableSongs.getSelectionModel();
         selectedView.selectNext();
     }
 
+    /**
+     * Select the previous song from the selected tableView.
+     */
     @FXML
     private void handleSkipBackwardButton()
     {
-        TableView.TableViewSelectionModel<Song> selectedView = tableSongs.getSelectionModel();
         selectedView.selectPrevious();
     }
 }
