@@ -77,12 +77,16 @@ public class MusicPlayer {
 
     /**
      *
-     * @return
+     * @return status of MyTunesPlayer playing
      */
     public boolean isPlaying() {
         return isPlaying;
     }
 
+    /**
+     *
+     * @return current song
+     */
     public Song getCurrentSong() {
         return currentSong;
     }

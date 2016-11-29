@@ -50,6 +50,8 @@ public class NewEditSongController implements Initializable {
     @FXML
     private Button btnCancel;
 
+    private Stage primStage;
+
     private static ObservableList<String> genreList = FXCollections.observableArrayList(
             "Rock",
             "POP",
@@ -88,7 +90,7 @@ public class NewEditSongController implements Initializable {
     @FXML
 
     private void handleMoreButton() throws IOException {
-        Stage primStage = (Stage) txtTitle.getScene().getWindow();
+        primStage = (Stage) txtTitle.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/MoreGenreView.fxml"));
         Parent root = loader.load();
 
@@ -109,11 +111,6 @@ public class NewEditSongController implements Initializable {
 
     @FXML
     private void handleSaveButton() {
-        currentSong.setTitle(txtTitle.getText());
-        currentSong.setArtist(txtArtist.getText());
-        currentSong.setGenre(comboGenre.getValue());
-        currentSong.setDuration(txtDuration.getText());
-        currentSong.setFileName(txtFile.getText());
 
         if (!currentSong.getTitle().get().equals("")) {
             setSongInfo();

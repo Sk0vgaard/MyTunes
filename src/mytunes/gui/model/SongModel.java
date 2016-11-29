@@ -107,7 +107,7 @@ public class SongModel {
         songs.add(bohemian);
         songs.add(happyRock);
         songs.add(baby);
-        
+
         currentPlaylist.add(beatIt);
         currentPlaylist.add(bohemian);
         currentPlaylist.add(happyRock);
@@ -169,7 +169,7 @@ public class SongModel {
     }
 
     /**
-     * Search for song
+     * Search for song from parsed string
      *
      * @param searchString
      */
@@ -197,7 +197,7 @@ public class SongModel {
     }
 
     /**
-     * Find song
+     * Find song on drive
      *
      * @return
      */
