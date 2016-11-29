@@ -150,9 +150,8 @@ public class NewEditSongController implements Initializable {
     }
 
     @FXML
-    private void handleCancelButton(ActionEvent event)
-    {
-                // get a handle to the stage
+    private void handleCancelButton() {
+        // get a handle to the stage
         Stage stage = (Stage) txtFile.getScene().getWindow();
         // do what you have to do
         stage.close();
