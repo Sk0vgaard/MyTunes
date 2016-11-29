@@ -20,14 +20,13 @@ public class MusicPlayer {
 
     private Song currentSong;
 
+    private Media pick;
+
     public static MusicPlayer getInstance() {
         if (instance == null) {
             instance = new MusicPlayer();
         }
         return instance;
-    }
-
-    private MusicPlayer() {
     }
 
     /**
@@ -39,7 +38,7 @@ public class MusicPlayer {
      */
     public void playSong(Song song) throws MediaException {
         //Pick the song to be played and put it in the myTunesPlayer.
-        Media pick = new Media("file:///" + song.getFileName().get().replace('\\', '/'));
+        pick = new Media("file:///" + song.getFileName().get().replace('\\', '/'));
         myTunesPlayer = new MediaPlayer(pick);
         myTunesPlayer.play();
         isPlaying = true;
