@@ -11,7 +11,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -90,7 +89,7 @@ public class NewEditSongController implements Initializable {
 
     @FXML
 
-    private void handleMoreButton(ActionEvent event) throws IOException {
+    private void handleMoreButton() throws IOException {
         Stage primStage = (Stage) txtTitle.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/MoreGenreView.fxml"));
         Parent root = loader.load();
@@ -106,12 +105,12 @@ public class NewEditSongController implements Initializable {
     }
 
     @FXML
-    private void handleChooseButton(ActionEvent event) {
+    private void handleChooseButton() {
         songModel.openFileDialog();
     }
 
     @FXML
-    private void handleSaveButton(ActionEvent event) throws InvocationTargetException {
+    private void handleSaveButton() throws InvocationTargetException {
         currentSong.setTitle(txtTitle.getText());
         currentSong.setArtist(txtArtist.getText());
         currentSong.setGenre(comboGenre.getValue());

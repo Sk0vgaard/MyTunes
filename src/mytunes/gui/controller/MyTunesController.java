@@ -8,13 +8,11 @@ package mytunes.gui.controller;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TableColumn;
@@ -71,6 +69,7 @@ public class MyTunesController implements Initializable {
 
     private final Image play = new Image(getClass().getResourceAsStream("/mytunes/assets/icons/play.png"));
     private final Image pause = new Image(getClass().getResourceAsStream("/mytunes/assets/icons/pause.png"));
+    private final Image addSong = new Image(getClass().getResourceAsStream("/mytunes/assets/icons/add.png"));
 
     private SongModel songModel;
 
@@ -96,8 +95,10 @@ public class MyTunesController implements Initializable {
     }
 
     @FXML
-    private void handleSongTableButton(ActionEvent event) throws IOException {
-        Button clickedButton = (Button) event.getSource();
+    private void handleSongTableButton(MouseEvent event) throws IOException {
+        System.out.println("Test");
+
+        ImageView selectedImage = (ImageView) event.getSource();
 
         Stage primStage = (Stage) txtSearch.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/NewEditSongView.fxml"));
@@ -109,9 +110,9 @@ public class MyTunesController implements Initializable {
         editStage.initModality(Modality.WINDOW_MODAL);
         editStage.initOwner(primStage);
 
-        if (clickedButton.getText().equals("Add")) {
+        if (selectedImage.getId().equals("add")) {
             editStage.show();
-        } else {
+        } else if (selectedImage.getId().equals("editSong")) {
             Song songToEdit = tableSongs.getSelectionModel().getSelectedItem();
             if (songToEdit != null) {
                 NewEditSongController songController = loader.getController();
@@ -174,15 +175,13 @@ public class MyTunesController implements Initializable {
     }
 
     @FXML
-    private void handleSkipForwardButton()
-    {
+    private void handleSkipForwardButton() {
         TableView.TableViewSelectionModel<Song> selectedView = tableSongs.getSelectionModel();
         selectedView.selectNext();
     }
 
     @FXML
-    private void handleSkipBackwardButton()
-    {
+    private void handleSkipBackwardButton() {
         TableView.TableViewSelectionModel<Song> selectedView = tableSongs.getSelectionModel();
         selectedView.selectPrevious();
     }
