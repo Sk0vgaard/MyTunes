@@ -10,7 +10,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -21,7 +20,6 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -78,7 +76,7 @@ public class MyTunesController implements Initializable {
     private static final String IDLE_TEXT = "Enjoy your music!";
     private static final String IS_PLAYING = " is playing";
     private static final String IS_PAUSED = " is paused";
-    
+
     TableView.TableViewSelectionModel<Song> selectedView;
 
     @Override
@@ -94,18 +92,19 @@ public class MyTunesController implements Initializable {
         clmSongGenre.setCellValueFactory(i -> i.getValue().getGenre());
         clmSongDuration.setCellValueFactory(i -> i.getValue().getDuration());
         tableSongs.setItems(songModel.getSongs());
-        clmCurrentPlaylistTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
+
+        //Add songto current playlist
+        clmCurrentPlaylistTitle.setCellValueFactory(i -> i.getValue().getTitle());
         tableCurrentPlaylist.setItems(songModel.getCurrentPlaylist());
 
-        lblIsPlaying.setText(IDLE_TEXT); 
+        lblIsPlaying.setText(IDLE_TEXT);
         selectedView = tableSongs.getSelectionModel(); //Setting the default view to tableSongs.
-        
+
         //Adds a listener to tableSongs.
         tableSongs.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Song>() {
             @Override
-            public void changed(ObservableValue<? extends Song> observable, Song oldValue, Song newValue)
-            {
-                if(newValue != null) //If newValue (new selection in the model) is not null.
+            public void changed(ObservableValue<? extends Song> observable, Song oldValue, Song newValue) {
+                if (newValue != null) //If newValue (new selection in the model) is not null.
                 {
                     //Clears the tableCurrentPlaylist selection.
                     tableCurrentPlaylist.getSelectionModel().clearSelection();
@@ -117,10 +116,8 @@ public class MyTunesController implements Initializable {
         //Same as above, just opposite.
         tableCurrentPlaylist.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Song>() {
             @Override
-            public void changed(ObservableValue<? extends Song> observable, Song oldValue, Song newValue)
-            {
-                if(newValue != null)
-                {
+            public void changed(ObservableValue<? extends Song> observable, Song oldValue, Song newValue) {
+                if (newValue != null) {
                     tableSongs.getSelectionModel().clearSelection();
                     selectedView = tableCurrentPlaylist.getSelectionModel();
                 }
@@ -168,9 +165,8 @@ public class MyTunesController implements Initializable {
      */
     @FXML
     private void handlePlayButton(MouseEvent event) {
-        
-        
-        Song selectedSong = selectedView.getSelectedItem();        
+
+        Song selectedSong = selectedView.getSelectedItem();
         if (btnPlay.getImage() == play) {
             if (selectedSong != null) {
                 songModel.playSelectedSong(selectedSong);
@@ -180,10 +176,9 @@ public class MyTunesController implements Initializable {
         } else {
             songModel.pausePlaying();
             btnPlay.setImage(play);
-            lblIsPlaying.setText(songModel.getCurrentSongPlaying().getTitle() + IS_PAUSED);
+            lblIsPlaying.setText(songModel.getCurrentSongPlaying().getTitle().get() + IS_PAUSED);
         }
-        
-        
+
     }
 
     /**
@@ -197,7 +192,7 @@ public class MyTunesController implements Initializable {
         btnPlay.setImage(play);
         lblIsPlaying.setText(IDLE_TEXT);
     }
-    
+
     /**
      * Searches for songs containing the query.
      */
@@ -208,7 +203,7 @@ public class MyTunesController implements Initializable {
             songModel.searchSong(search);
         }
     }
-    
+
     /**
      * Clears the query and shows all songs.
      */
@@ -217,7 +212,7 @@ public class MyTunesController implements Initializable {
         songModel.clearSearch();
         txtSearch.setText("");
     }
-    
+
     /**
      * Select the next song in the currently selected tableView.
      */
