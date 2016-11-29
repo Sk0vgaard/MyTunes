@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="606.0" prefWidth="805.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mytunes.gui.controller.MyTunesController">
+<AnchorPane id="AnchorPane" prefHeight="606.0" prefWidth="824.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mytunes.gui.controller.MyTunesController">
    <children>
-      <Pane layoutX="7.0" layoutY="9.0" prefHeight="594.0" prefWidth="791.0">
+      <Pane layoutX="3.0" layoutY="6.0" prefHeight="597.0" prefWidth="815.0">
          <children>
             <TableView fx:id="tablePlaylists" layoutX="14.0" layoutY="121.0" prefHeight="398.0" prefWidth="191.0">
               <columns>
@@ -22,13 +22,12 @@
                   <TableColumn fx:id="clmPlaylistTotalDuration" prefWidth="63.0" text="Duration" />
               </columns>
             </TableView>
-            <ListView fx:id="listPlaylist" layoutX="215.0" layoutY="121.0" prefHeight="398.0" prefWidth="200.0" />
-            <TableView fx:id="tableSongs" layoutX="474.0" layoutY="121.0" prefHeight="398.0" prefWidth="303.0">
+            <TableView fx:id="tableSongs" layoutX="474.0" layoutY="121.0" prefHeight="398.0" prefWidth="331.0">
               <columns>
-                <TableColumn fx:id="clmSongTitle" prefWidth="75.0" text="Title" />
-                <TableColumn fx:id="clmSongArtist" prefWidth="75.0" text="Artist" />
-                  <TableColumn fx:id="clmSongCategory" prefWidth="75.0" text="Category" />
-                  <TableColumn fx:id="clmSongDuration" prefWidth="75.0" text="Duration" />
+                <TableColumn fx:id="clmSongTitle" prefWidth="108.0" text="Title" />
+                <TableColumn fx:id="clmSongArtist" prefWidth="90.0" text="Artist" />
+                  <TableColumn fx:id="clmSongGenre" prefWidth="76.0" text="Genre" />
+                  <TableColumn fx:id="clmSongDuration" prefWidth="56.0" text="Duration" />
               </columns>
             </TableView>
             <Label fx:id="lblIsPlaying" layoutX="332.0" layoutY="67.0" text="Something is playing">
@@ -36,25 +35,98 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <TextField fx:id="txtSearch" layoutX="583.0" layoutY="14.0" prefHeight="25.0" prefWidth="142.0" />
-            <Button fx:id="btnPlay" layoutX="91.0" layoutY="35.0" mnemonicParsing="false" text="Play" />
-            <Button fx:id="btnPrevious" layoutX="21.0" layoutY="35.0" mnemonicParsing="false" text="Previous" />
-            <Button fx:id="btnNext" layoutX="133.0" layoutY="35.0" mnemonicParsing="false" text="Next" />
-            <Slider fx:id="sliderVolume" layoutX="40.0" layoutY="74.0" />
+            <TextField fx:id="txtSearch" layoutX="526.0" layoutY="14.0" prefHeight="25.0" prefWidth="142.0" />
+            <Slider fx:id="sliderVolume" layoutX="40.0" layoutY="74.0" value="50.0" />
             <Label layoutX="19.0" layoutY="103.0" text="Playlists" />
-            <Button layoutX="14.0" layoutY="529.0" mnemonicParsing="false" text="New" />
-            <Button layoutX="84.0" layoutY="529.0" mnemonicParsing="false" text="Edit" />
-            <Button fx:id="btnDeletePlaylist" layoutX="148.0" layoutY="529.0" mnemonicParsing="false" text="Delete" />
-            <Button fx:id="btnSearch" layoutX="739.0" layoutY="14.0" mnemonicParsing="false" text="Search" />
-            <Button fx:id="btnMoveSongUp" layoutX="215.0" layoutY="529.0" mnemonicParsing="false" text="Up" />
-            <Button fx:id="btnMoveSongDown" layoutX="256.0" layoutY="529.0" mnemonicParsing="false" text="Down" />
-            <Button fx:id="btnRemoveFromList" layoutX="352.0" layoutY="529.0" mnemonicParsing="false" text="Remove" />
-            <Button fx:id="btnAddSong" layoutX="474.0" layoutY="529.0" mnemonicParsing="false" text="Add" />
-            <Button fx:id="btnEditSong" layoutX="607.0" layoutY="529.0" mnemonicParsing="false" text="Edit" />
-            <Button fx:id="btnDeleteSong" layoutX="725.0" layoutY="529.0" mnemonicParsing="false" text="Delete" />
-            <Button fx:id="btnAddToList" layoutX="429.0" layoutY="297.0" mnemonicParsing="false" text="&lt;-" />
             <Label layoutX="217.0" layoutY="103.0" text="Songs in playlist" />
+
             <Label layoutX="479.0" layoutY="103.0" text="Songs" />
+            <TableView fx:id="tableCurrentPlaylist" layoutX="217.0" layoutY="121.0" prefHeight="398.0" prefWidth="200.0">
+              <columns>
+                <TableColumn fx:id="clmCurrentPlaylistTrack" prefWidth="50.0" text="Track" />
+                <TableColumn fx:id="clmCurrentPlaylistTitle" prefWidth="149.0" text="Title" />
+              </columns>
+            </TableView>
+            <ImageView fx:id="btnPlay" fitHeight="43.0" fitWidth="51.0" layoutX="127.0" layoutY="26.0" onMouseClicked="#handlePlayButton" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../assets/icons/play.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="43.0" fitWidth="45.0" layoutX="80.0" layoutY="26.0" onMouseClicked="#handleStopButton" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../assets/icons/stop.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="43.0" fitWidth="45.0" layoutX="177.0" layoutY="26.0" onMouseClicked="#handleSkipForwardButton" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../assets/icons/forward.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="43.0" fitWidth="45.0" layoutX="32.0" layoutY="26.0" onMouseClicked="#handleSkipBackwardButton" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../assets/icons/backward.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="33.0" fitWidth="38.0" layoutX="678.0" layoutY="10.0" onMouseClicked="#handleSearch" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../assets/icons/search.png" />
+               </image>
+            </ImageView>
+            <ImageView id="moveSongUp" fitHeight="27.0" fitWidth="40.0" layoutX="233.0" layoutY="528.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../assets/icons/upArrow.png" />
+               </image>
+            </ImageView>
+            <ImageView id="moveSongDown" fitHeight="27.0" fitWidth="40.0" layoutX="289.0" layoutY="528.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../assets/icons/downArrow.png" />
+               </image>
+            </ImageView>
+            <ImageView id="remove" fitHeight="25.0" fitWidth="27.0" layoutX="374.0" layoutY="529.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../assets/icons/trash.png" />
+               </image>
+            </ImageView>
+            <ImageView id="deletePlaylist" fitHeight="25.0" fitWidth="27.0" layoutX="165.0" layoutY="529.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../assets/icons/trash.png" />
+               </image>
+            </ImageView>
+            <ImageView id="add" fitHeight="27.0" fitWidth="27.0" layoutX="483.0" layoutY="525.0" onMouseClicked="#handleSongTableButton" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../assets/icons/add.png" />
+               </image>
+            </ImageView>
+            <ImageView id="createPlaylist" fitHeight="27.0" fitWidth="27.0" layoutX="26.0" layoutY="528.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../assets/icons/add.png" />
+               </image>
+            </ImageView>
+            <ImageView id="deleteSong" fitHeight="25.0" fitWidth="27.0" layoutX="721.0" layoutY="526.0" onMouseClicked="#handleSongDeleteButton" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../assets/icons/trash.png" />
+               </image>
+            </ImageView>
+            <ImageView id="editSong" fitHeight="27.0" fitWidth="27.0" layoutX="613.0" layoutY="528.0" onMouseClicked="#handleSongTableButton" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../assets/icons/edit.png" />
+               </image>
+            </ImageView>
+            <ImageView id="editPlaylist" fx:id="btnAddSong11" fitHeight="27.0" fitWidth="27.0" layoutX="96.0" layoutY="528.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../assets/icons/edit.png" />
+               </image>
+            </ImageView>
+            <ImageView id="add" fitHeight="27.0" fitWidth="27.0" layoutX="429.0" layoutY="320.0" onMouseClicked="#handleSongTableButton" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../assets/icons/leftArrow.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="43.0" fitWidth="43.0" layoutX="733.0" layoutY="5.0" onMouseClicked="#handleClearSearch" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../assets/icons/clear.png" />
+               </image>
+            </ImageView>
          </children>
       </Pane>
    </children>
