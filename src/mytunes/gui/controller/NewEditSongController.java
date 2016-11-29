@@ -53,6 +53,8 @@ public class NewEditSongController implements Initializable {
     private Song currentSong = new Song("title", "artist", "genre", "duration");
 
     ObservableList<String> genreList = FXCollections.observableArrayList();
+    @FXML
+    private Button btnCancel;
 
     public NewEditSongController() {
         //TODO
@@ -146,6 +148,15 @@ public class NewEditSongController implements Initializable {
 
     public void setComboGenre(String comboGenre) {
         this.comboGenre.getSelectionModel().select(comboGenre);
+    }
+
+    @FXML
+    private void handleCancelButton(ActionEvent event)
+    {
+                // get a handle to the stage
+        Stage stage = (Stage) txtFile.getScene().getWindow();
+        // do what you have to do
+        stage.close();
     }
 
 }
