@@ -156,7 +156,7 @@ public class SongModel {
         savedSongs.addAll(songs);
         songs.clear();
         for (Song savedSong : savedSongs) {
-            if (savedSong.getTitle().toLowerCase().contains(searchString)) {
+            if (savedSong.getTitle().get().toLowerCase().contains(searchString)) {
                 songsFromSearch.add(savedSong);
             }
         }

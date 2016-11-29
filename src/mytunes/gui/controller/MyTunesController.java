@@ -18,7 +18,6 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -86,10 +85,10 @@ public class MyTunesController implements Initializable {
         btnPlay.setImage(play);
 
         //Add songs from the model and show them in the tableSongs
-        clmSongTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
-        clmSongArtist.setCellValueFactory(new PropertyValueFactory<>("artist"));
-        clmSongGenre.setCellValueFactory(new PropertyValueFactory<>("genre"));
-        clmSongDuration.setCellValueFactory(new PropertyValueFactory<>("duration"));
+        clmSongTitle.setCellValueFactory(i -> i.getValue().getTitle());
+        clmSongArtist.setCellValueFactory(i -> i.getValue().getArtist());
+        clmSongGenre.setCellValueFactory(i -> i.getValue().getGenre());
+        clmSongDuration.setCellValueFactory(i -> i.getValue().getDuration());
         tableSongs.setItems(songModel.getSongs());
 
         lblIsPlaying.setText(IDLE_TEXT);
@@ -117,10 +116,10 @@ public class MyTunesController implements Initializable {
             Song songToEdit = tableSongs.getSelectionModel().getSelectedItem();
             if (songToEdit != null) {
                 NewEditSongController songController = loader.getController();
-                songController.setTxtTitle(songToEdit.getTitle());
-                songController.setTxtArtist(songToEdit.getArtist());
-                songController.setTxtDuration(songToEdit.getDuration());
-                songController.setComboGenre(songToEdit.getGenre());
+                songController.setTxtTitle(songToEdit.getTitle().get());
+                songController.setTxtArtist(songToEdit.getArtist().get());
+                songController.setTxtDuration(songToEdit.getDuration().get());
+                songController.setComboGenre(songToEdit.getGenre().get());
                 songController.setCurrentSong(songToEdit);
                 editStage.show();
             }

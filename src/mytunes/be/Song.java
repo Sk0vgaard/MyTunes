@@ -5,87 +5,96 @@
  */
 package mytunes.be;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 public class Song {
 
-    private String title;
-    private String artist;
-    private String genre;
-    private String duration;
-    private String fileName;
+    private final StringProperty title;
+    private final StringProperty artist;
+    private final StringProperty genre;
+    private final StringProperty duration;
+    private final StringProperty fileName;
 
     public Song(String title, String artist, String genre, String duration) {
-        this.title = title;
-        this.artist = artist;
-        this.genre = genre;
-        this.duration = duration;
+        this.title = new SimpleStringProperty();
+        this.artist = new SimpleStringProperty();
+        this.genre = new SimpleStringProperty();
+        this.duration = new SimpleStringProperty();
+        this.fileName = new SimpleStringProperty();
+        setTitle(title);
+        setArtist(artist);
+        setGenre(genre);
+        setDuration(duration);
     }
-    
+
     /**
      * Gets the title of the song.
-     * @return 
+     *
+     * @return
      */
-    public String getTitle() {
+    public StringProperty getTitle() {
         return title;
     }
 
-    public void setTitle(String title)
-    {
-        this.title = title;
+    public void setTitle(String title) {
+        this.title.set(title);
     }
 
-    public void setArtist(String artist)
-    {
-        this.artist = artist;
+    public void setArtist(String artist) {
+        this.artist.set(artist);
     }
 
-    public void setGenre(String genre)
-    {
-        this.genre = genre;
+    public void setGenre(String genre) {
+        this.genre.set(genre);
     }
 
-    public void setDuration(String duration)
-    {
-        this.duration = duration;
+    public void setDuration(String duration) {
+        this.duration.set(duration);
     }
-    
+
     /**
      * Gets the artist of the song.
-     * @return 
+     *
+     * @return
      */
-    public String getArtist() {
+    public StringProperty getArtist() {
         return artist;
     }
-    
+
     /**
      * Gets the genre of the song.
-     * @return 
+     *
+     * @return
      */
-    public String getGenre() {
+    public StringProperty getGenre() {
         return genre;
     }
-    
+
     /**
      * Gets the duration of the song.
-     * @return 
+     *
+     * @return
      */
-    public String getDuration() {
+    public StringProperty getDuration() {
         return duration;
     }
-    
+
     /**
      * Sets the fileName of the song.
-     * @param path 
+     *
+     * @param path
      */
     public void setFileName(String path) {
-        this.fileName = path;
+        this.fileName.set(path);
     }
-    
+
     /**
      * Gets the fileName of the song.
-     * @return 
+     *
+     * @return
      */
-    public String getFileName()
-    {
+    public StringProperty getFileName() {
         return fileName;
     }
 
