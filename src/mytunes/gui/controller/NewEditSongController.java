@@ -53,23 +53,7 @@ public class NewEditSongController implements Initializable
     
     private Song currentSong = new Song("title", "artist", "genre", "duration");
 
-
-    ObservableList<String> genreList = FXCollections.observableArrayList();
-
-    public NewEditSongController()
-    {
-        //TODO
-    }
-
-    /**
-     * Initializes the controller class.
-     */
-    @Override
-    public void initialize(URL url, ResourceBundle rb)
-    {
-
-        songModel = SongModel.getInstance();
-        comboGenre.setItems(FXCollections.observableArrayList(
+    private static ObservableList<String> genreList = FXCollections.observableArrayList(
                 "Rock",
                 "POP",
                 "Jazz",
@@ -81,8 +65,26 @@ public class NewEditSongController implements Initializable
                 "Hip Hop",
                 "Soul",
                 "Blues",
-                "Reggae"
-        ));
+                "Reggae");
+
+    public NewEditSongController()
+    {
+        //TODO
+    }
+
+    public static ObservableList<String> getGenreList()
+    {
+        return genreList;
+    }
+
+    /**
+     * Initializes the controller class.
+     */
+    @Override
+    public void initialize(URL url, ResourceBundle rb)
+    {
+        songModel = SongModel.getInstance();
+        comboGenre.setItems(genreList);
         comboGenre.setVisibleRowCount(6);
         comboGenre.getSelectionModel().selectFirst();
     }
@@ -121,6 +123,7 @@ public class NewEditSongController implements Initializable
         currentSong.setFileName(txtFile.getText());
         
         songModel.getSongs().add(currentSong);
+        
         
         // get a handle to the stage
         Stage stage = (Stage) txtTitle.getScene().getWindow();
