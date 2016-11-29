@@ -241,7 +241,7 @@ public class MyTunesController implements Initializable
     }
 
     /**
-     * Select the next song in the currently selected tableView.
+     * Finds which view the current played song is from. Then plays the next song in that view.
      */
     @FXML
     private void handleSkipForwardButton() {
@@ -251,10 +251,11 @@ public class MyTunesController implements Initializable
         playingView.selectNext();
         songModel.playSelectedSong(selectedView.getSelectedItem());
         btnPlay.setImage(pause);
+        lblIsPlaying.setText(playingView.getSelectedItem().getTitle().get() + IS_PLAYING);
     }
 
     /**
-     * Select the previous song from the selected tableView.
+     * Finds which view the current played song is from. Then plays the previous song in that view.
      */
     @FXML
     private void handleSkipBackwardButton() {
@@ -264,6 +265,7 @@ public class MyTunesController implements Initializable
         playingView.selectPrevious();
         songModel.playSelectedSong(selectedView.getSelectedItem());
         btnPlay.setImage(pause);
+        lblIsPlaying.setText(playingView.getSelectedItem().getTitle().get() + IS_PLAYING);
     }
 
     @FXML
