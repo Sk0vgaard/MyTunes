@@ -59,9 +59,8 @@ public class SongModel {
     public ObservableList<Song> getSongs() {
         return songs;
     }
-    
-    public ObservableList<Song> getCurrentPlaylist()
-    {
+
+    public ObservableList<Song> getCurrentPlaylist() {
         return currentPlaylist;
     }
 
@@ -108,7 +107,7 @@ public class SongModel {
         songs.add(bohemian);
         songs.add(happyRock);
         songs.add(baby);
-        
+
         Song beatIt2 = new Song(
                 "Beat It",
                 "Michael Jackson",
@@ -127,7 +126,7 @@ public class SongModel {
                 "Rock",
                 "1.45");
         happyRock2.setFileName("happyrock.mp3");
-        
+
         currentPlaylist.add(beatIt2);
         currentPlaylist.add(bohemian2);
         currentPlaylist.add(happyRock2);
@@ -176,6 +175,15 @@ public class SongModel {
     public void stopPlaying() {
         if (musicPlayer.isPlaying()) {
             musicPlayer.stopPlaying();
+        }
+    }
+
+    /**
+     * Replays the song
+     */
+    public void replaySong() {
+        if (musicPlayer.isPlaying()) {
+            musicPlayer.replaySong();
         }
     }
 

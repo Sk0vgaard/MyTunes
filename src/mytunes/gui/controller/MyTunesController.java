@@ -78,6 +78,8 @@ public class MyTunesController implements Initializable {
     private static final String IS_PAUSED = " is paused";
 
     TableView.TableViewSelectionModel<Song> selectedView;
+    @FXML
+    private ImageView btnAddSong11;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -233,5 +235,10 @@ public class MyTunesController implements Initializable {
     private void handleSongDeleteButton(MouseEvent event) {
         Song songToDelete = tableSongs.getSelectionModel().getSelectedItem();
         songModel.getSongs().remove(songToDelete);
+    }
+
+    @FXML
+    private void handleReplay() {
+        songModel.replaySong();
     }
 }
