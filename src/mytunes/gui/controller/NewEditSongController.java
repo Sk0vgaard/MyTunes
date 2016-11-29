@@ -29,8 +29,7 @@ import mytunes.gui.model.SongModel;
  *
  * @author Rasmus
  */
-public class NewEditSongController implements Initializable
-{
+public class NewEditSongController implements Initializable {
 
     private SongModel songModel;
     @FXML
@@ -52,8 +51,7 @@ public class NewEditSongController implements Initializable
 
     ObservableList<String> genreList = FXCollections.observableArrayList();
 
-    public NewEditSongController()
-    {
+    public NewEditSongController() {
         //TODO
     }
 
@@ -61,10 +59,12 @@ public class NewEditSongController implements Initializable
 
     /**
      * Initializes the controller class.
+     *
+     * @param url
+     * @param rb
      */
     @Override
-    public void initialize(URL url, ResourceBundle rb)
-    {
+    public void initialize(URL url, ResourceBundle rb) {
 
         songModel = SongModel.getInstance();
         comboGenre.setItems(FXCollections.observableArrayList(
@@ -87,8 +87,7 @@ public class NewEditSongController implements Initializable
 
     @FXML
 
-    private void handleMoreButton(ActionEvent event) throws IOException
-    {
+    private void handleMoreButton(ActionEvent event) throws IOException {
         Stage primStage = (Stage) txtTitle.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/MoreGenreView.fxml"));
         Parent root = loader.load();
@@ -104,42 +103,35 @@ public class NewEditSongController implements Initializable
     }
 
     @FXML
-    private void handleChooseButton(ActionEvent event)
-    {
+    private void handleChooseButton(ActionEvent event) {
+        songModel.openFileDialog();
     }
 
     @FXML
-    private void handleSaveButton(ActionEvent event)
-    {
+    private void handleSaveButton(ActionEvent event) {
     }
 
-    public void setTxtTitle(String newString)
-    {
+    public void setTxtTitle(String newString) {
         this.txtTitle.setText(newString);
     }
 
-    public void setTxtArtist(String newString)
-    {
+    public void setTxtArtist(String newString) {
         this.txtArtist.setText(newString);
     }
 
-    public void setTxtDuration(String newString)
-    {
+    public void setTxtDuration(String newString) {
         this.txtDuration.setText(newString);
     }
 
-    public void setTxtFile(String newString)
-    {
+    public void setTxtFile(String newString) {
         this.txtFile.setText(newString);
     }
 
-    public void setCurrentSong(Song songToEdit)
-    {
+    public void setCurrentSong(Song songToEdit) {
         currentSong = songToEdit;
     }
 
-    public void setComboGenre(String comboGenre)
-    {
+    public void setComboGenre(String comboGenre) {
         this.comboGenre.getSelectionModel().select(comboGenre);
     }
 

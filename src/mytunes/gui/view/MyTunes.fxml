@@ -39,15 +39,8 @@
             <TextField fx:id="txtSearch" layoutX="526.0" layoutY="14.0" prefHeight="25.0" prefWidth="142.0" />
             <Slider fx:id="sliderVolume" layoutX="40.0" layoutY="74.0" value="50.0" />
             <Label layoutX="19.0" layoutY="103.0" text="Playlists" />
-            <Button layoutX="14.0" layoutY="529.0" mnemonicParsing="false" text="New" />
             <Button layoutX="84.0" layoutY="529.0" mnemonicParsing="false" text="Edit" />
-            <Button layoutX="148.0" layoutY="529.0" mnemonicParsing="false" text="Delete" />
-            <Button layoutX="215.0" layoutY="529.0" mnemonicParsing="false" text="Up" />
-            <Button layoutX="256.0" layoutY="529.0" mnemonicParsing="false" text="Down" />
-            <Button layoutX="352.0" layoutY="529.0" mnemonicParsing="false" text="Remove" />
-            <Button layoutX="474.0" layoutY="529.0" mnemonicParsing="false" onAction="#handleSongTableButton" text="Add" />
             <Button layoutX="607.0" layoutY="529.0" mnemonicParsing="false" onAction="#handleSongTableButton" text="Edit" />
-            <Button layoutX="725.0" layoutY="529.0" mnemonicParsing="false" text="Delete" />
             <Button layoutX="429.0" layoutY="297.0" mnemonicParsing="false" text="&lt;-" />
             <Label layoutX="217.0" layoutY="103.0" text="Songs in playlist" />
 
@@ -82,6 +75,41 @@
             <ImageView fitHeight="33.0" fitWidth="38.0" layoutX="678.0" layoutY="10.0" onMouseClicked="#handleSearch" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../assets/icons/search.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="27.0" fitWidth="40.0" layoutX="233.0" layoutY="528.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../assets/icons/upArrow.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="27.0" fitWidth="40.0" layoutX="289.0" layoutY="528.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../assets/icons/downArrow.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="25.0" fitWidth="27.0" layoutX="374.0" layoutY="529.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../assets/icons/trash.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="25.0" fitWidth="27.0" layoutX="165.0" layoutY="529.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../assets/icons/trash.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="27.0" fitWidth="27.0" layoutX="483.0" layoutY="525.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../assets/icons/add.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="27.0" fitWidth="27.0" layoutX="26.0" layoutY="528.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../assets/icons/add.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="25.0" fitWidth="27.0" layoutX="729.0" layoutY="526.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../assets/icons/trash.png" />
                </image>
             </ImageView>
          </children>
