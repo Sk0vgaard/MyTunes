@@ -6,6 +6,7 @@
 package mytunes.gui.controller;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -32,7 +33,7 @@ import mytunes.gui.model.SongModel;
 public class NewEditSongController implements Initializable
 {
 
-    private SongModel songModel;
+    private SongModel songModel = SongModel.getInstance();
     @FXML
     private TextField txtTitle;
     @FXML
@@ -49,6 +50,9 @@ public class NewEditSongController implements Initializable
     private Button btnChoose;
     @FXML
     private Button btnSave;
+    
+    private Song currentSong = new Song("title", "artist", "genre", "duration");
+
 
     ObservableList<String> genreList = FXCollections.observableArrayList();
 
@@ -56,8 +60,6 @@ public class NewEditSongController implements Initializable
     {
         //TODO
     }
-
-    private Song currentSong;
 
     /**
      * Initializes the controller class.
@@ -106,11 +108,24 @@ public class NewEditSongController implements Initializable
     @FXML
     private void handleChooseButton(ActionEvent event)
     {
+        
     }
 
     @FXML
-    private void handleSaveButton(ActionEvent event)
+    private void handleSaveButton(ActionEvent event) throws InvocationTargetException
     {
+        currentSong.setTitle(txtTitle.getText());
+        currentSong.setArtist(txtArtist.getText());
+        currentSong.setGenre(comboGenre.getValue());
+        currentSong.setDuration(txtDuration.getText());
+        currentSong.setFileName(txtFile.getText());
+        
+        songModel.getSongs().add(currentSong);
+        
+        // get a handle to the stage
+        Stage stage = (Stage) txtTitle.getScene().getWindow();
+        // do what you have to do
+        stage.close();
     }
 
     public void setTxtTitle(String newString)
