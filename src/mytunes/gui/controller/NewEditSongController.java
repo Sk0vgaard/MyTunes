@@ -110,15 +110,12 @@ public class NewEditSongController implements Initializable {
 
     @FXML
     private void handleSaveButton() throws InvocationTargetException {
-        currentSong.setTitle(txtTitle.getText());
-        currentSong.setArtist(txtArtist.getText());
-        currentSong.setGenre(comboGenre.getValue());
-        currentSong.setDuration(txtDuration.getText());
-        currentSong.setFileName(txtFile.getText());
 
-        if (currentSong.getTitle().get().equals("")) {
+        if (!currentSong.getTitle().get().equals("")) {
+            setSongInfo();
 
         } else {
+            setSongInfo();
             songModel.getSongs().add(currentSong);
         }
 
@@ -126,6 +123,14 @@ public class NewEditSongController implements Initializable {
         Stage stage = (Stage) txtTitle.getScene().getWindow();
         // do what you have to do
         stage.close();
+    }
+
+    private void setSongInfo() {
+        currentSong.setTitle(txtTitle.getText());
+        currentSong.setArtist(txtArtist.getText());
+        currentSong.setGenre(comboGenre.getValue());
+        currentSong.setDuration(txtDuration.getText());
+        currentSong.setFileName(txtFile.getText());
     }
 
     public void setTxtTitle(String newString) {
