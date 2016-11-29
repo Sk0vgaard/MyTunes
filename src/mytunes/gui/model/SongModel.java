@@ -59,9 +59,8 @@ public class SongModel {
     public ObservableList<Song> getSongs() {
         return songs;
     }
-    
-    public ObservableList<Song> getCurrentPlaylist()
-    {
+
+    public ObservableList<Song> getCurrentPlaylist() {
         return currentPlaylist;
     }
 
@@ -157,6 +156,15 @@ public class SongModel {
     public void stopPlaying() {
         if (musicPlayer.isPlaying()) {
             musicPlayer.stopPlaying();
+        }
+    }
+
+    /**
+     * Replays the song
+     */
+    public void replaySong() {
+        if (musicPlayer.isPlaying()) {
+            musicPlayer.replaySong();
         }
     }
 

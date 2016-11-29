@@ -7,6 +7,7 @@ package mytunes.gui.controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -15,6 +16,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TableColumn;
@@ -34,7 +38,8 @@ import mytunes.gui.model.SongModel;
  *
  * @author gta1
  */
-public class MyTunesController implements Initializable {
+public class MyTunesController implements Initializable
+{
 
     @FXML
     private TableView<Playlist> tablePlaylists;
@@ -82,7 +87,8 @@ public class MyTunesController implements Initializable {
     TableView.TableViewSelectionModel<Song> playingView;
 
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
+    public void initialize(URL url, ResourceBundle rb)
+    {
 
         songModel = SongModel.getInstance();
 
@@ -104,9 +110,11 @@ public class MyTunesController implements Initializable {
         playingView = tableSongs.getSelectionModel(); //Setting the default playingView.
 
         //Adds a listener to tableSongs.
-        tableSongs.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Song>() {
+        tableSongs.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Song>()
+        {
             @Override
-            public void changed(ObservableValue<? extends Song> observable, Song oldValue, Song newValue) {
+            public void changed(ObservableValue<? extends Song> observable, Song oldValue, Song newValue)
+            {
                 if (newValue != null) //If newValue (new selection in the model) is not null.
                 {
                     //Clears the tableCurrentPlaylist selection.
@@ -117,10 +125,13 @@ public class MyTunesController implements Initializable {
             }
         });
         //Same as above, just opposite.
-        tableCurrentPlaylist.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Song>() {
+        tableCurrentPlaylist.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Song>()
+        {
             @Override
-            public void changed(ObservableValue<? extends Song> observable, Song oldValue, Song newValue) {
-                if (newValue != null) {
+            public void changed(ObservableValue<? extends Song> observable, Song oldValue, Song newValue)
+            {
+                if (newValue != null)
+                {
                     tableSongs.getSelectionModel().clearSelection();
                     selectedView = tableCurrentPlaylist.getSelectionModel();
                 }
@@ -129,7 +140,8 @@ public class MyTunesController implements Initializable {
     }
 
     @FXML
-    private void handleSongTableButton(MouseEvent event) throws IOException {
+    private void handleSongTableButton(MouseEvent event) throws IOException
+    {
         System.out.println("Test");
 
         ImageView selectedImage = (ImageView) event.getSource();
@@ -144,11 +156,14 @@ public class MyTunesController implements Initializable {
         editStage.initModality(Modality.WINDOW_MODAL);
         editStage.initOwner(primStage);
 
-        if (selectedImage.getId().equals("add")) {
+        if (selectedImage.getId().equals("add"))
+        {
             editStage.show();
-        } else if (selectedImage.getId().equals("editSong")) {
+        } else if (selectedImage.getId().equals("editSong"))
+        {
             Song songToEdit = tableSongs.getSelectionModel().getSelectedItem();
-            if (songToEdit != null) {
+            if (songToEdit != null)
+            {
                 NewEditSongController songController = loader.getController();
                 songController.setTxtTitle(songToEdit.getTitle().get());
                 songController.setTxtArtist(songToEdit.getArtist().get());
@@ -167,17 +182,21 @@ public class MyTunesController implements Initializable {
      * @param event
      */
     @FXML
-    private void handlePlayButton(MouseEvent event) {
+    private void handlePlayButton(MouseEvent event)
+    {
 
         Song selectedSong = selectedView.getSelectedItem();
-        if (btnPlay.getImage() == play) {
-            if (selectedSong != null) {
+        if (btnPlay.getImage() == play)
+        {
+            if (selectedSong != null)
+            {
                 songModel.playSelectedSong(selectedSong);
                 playingView = selectedView;
                 btnPlay.setImage(pause);
                 lblIsPlaying.setText(selectedSong.getTitle().get() + IS_PLAYING);
             }
-        } else {
+        } else
+        {
             songModel.pausePlaying();
             btnPlay.setImage(play);
             lblIsPlaying.setText(songModel.getCurrentSongPlaying().getTitle().get() + IS_PAUSED);
@@ -191,7 +210,8 @@ public class MyTunesController implements Initializable {
      * @param event
      */
     @FXML
-    private void handleStopButton() {
+    private void handleStopButton()
+    {
         songModel.stopPlaying();
         btnPlay.setImage(play);
         lblIsPlaying.setText(IDLE_TEXT);
@@ -201,9 +221,11 @@ public class MyTunesController implements Initializable {
      * Searches for songs containing the query.
      */
     @FXML
-    private void handleSearch() {
+    private void handleSearch()
+    {
         String search = txtSearch.getText();
-        if (!search.equals("")) {
+        if (!search.equals(""))
+        {
             songModel.searchSong(search);
         }
     }
@@ -212,7 +234,8 @@ public class MyTunesController implements Initializable {
      * Clears the query and shows all songs.
      */
     @FXML
-    private void handleClearSearch() {
+    private void handleClearSearch()
+    {
         songModel.clearSearch();
         txtSearch.setText("");
     }
@@ -244,8 +267,64 @@ public class MyTunesController implements Initializable {
     }
 
     @FXML
-    private void handleSongDeleteButton(MouseEvent event) {
+    private void handleSongDeleteButton(MouseEvent event)
+    {
         Song songToDelete = tableSongs.getSelectionModel().getSelectedItem();
-        songModel.getSongs().remove(songToDelete);
+
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation Dialog");
+        alert.setHeaderText("Are you sure you want to delete the song: " + "\n\n" + songToDelete.getTitle().get());
+        alert.setContentText("Press 'OK' to delete.");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK)
+        {
+            songModel.getSongs().remove(songToDelete);
+        }
+    }
+
+    @FXML
+    private void handleReplay() {
+        songModel.replaySong();
+    }
+
+    @FXML
+    private void handleSongToPlaylist(MouseEvent event)
+    {
+        Song songToAdd = tableSongs.getSelectionModel().getSelectedItem();
+        songModel.getCurrentPlaylist().add(songToAdd);
+        
+    }
+
+    @FXML
+    private void handleRemoveSongFromPlaylistButton(MouseEvent event)
+    {
+        Song songToRemoveFromPlaylist = tableCurrentPlaylist.getSelectionModel().getSelectedItem();
+
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation Dialog");
+        alert.setHeaderText("Are you sure you want to remove the song: " + "\n\n" + songToRemoveFromPlaylist.getTitle().get());
+        alert.setContentText("Press 'OK' to remove.");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK)
+        {
+            songModel.getCurrentPlaylist().remove(songToRemoveFromPlaylist);
+        }
+    }
+
+    @FXML
+    private void handleRemovePlaylist(MouseEvent event)
+    {
+    }
+
+    @FXML
+    private void handleNewPlaylist(MouseEvent event)
+    {
+    }
+
+    @FXML
+    private void handleEditPlaylist(MouseEvent event)
+    {
     }
 }
