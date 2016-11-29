@@ -75,6 +75,8 @@ public class MyTunesController implements Initializable {
     private static final String IDLE_TEXT = "Enjoy your music!";
     private static final String IS_PLAYING = " is playing";
     private static final String IS_PAUSED = " is paused";
+    @FXML
+    private ImageView btnAddSong11;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -183,5 +185,12 @@ public class MyTunesController implements Initializable {
     private void handleSkipBackwardButton() {
         TableView.TableViewSelectionModel<Song> selectedView = tableSongs.getSelectionModel();
         selectedView.selectPrevious();
+    }
+
+    @FXML
+    private void handleSongDeleteButton(MouseEvent event)
+    {
+        Song songToDelete = tableSongs.getSelectionModel().getSelectedItem();
+        songModel.getSongs().remove(songToDelete);
     }
 }

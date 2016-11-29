@@ -92,7 +92,7 @@
                   <Image url="@../../assets/icons/trash.png" />
                </image>
             </ImageView>
-            <ImageView id="add" fx:id="btnAddSong" fitHeight="27.0" fitWidth="27.0" layoutX="483.0" layoutY="525.0" onMouseClicked="#handleSongTableButton" pickOnBounds="true" preserveRatio="true">
+            <ImageView id="add" fitHeight="27.0" fitWidth="27.0" layoutX="483.0" layoutY="525.0" onMouseClicked="#handleSongTableButton" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../assets/icons/add.png" />
                </image>
@@ -102,12 +102,12 @@
                   <Image url="@../../assets/icons/add.png" />
                </image>
             </ImageView>
-            <ImageView id="deleteSong" fitHeight="25.0" fitWidth="27.0" layoutX="729.0" layoutY="526.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView id="deleteSong" fitHeight="25.0" fitWidth="27.0" layoutX="721.0" layoutY="526.0" onMouseClicked="#handleSongDeleteButton" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../assets/icons/trash.png" />
                </image>
             </ImageView>
-            <ImageView id="editSong" fx:id="btnAddSong1" fitHeight="27.0" fitWidth="27.0" layoutX="613.0" layoutY="528.0" onMouseClicked="#handleSongTableButton" pickOnBounds="true" preserveRatio="true">
+            <ImageView id="editSong" fitHeight="27.0" fitWidth="27.0" layoutX="613.0" layoutY="528.0" onMouseClicked="#handleSongTableButton" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../assets/icons/edit.png" />
                </image>
