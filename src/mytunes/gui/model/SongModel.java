@@ -25,6 +25,8 @@ public class SongModel {
 
     private final FileManager fileManager;
 
+    private static final String MOCK_PATH = System.getProperty("user.dir").replace('\\', '/') + "/src/mytunes/assets/mp3/";
+
     //TODO ALH: We need to be able to retrieve the List, so that we can show it in the GUI
     //TODO ALH: We need a method to add songs to the List, so that our other awesome developers can call this method and add a new song!
     /**
@@ -73,32 +75,33 @@ public class SongModel {
                 "Pointer Sisters",
                 "POP",
                 "3.42");
-        excited.setFileName("excited.mp3");
+        excited.setFileName(MOCK_PATH + "excited.mp3");
 
         Song beatIt = new Song(
                 "Beat It",
                 "Michael Jackson",
                 "POP", "3.42");
-        beatIt.setFileName("beatIt.mp3");
+        beatIt.setFileName(MOCK_PATH + "beatIt.mp3");
 
         Song bohemian = new Song(
                 "Bohemian Rhapsody",
                 "Queen",
                 "POP",
                 "6.06");
-        bohemian.setFileName("bohemian.mp3");
+        bohemian.setFileName(MOCK_PATH + "bohemian.mp3");
 
         Song happyRock = new Song("HappyRock",
                 "SomeArtist",
                 "Rock",
                 "1.45");
+        happyRock.setFileName(MOCK_PATH + "happyrock.mp3");
+
         Song baby = new Song(
                 "Baby",
                 "Justin Bieber",
                 "POP",
                 "2.5");
-        happyRock.setFileName("happyrock.mp3");
-        baby.setFileName("baby.mp3");
+        baby.setFileName(MOCK_PATH + "baby.mp3");
 
         songs.add(excited);
         songs.add(beatIt);
@@ -206,8 +209,11 @@ public class SongModel {
 
     /**
      * Find song
+     *
+     * @return
      */
-    public void openFileDialog() {
+    public String openFileDialog() {
         fileManager.openFile();
+        return fileManager.getPath();
     }
 }

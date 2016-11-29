@@ -175,7 +175,7 @@ public class MyTunesController implements Initializable {
             if (selectedSong != null) {
                 songModel.playSelectedSong(selectedSong);
                 btnPlay.setImage(pause);
-                lblIsPlaying.setText(selectedSong.getTitle() + IS_PLAYING);
+                lblIsPlaying.setText(selectedSong.getTitle().get() + IS_PLAYING);
             }
         } else {
             songModel.pausePlaying();
@@ -235,8 +235,7 @@ public class MyTunesController implements Initializable {
     }
 
     @FXML
-    private void handleSongDeleteButton(MouseEvent event)
-    {
+    private void handleSongDeleteButton(MouseEvent event) {
         Song songToDelete = tableSongs.getSelectionModel().getSelectedItem();
         songModel.getSongs().remove(songToDelete);
     }

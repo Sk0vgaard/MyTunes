@@ -65,7 +65,7 @@ public class NewEditSongController implements Initializable {
             "Blues",
             "Reggae");
 
-    private Song currentSong;
+    private Song currentSong = new Song("", "", "", "");
 
     public static ObservableList<String> getGenreList() {
         return genreList;
@@ -105,7 +105,7 @@ public class NewEditSongController implements Initializable {
 
     @FXML
     private void handleChooseButton() {
-        songModel.openFileDialog();
+        txtFile.setText(songModel.openFileDialog());
     }
 
     @FXML
@@ -116,7 +116,7 @@ public class NewEditSongController implements Initializable {
         currentSong.setDuration(txtDuration.getText());
         currentSong.setFileName(txtFile.getText());
 
-        if (currentSong != null) {
+        if (currentSong.getTitle().get().equals("")) {
 
         } else {
             songModel.getSongs().add(currentSong);

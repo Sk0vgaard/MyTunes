@@ -39,7 +39,7 @@ public class MusicPlayer {
      */
     public void playSong(Song song) throws MediaException {
         //Pick the song to be played and put it in the myTunesPlayer.
-        Media pick = new Media("file:///" + System.getProperty("user.dir").replace('\\', '/') + "/src/mytunes/assets/mp3/" + song.getFileName());
+        Media pick = new Media("file:///" + song.getFileName().get().replace('\\', '/'));
         myTunesPlayer = new MediaPlayer(pick);
         myTunesPlayer.play();
         isPlaying = true;
