@@ -87,7 +87,7 @@
                   <Image url="@../../assets/icons/trash.png" />
                </image>
             </ImageView>
-            <ImageView id="deletePlaylist" fitHeight="25.0" fitWidth="27.0" layoutX="165.0" layoutY="529.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView id="deletePlaylist" fitHeight="25.0" fitWidth="27.0" layoutX="165.0" layoutY="529.0" onMouseClicked="#handleRemovePlaylist" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../assets/icons/trash.png" />
                </image>
@@ -97,7 +97,7 @@
                   <Image url="@../../assets/icons/add.png" />
                </image>
             </ImageView>
-            <ImageView id="createPlaylist" fitHeight="27.0" fitWidth="27.0" layoutX="26.0" layoutY="528.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView id="createPlaylist" fitHeight="27.0" fitWidth="27.0" layoutX="26.0" layoutY="528.0" onMouseClicked="#handleNewPlaylist" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../assets/icons/add.png" />
                </image>
@@ -112,7 +112,7 @@
                   <Image url="@../../assets/icons/edit.png" />
                </image>
             </ImageView>
-            <ImageView id="editPlaylist" fx:id="btnAddSong11" fitHeight="27.0" fitWidth="27.0" layoutX="96.0" layoutY="528.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView id="editPlaylist" fx:id="btnAddSong11" fitHeight="27.0" fitWidth="27.0" layoutX="96.0" layoutY="528.0" onMouseClicked="#handleEditPlaylist" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../assets/icons/edit.png" />
                </image>

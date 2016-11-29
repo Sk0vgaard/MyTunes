@@ -302,4 +302,19 @@ public class MyTunesController implements Initializable
             songModel.getCurrentPlaylist().remove(songToRemoveFromPlaylist);
         }
     }
+
+    @FXML
+    private void handleRemovePlaylist(MouseEvent event)
+    {
+    }
+
+    @FXML
+    private void handleNewPlaylist(MouseEvent event)
+    {
+    }
+
+    @FXML
+    private void handleEditPlaylist(MouseEvent event)
+    {
+    }
 }
