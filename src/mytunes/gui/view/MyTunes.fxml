@@ -69,12 +69,12 @@
                   <Image url="@../../assets/icons/stop.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="43.0" fitWidth="45.0" layoutX="177.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="43.0" fitWidth="45.0" layoutX="177.0" layoutY="26.0" onMouseClicked="#handleSkipForwardButton" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../assets/icons/forward.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="43.0" fitWidth="45.0" layoutX="32.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="43.0" fitWidth="45.0" layoutX="32.0" layoutY="26.0" onMouseClicked="#handleSkipBackwardButton" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../assets/icons/backward.png" />
                </image>
