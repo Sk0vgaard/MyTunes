@@ -27,6 +27,26 @@ public class Song {
     public String getTitle() {
         return title;
     }
+
+    public void setTitle(String title)
+    {
+        this.title = title;
+    }
+
+    public void setArtist(String artist)
+    {
+        this.artist = artist;
+    }
+
+    public void setGenre(String genre)
+    {
+        this.genre = genre;
+    }
+
+    public void setDuration(String duration)
+    {
+        this.duration = duration;
+    }
     
     /**
      * Gets the artist of the song.

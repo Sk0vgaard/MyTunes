@@ -34,7 +34,7 @@ public class MusicPlayer {
      * Plays or pauses the song parsed depending if the son is currently played
      * or not.
      *
-     * @param fileName of the song to be played/paused.
+     * @param song to be played.
      * @throws MediaException
      */
     public void playSong(Song song) throws MediaException {

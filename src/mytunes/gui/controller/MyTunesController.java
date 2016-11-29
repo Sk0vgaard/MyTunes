@@ -23,6 +23,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import mytunes.be.Playlist;
@@ -167,8 +168,22 @@ public class MyTunesController implements Initializable {
     }
 
     @FXML
-    private void handleClearSearch(ActionEvent event) {
+    private void handleClearSearch() {
         songModel.clearSearch();
         txtSearch.setText("");
+    }
+
+    @FXML
+    private void handleSkipForwardButton()
+    {
+        TableView.TableViewSelectionModel<Song> selectedView = tableSongs.getSelectionModel();
+        selectedView.selectNext();
+    }
+
+    @FXML
+    private void handleSkipBackwardButton()
+    {
+        TableView.TableViewSelectionModel<Song> selectedView = tableSongs.getSelectionModel();
+        selectedView.selectPrevious();
     }
 }
