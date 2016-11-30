@@ -6,8 +6,9 @@
 package mytunes.bll;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.stage.FileChooser;
 import mytunes.be.Song;
 import org.jaudiotagger.audio.AudioFileIO;
@@ -26,22 +27,43 @@ public class FileManager {
 
     private final Song selectedSong = new Song("", "", "", "");
 
-    public Song openFile() throws FileNotFoundException, IOException, InterruptedException, CannotReadException, TagException, ReadOnlyFileException, InvalidAudioFrameException {
+    public Song openFile() {
         FileChooser fc = new FileChooser();
         FileChooser.ExtensionFilter mp3Filter = new FileChooser.ExtensionFilter("MP3 (*.mp3)", "*.mp3");
         fc.setSelectedExtensionFilter(mp3Filter);
         File song = fc.showOpenDialog(null);
         path = song.getAbsolutePath();
         path = path.replace("\\", "/");
-        MP3File selectedFile = (MP3File) AudioFileIO.read(song);
-        MP3AudioHeader header = selectedFile.getMP3AudioHeader();
-        Tag tag = selectedFile.getTag();
-        selectedSong.setTitle(tag.getFirst(FieldKey.TITLE));
-        selectedSong.setArtist(tag.getFirst(FieldKey.ARTIST));
-        selectedSong.setGenre(tag.getFirst(FieldKey.GENRE));
-        selectedSong.setDuration(header.getTrackLengthAsString());
-        selectedSong.setFileName(path);
+        getMetaData(song);
         return selectedSong;
+    }
+
+    /**
+     * Use the jaudiotagger library to retrieve the metadata
+     *
+     * @param song
+     */
+    private void getMetaData(File song) {
+        try {
+            MP3File selectedFile = (MP3File) AudioFileIO.read(song);
+            MP3AudioHeader header = selectedFile.getMP3AudioHeader();
+            Tag tag = selectedFile.getTag();
+            selectedSong.setTitle(tag.getFirst(FieldKey.TITLE));
+            selectedSong.setArtist(tag.getFirst(FieldKey.ARTIST));
+            selectedSong.setGenre(tag.getFirst(FieldKey.GENRE));
+            selectedSong.setDuration(header.getTrackLengthAsString());
+            selectedSong.setFileName(path);
+        } catch (CannotReadException ex) {
+            Logger.getLogger(FileManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(FileManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (TagException ex) {
+            Logger.getLogger(FileManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ReadOnlyFileException ex) {
+            Logger.getLogger(FileManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InvalidAudioFrameException ex) {
+            Logger.getLogger(FileManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public String getPath() {
