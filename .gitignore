@@ -88,8 +88,11 @@ GitHub.sublime-settings
 ### NetBeans ###
 nbproject/private/
 build/
+dist/web-files/
+dist/*.html
+dist/*.jnlp
 nbbuild/
-dist/
+
 nbdist/
 .nb-gradle/
 
@@ -1853,7 +1856,8 @@ obj/
 .mtj.tmp/
 
 # Package Files #
-*.jar
+!dist/lib/
+#*.jar
 *.war
 *.ear
 
