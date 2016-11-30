@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -487,5 +489,21 @@ public class MyTunesController implements Initializable {
             songModel.updateCurrentPlaylust(currentPlaylist);
             tableCurrentPlaylist.getSelectionModel().select(selectedIndex + 1);
         }
+    }
+
+    /**
+     * Handle music volume
+     */
+    @FXML
+    private void handleMusicVolume() {
+        sliderVolume.valueProperty().addListener(new InvalidationListener() {
+            @Override
+            public void invalidated(Observable observable) {
+                if (sliderVolume.isValueChanging()) {
+                    songModel.switchVolume(sliderVolume.getValue() / 100.0);
+                }
+            }
+
+        });
     }
 }

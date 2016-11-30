@@ -15,7 +15,7 @@ import mytunes.gui.model.SongModel;
 public class MusicPlayer {
 
     private static MusicPlayer instance;
-    
+
     private SongModel songModel;
 
     private MediaPlayer myTunesPlayer;
@@ -32,13 +32,13 @@ public class MusicPlayer {
         }
         return instance;
     }
-    
+
     /**
      * Sets the songModel so the musicPlayer has a reference to the SongModel.
-     * @param sModel 
+     *
+     * @param sModel
      */
-    public void setSongModel(SongModel sModel)
-    {
+    public void setSongModel(SongModel sModel) {
         songModel = sModel;
     }
 
@@ -59,13 +59,10 @@ public class MusicPlayer {
         myTunesPlayer.setOnEndOfMedia(new Runnable() //Listens for when a song ends.
         {
             @Override
-            public void run()
-            {
-                try
-                {
+            public void run() {
+                try {
                     songModel.playNextSong(); //Plays the next song.
-                } catch (IOException ex)
-                {
+                } catch (IOException ex) {
                     System.out.println(ex.getMessage());
                 }
             }
@@ -77,7 +74,7 @@ public class MusicPlayer {
      */
     public void pausePlaying() {
         myTunesPlayer.pause();
-        
+
     }
 
     /**
@@ -117,5 +114,14 @@ public class MusicPlayer {
      */
     public Song getCurrentSong() {
         return currentSong;
+    }
+
+    /**
+     * Set the music volume
+     *
+     * @param volume
+     */
+    public void setVolume(double volume) {
+        myTunesPlayer.setVolume(volume);
     }
 }

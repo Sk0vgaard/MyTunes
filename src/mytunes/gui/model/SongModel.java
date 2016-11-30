@@ -287,4 +287,13 @@ public class SongModel {
     public void playNextSong() throws IOException {
         mtController.playNextSong();
     }
+
+    /**
+     * Switch sound level on music player
+     *
+     * @param value
+     */
+    public void switchVolume(double value) {
+        musicPlayer.setVolume(value);
+    }
 }
