@@ -232,10 +232,7 @@ public class MyTunesController implements Initializable {
         //If a song is selected and we're not currently playing anything fire up the selected song and change play button to pause
         if (btnPlay.getImage() == play) {
             if (selectedSong != null) {
-                songModel.playSelectedSong(selectedSong);
-                playingView = selectedView;
-                btnPlay.setImage(pause);
-                lblIsPlaying.setText(selectedSong.getTitle().get() + IS_PLAYING);
+                playSong(selectedSong);
             }
             //If user clicks the pause button we pause the MusicPlayer
         } else {
@@ -244,6 +241,18 @@ public class MyTunesController implements Initializable {
             lblIsPlaying.setText(songModel.getCurrentSongPlaying().getTitle().get() + IS_PAUSED);
         }
 
+    }
+
+    /**
+     * Asks the model to play the selected song
+     *
+     * @param selectedSong
+     */
+    private void playSong(Song selectedSong) {
+        songModel.playSelectedSong(selectedSong);
+        playingView = selectedView;
+        btnPlay.setImage(pause);
+        lblIsPlaying.setText(selectedSong.getTitle().get() + IS_PLAYING);
     }
 
     /**
@@ -283,12 +292,26 @@ public class MyTunesController implements Initializable {
      * label.
      */
     public void playNextSong() {
+        Song nextSong = selectNextSong(true); //sends true value to skip forward
+        playSong(nextSong);
+    }
+
+    /**
+     * Select the next song from current view
+     *
+     * @return
+     */
+    private Song selectNextSong(boolean goForward) {
+        songModel.stopPlaying();
         Song currentSong = songModel.getCurrentSongPlaying();
         playingView.select(currentSong);
-        playingView.selectNext();
-        songModel.playSelectedSong(selectedView.getSelectedItem());
-        btnPlay.setImage(pause);
-        lblIsPlaying.setText(playingView.getSelectedItem().getTitle().get() + IS_PLAYING);
+        if (goForward) {
+            playingView.selectNext();
+        } else {
+            playingView.selectPrevious();
+        }
+        Song nextSong = selectedView.getSelectedItem();
+        return nextSong;
     }
 
     /**
@@ -297,13 +320,8 @@ public class MyTunesController implements Initializable {
      */
     @FXML
     private void handleSkipForwardButton() {
-        Song currentSong = songModel.getCurrentSongPlaying();
-        songModel.stopPlaying();
-        playingView.select(currentSong);
-        playingView.selectNext();
-        songModel.playSelectedSong(selectedView.getSelectedItem());
-        btnPlay.setImage(pause);
-        lblIsPlaying.setText(playingView.getSelectedItem().getTitle().get() + IS_PLAYING);
+        Song nextSong = selectNextSong(true); //sends true value to skip forward
+        playSong(nextSong);
     }
 
     /**
@@ -312,15 +330,15 @@ public class MyTunesController implements Initializable {
      */
     @FXML
     private void handleSkipBackwardButton() {
-        Song currentSong = songModel.getCurrentSongPlaying();
-        songModel.stopPlaying();
-        playingView.select(currentSong);
-        playingView.selectPrevious();
-        songModel.playSelectedSong(selectedView.getSelectedItem());
-        btnPlay.setImage(pause);
-        lblIsPlaying.setText(playingView.getSelectedItem().getTitle().get() + IS_PLAYING);
+        Song nextSong = selectNextSong(false); //sends false value to go to previous
+        playSong(nextSong);
     }
 
+    /**
+     * Gets the selected song and prompts user to delete
+     *
+     * @param event
+     */
     @FXML
     private void handleSongDeleteButton(MouseEvent event) {
         try {
@@ -340,18 +358,30 @@ public class MyTunesController implements Initializable {
 
     }
 
+    /**
+     * Replays the current song
+     */
     @FXML
     private void handleReplay() {
         songModel.replaySong();
     }
 
+    /**
+     * Adds or a song to the current playlist
+     *
+     * @param event
+     */
     @FXML
-    private void handleSongToPlaylist(MouseEvent event
-    ) {
+    private void handleSongToPlaylist(MouseEvent event) {
         Song songToAdd = tableSongs.getSelectionModel().getSelectedItem();
         songModel.getCurrentPlaylist().add(songToAdd);
     }
 
+    /**
+     * Prompts user to remove song from current playlist
+     *
+     * @param event
+     */
     @FXML
     private void handleRemoveSongFromPlaylistButton(MouseEvent event) {
         try {
@@ -382,6 +412,12 @@ public class MyTunesController implements Initializable {
         return alert;
     }
 
+    /**
+     * Add or edit a playlist depending on user choice
+     *
+     * @param event
+     * @throws IOException
+     */
     @FXML
     private void handlePlaylistTableButton(MouseEvent event) throws IOException {
         //Assign the clicked image to a local variable
@@ -412,6 +448,11 @@ public class MyTunesController implements Initializable {
         }
     }
 
+    /**
+     * Deletes playlist
+     *
+     * @param event
+     */
     @FXML
     private void handleRemovePlaylist(MouseEvent event) {
     }
