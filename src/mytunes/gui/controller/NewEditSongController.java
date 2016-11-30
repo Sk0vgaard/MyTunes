@@ -105,7 +105,7 @@ public class NewEditSongController implements Initializable {
     }
 
     @FXML
-    private void handleChooseButton() {
+    private void handleChooseButton() throws IOException {
         txtFile.setText(songModel.openFileDialog());
     }
 

@@ -6,10 +6,13 @@
 package mytunes.bll;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Map;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.FileChooser;
+import mytunes.be.Song;
 
 public class FileManager {
 
@@ -22,27 +25,35 @@ public class FileManager {
         File song = fc.showOpenDialog(null);
         path = song.getAbsolutePath();
         path = path.replace("\\", "/");
-        FileInputStream fis = new FileInputStream(song);
-        int size = (int) song.length();
-        fis.skip(size - 128);
-        byte[] last128 = new byte[128];
-        fis.read(last128);
-        String id3 = new String(last128);
-        String tag = id3.substring(0, 3);
-        String title = id3.substring(3, 30);
-        String artist = id3.substring(30, 60);
-        String album = id3.substring(60, 90);
-        String year = id3.substring(90, 98);
-        String genre = id3.substring(128, 128);
-        if (tag.equals("TAG")) {
-            System.out.println("Title: " + title);
-            System.out.println("Artist: " + artist);
-            System.out.println("Album: " + album);
-            System.out.println("Year: " + year);
-            System.out.println("Genre: " + genre);
+        getMetaData();
 
-        }
+    }
 
+    /**
+     * Gets the meta data from the song
+     */
+    private Song getMetaData() {
+        Song selectedSong = new Song("", "", "", "");
+        Media file = new Media("file:///" + path);
+        MediaPlayer test = new MediaPlayer(file);
+        test.setOnReady(new Runnable() {
+
+            @Override
+            public void run() {
+
+                System.out.println("Duration: " + file.getDuration().toSeconds());
+                System.out.println("Title " + file.getMetadata().get("title"));
+
+                // display media's metadata
+                for (Map.Entry<String, Object> entry : file.getMetadata().entrySet()) {
+                    System.out.println(entry.getKey() + ": " + entry.getValue());
+                }
+            }
+        });
+        selectedSong.setTitle(file.getMetadata().get("title").toString());
+        selectedSong.setArtist(file.getMetadata().get("artist").toString());
+        selectedSong.setArtist(file.getMetadata().get("genre").toString());
+        return selectedSong;
     }
 
     public String getPath() {

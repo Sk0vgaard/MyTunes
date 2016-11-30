@@ -5,6 +5,7 @@
  */
 package mytunes.gui.model;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -201,7 +202,7 @@ public class SongModel {
      *
      * @return
      */
-    public String openFileDialog() {
+    public String openFileDialog() throws IOException {
         fileManager.openFile();
         return fileManager.getPath();
     }
