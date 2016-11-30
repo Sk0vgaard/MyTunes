@@ -5,14 +5,18 @@
  */
 package mytunes.bll;
 
+import java.io.IOException;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaException;
 import javafx.scene.media.MediaPlayer;
 import mytunes.be.Song;
+import mytunes.gui.model.SongModel;
 
 public class MusicPlayer {
 
     private static MusicPlayer instance;
+    
+    private SongModel songModel;
 
     private MediaPlayer myTunesPlayer;
 
@@ -27,6 +31,15 @@ public class MusicPlayer {
             instance = new MusicPlayer();
         }
         return instance;
+    }
+    
+    /**
+     * Sets the songModel so the musicPlayer has a reference to the SongModel.
+     * @param sModel 
+     */
+    public void setSongModel(SongModel sModel)
+    {
+        songModel = sModel;
     }
 
     /**
@@ -43,6 +56,20 @@ public class MusicPlayer {
         myTunesPlayer.play();
         isPlaying = true;
         currentSong = song;
+        myTunesPlayer.setOnEndOfMedia(new Runnable() //Listens for when a song ends.
+        {
+            @Override
+            public void run()
+            {
+                try
+                {
+                    songModel.playNextSong(); //Plays the next song.
+                } catch (IOException ex)
+                {
+                    System.out.println(ex.getMessage());
+                }
+            }
+        });
     }
 
     /**
@@ -50,6 +77,7 @@ public class MusicPlayer {
      */
     public void pausePlaying() {
         myTunesPlayer.pause();
+        
     }
 
     /**

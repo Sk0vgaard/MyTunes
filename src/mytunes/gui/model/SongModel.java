@@ -11,9 +11,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import mytunes.be.Playlist;
 import mytunes.be.Song;
 import mytunes.bll.FileManager;
 import mytunes.bll.MusicPlayer;
+import mytunes.gui.controller.MyTunesController;
 import org.jaudiotagger.audio.exceptions.CannotReadException;
 import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException;
 import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
@@ -23,8 +25,11 @@ public class SongModel {
 
     private static SongModel instance;
 
+    private MyTunesController mtController;
+
     private final ObservableList<Song> songs;
     private final ObservableList<Song> currentPlaylist;
+    private final ObservableList<Playlist> playlists;
 
     private final ArrayList<Song> savedSongs;
 
@@ -53,7 +58,9 @@ public class SongModel {
     private SongModel() {
         songs = FXCollections.observableArrayList();
         currentPlaylist = FXCollections.observableArrayList();
+        playlists = FXCollections.observableArrayList();
         musicPlayer = MusicPlayer.getInstance();
+        musicPlayer.setSongModel(this);
         savedSongs = new ArrayList<>();
         fileManager = new FileManager();
         mockupSongs();
@@ -67,8 +74,42 @@ public class SongModel {
         return songs;
     }
 
+    /**
+     * Returns the currentPlaylist.
+     *
+     * @return
+     */
     public ObservableList<Song> getCurrentPlaylist() {
         return currentPlaylist;
+    }
+
+    /**
+     * Updates the currentPlaylist with the given arrayList.
+     *
+     * @param playlist
+     */
+    public void updateCurrentPlaylust(ArrayList<Song> playlist) {
+        currentPlaylist.clear();
+        for (Song song : playlist) {
+            currentPlaylist.add(song);
+        }
+    }
+
+    /**
+     * Returns the songs in the observableList as ArrayList.
+     *
+     * @return
+     */
+    public ArrayList<Song> getCurrentPlaylistAsArrayList() {
+        ArrayList<Song> playlist = new ArrayList<>();
+        for (Song song : currentPlaylist) {
+            playlist.add(song);
+        }
+        return playlist;
+    }
+
+    public ObservableList<Playlist> getPlaylists() {
+        return playlists;
     }
 
     /**
@@ -109,15 +150,37 @@ public class SongModel {
                 "2.5");
         baby.setFileName(MOCK_PATH + "baby.mp3");
 
+        Playlist mj = new Playlist("Michael fucking Jackson", "1", "3.42");
+
+        mj.getSongsInPlaylist().add(beatIt);
+
+        Song testEnd = new Song(
+                "TestEnd",
+                "RandomGuy",
+                "Not Really",
+                "0.16");
+        testEnd.setFileName(MOCK_PATH + "testEnd.mp3");
+
+        Song testPiano = new Song(
+                "TestPiano",
+                "Random",
+                "Nope",
+                "0.19");
+        testPiano.setFileName(MOCK_PATH + "piano.mp3");
+
+        songs.add(testPiano);
         songs.add(excited);
         songs.add(beatIt);
         songs.add(bohemian);
         songs.add(happyRock);
         songs.add(baby);
+        songs.add(testEnd);
 
         currentPlaylist.add(beatIt);
         currentPlaylist.add(bohemian);
         currentPlaylist.add(happyRock);
+
+        playlists.add(mj);
     }
 
     /**
@@ -226,5 +289,24 @@ public class SongModel {
             Logger.getLogger(SongModel.class.getName()).log(Level.SEVERE, null, ex);
         }
         return retrievedSong;
+    }
+
+    /**
+     * Sets the mtController so the SongModel has a reference to the
+     * MyTunesController.
+     *
+     * @param mtController
+     */
+    public void setMyTunesController(MyTunesController mtController) {
+        this.mtController = mtController;
+    }
+
+    /**
+     * Calls the playNextSong method from the MyTunesController.
+     *
+     * @throws IOException
+     */
+    public void playNextSong() throws IOException {
+        mtController.playNextSong();
     }
 }
