@@ -9,13 +9,17 @@ import java.io.IOException;
 import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXMLLoader;
 import mytunes.be.Song;
 import mytunes.bll.FileManager;
 import mytunes.bll.MusicPlayer;
+import mytunes.gui.controller.MyTunesController;
 
 public class SongModel {
 
     private static SongModel instance;
+    
+    private MyTunesController mtController;
 
     private final ObservableList<Song> songs;
     private final ObservableList<Song> currentPlaylist;
@@ -27,6 +31,8 @@ public class SongModel {
     private final FileManager fileManager;
 
     private static final String MOCK_PATH = System.getProperty("user.dir").replace('\\', '/') + "/src/mytunes/assets/mp3/";
+    
+    
 
     //TODO ALH: We need to be able to retrieve the List, so that we can show it in the GUI
     //TODO ALH: We need a method to add songs to the List, so that our other awesome developers can call this method and add a new song!
@@ -48,6 +54,7 @@ public class SongModel {
         songs = FXCollections.observableArrayList();
         currentPlaylist = FXCollections.observableArrayList();
         musicPlayer = MusicPlayer.getInstance();
+        musicPlayer.setSongModel(this);
         savedSongs = new ArrayList<>();
         fileManager = new FileManager();
         mockupSongs();
@@ -102,12 +109,28 @@ public class SongModel {
                 "POP",
                 "2.5");
         baby.setFileName(MOCK_PATH + "baby.mp3");
-
+        
+        Song testEnd = new Song(
+                "TestEnd", 
+                "RandomGuy", 
+                "Not Really", 
+                "0.16");
+        testEnd.setFileName(MOCK_PATH + "testEnd.mp3");
+        
+        Song testPiano = new Song(
+                "TestPiano", 
+                "Random", 
+                "Nope", 
+                "0.19");
+        testPiano.setFileName(MOCK_PATH + "piano.mp3");
+        
+        songs.add(testPiano);
         songs.add(excited);
         songs.add(beatIt);
         songs.add(bohemian);
         songs.add(happyRock);
         songs.add(baby);
+        songs.add(testEnd);
 
         currentPlaylist.add(beatIt);
         currentPlaylist.add(bohemian);
@@ -165,7 +188,7 @@ public class SongModel {
      */
     public void replaySong() {
         if (musicPlayer.isPlaying()) {
-            musicPlayer.replaySong();
+            musicPlayer.replaySong();            
         }
     }
 
@@ -205,5 +228,23 @@ public class SongModel {
     public String openFileDialog() throws IOException {
         fileManager.openFile();
         return fileManager.getPath();
+    }
+    
+    /**
+     * Sets the mtController so the SongModel has a reference to the MyTunesController.
+     * @param mtController 
+     */
+    public void setMyTunesController(MyTunesController mtController)
+    {
+        this.mtController = mtController;
+    }
+    
+    /**
+     * Calls the playNextSong method from the MyTunesController.
+     * @throws IOException 
+     */
+    public void playNextSong() throws IOException
+    {
+        mtController.playNextSong();
     }
 }

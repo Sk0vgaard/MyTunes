@@ -92,6 +92,7 @@ public class MyTunesController implements Initializable
     {
 
         songModel = SongModel.getInstance();
+        songModel.setMyTunesController(this);
 
         btnPlay.setImage(play);
 
@@ -281,6 +282,20 @@ public class MyTunesController implements Initializable
     {
         songModel.clearSearch();
         txtSearch.setText("");
+    }
+    
+    /**
+     * Selects the next song in the playing view and plays it.
+     * Updates the label.
+     */
+    public void playNextSong()
+    {
+        Song currentSong = songModel.getCurrentSongPlaying();
+        playingView.select(currentSong);
+        playingView.selectNext();
+        songModel.playSelectedSong(selectedView.getSelectedItem());
+        btnPlay.setImage(pause);
+        lblIsPlaying.setText(playingView.getSelectedItem().getTitle().get() + IS_PLAYING);
     }
 
     /**
