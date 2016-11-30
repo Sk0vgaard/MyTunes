@@ -532,7 +532,13 @@ public class MyTunesController implements Initializable {
         }
     }
 
+    /**
+     * Shuffles the current playlist
+     *
+     * @param event
+     */
     @FXML
     private void handleShuffle(MouseEvent event) {
+        songModel.shuffleCurrentPlaylist();
     }
 }

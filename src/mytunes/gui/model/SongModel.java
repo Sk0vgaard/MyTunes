@@ -7,6 +7,7 @@ package mytunes.gui.model;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import mytunes.be.Playlist;
@@ -311,5 +312,12 @@ public class SongModel {
      */
     public void unmute(double lastValue) {
         musicPlayer.setVolume(lastValue);
+    }
+
+    /**
+     * Shuffle the current playlist
+     */
+    public void shuffleCurrentPlaylist() {
+        Collections.shuffle(currentPlaylist);
     }
 }
