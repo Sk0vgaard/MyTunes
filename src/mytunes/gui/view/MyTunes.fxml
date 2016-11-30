@@ -35,7 +35,7 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <TextField fx:id="txtSearch" layoutX="526.0" layoutY="14.0" prefHeight="25.0" prefWidth="142.0" />
+            <TextField fx:id="txtSearch" layoutX="562.0" layoutY="14.0" prefHeight="25.0" prefWidth="142.0" />
             <Slider fx:id="sliderVolume" layoutX="40.0" layoutY="74.0" onDragDetected="#handleMusicVolume" value="100.0" />
             <Label layoutX="19.0" layoutY="103.0" text="Playlists" />
             <Label layoutX="217.0" layoutY="103.0" text="Songs in playlist" />
@@ -67,7 +67,7 @@
                   <Image url="@../../assets/icons/backward.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="33.0" fitWidth="38.0" layoutX="678.0" layoutY="10.0" onMouseClicked="#handleSearch" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="33.0" fitWidth="38.0" layoutX="717.0" layoutY="10.0" onMouseClicked="#handleSearch" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../assets/icons/search.png" />
                </image>
@@ -122,7 +122,7 @@
                   <Image url="@../../assets/icons/leftArrow.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="43.0" fitWidth="43.0" layoutX="733.0" layoutY="5.0" onMouseClicked="#handleClearSearch" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="43.0" fitWidth="43.0" layoutX="762.0" layoutY="5.0" onMouseClicked="#handleClearSearch" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../assets/icons/clear.png" />
                </image>
