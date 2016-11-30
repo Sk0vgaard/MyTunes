@@ -53,7 +53,7 @@ public class MyTunesController implements Initializable
     @FXML
     private TableColumn<Playlist, String> clmPlaylistName;
     @FXML
-    private TableColumn<Playlist, Integer> clmPlaylistSongsAmount;
+    private TableColumn<Playlist, String> clmPlaylistSongsAmount;
     @FXML
     private TableColumn<Playlist, String> clmPlaylistTotalDuration;
     @FXML
@@ -86,6 +86,8 @@ public class MyTunesController implements Initializable
 
     private TableView.TableViewSelectionModel<Song> selectedView;
     private TableView.TableViewSelectionModel<Song> playingView;
+    @FXML
+    private ImageView btnAddSong11;
 
     @Override
     public void initialize(URL url, ResourceBundle rb)
@@ -158,6 +160,12 @@ public class MyTunesController implements Initializable
         //Add songto current playlist
         clmCurrentPlaylistTitle.setCellValueFactory(i -> i.getValue().getTitle());
         tableCurrentPlaylist.setItems(songModel.getCurrentPlaylist());
+
+        //add playlists from the model and show them in the tablePlaylists
+        clmPlaylistName.setCellValueFactory(i -> i.getValue().getName());
+        clmPlaylistSongsAmount.setCellValueFactory(i -> i.getValue().getSongs());
+        clmPlaylistTotalDuration.setCellValueFactory(i -> i.getValue().getDuration());
+        tablePlaylists.setItems(songModel.getPlaylists());
     }
 
     /**
@@ -195,7 +203,7 @@ public class MyTunesController implements Initializable
             Song songToEdit = tableSongs.getSelectionModel().getSelectedItem();
             if (songToEdit != null)
             {
-                assignValuesToModal(loader, songToEdit);
+                assignSongValuesToModal(loader, songToEdit);
                 editStage.show();
             }
         }
@@ -207,7 +215,7 @@ public class MyTunesController implements Initializable
      * @param loader
      * @param songToEdit
      */
-    private void assignValuesToModal(FXMLLoader loader, Song songToEdit)
+    private void assignSongValuesToModal(FXMLLoader loader, Song songToEdit)
     {
         NewEditSongController songController = loader.getController();
         songController.setTxtTitle(songToEdit.getTitle().get());
@@ -216,6 +224,13 @@ public class MyTunesController implements Initializable
         songController.setComboGenre(songToEdit.getGenre().get());
         songController.setCurrentSong(songToEdit);
     }
+    
+    private void assignPlaylistValuesToModal(FXMLLoader loader, Playlist playlistToEdit)
+    {
+        NewEditPlaylistController playlistController = loader.getController();
+        playlistController.setTxtName(playlistToEdit.getName().get());
+    }
+    
 
     /**
      * Gets the current selected song and calls the play method of the
@@ -350,7 +365,6 @@ public class MyTunesController implements Initializable
     {
         Song songToAdd = tableSongs.getSelectionModel().getSelectedItem();
         songModel.getCurrentPlaylist().add(songToAdd);
-
     }
 
     @FXML
@@ -389,17 +403,41 @@ public class MyTunesController implements Initializable
     }
 
     @FXML
+    private void handlePlaylistTableButton(MouseEvent event) throws IOException
+    {
+        //Assign the clicked image to a local variable
+        ImageView selectedImage = (ImageView) event.getSource();
+
+        //Grab hold of the curret stage
+        primStage = (Stage) txtSearch.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/NewEditPlaylistView.fxml"));
+        Parent root = loader.load();
+
+        Stage editStage = new Stage();
+        editStage.setScene(new Scene(root));
+
+        //Create new modal window from the FXMLLoader
+        editStage.initModality(Modality.WINDOW_MODAL);
+        editStage.initOwner(primStage);
+
+        //If user wants to add a new playlist just load the empty modal
+        if (selectedImage.getId().equals("createPlaylist"))
+        {
+            editStage.show();
+            //If user wants to edit a song load up modal with info
+        } else if (selectedImage.getId().equals("editPlaylist"))
+        {
+            Playlist playlistToEdit = tablePlaylists.getSelectionModel().getSelectedItem();
+            if (playlistToEdit != null)
+            {
+                assignPlaylistValuesToModal(loader, playlistToEdit);
+                editStage.show();
+            }
+        }
+    }
+
+    @FXML
     private void handleRemovePlaylist(MouseEvent event)
-    {
-    }
-
-    @FXML
-    private void handleNewPlaylist(MouseEvent event)
-    {
-    }
-
-    @FXML
-    private void handleEditPlaylist(MouseEvent event)
     {
     }
 }

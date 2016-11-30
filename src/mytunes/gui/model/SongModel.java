@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import mytunes.be.Playlist;
 import mytunes.be.Song;
 import mytunes.bll.FileManager;
 import mytunes.bll.MusicPlayer;
@@ -19,6 +20,7 @@ public class SongModel {
 
     private final ObservableList<Song> songs;
     private final ObservableList<Song> currentPlaylist;
+    private final ObservableList<Playlist> playlists;
 
     private final ArrayList<Song> savedSongs;
 
@@ -47,11 +49,14 @@ public class SongModel {
     private SongModel() {
         songs = FXCollections.observableArrayList();
         currentPlaylist = FXCollections.observableArrayList();
+        playlists = FXCollections.observableArrayList();
         musicPlayer = MusicPlayer.getInstance();
         savedSongs = new ArrayList<>();
         fileManager = new FileManager();
         mockupSongs();
     }
+    
+    
 
     /**
      *
@@ -65,6 +70,13 @@ public class SongModel {
         return currentPlaylist;
     }
 
+    public ObservableList<Playlist> getPlaylists()
+    {
+        return playlists;
+    }
+
+    
+    
     /**
      * Creates some mockup songs
      */
@@ -103,6 +115,10 @@ public class SongModel {
                 "2.5");
         baby.setFileName(MOCK_PATH + "baby.mp3");
 
+        Playlist mj = new Playlist("Michael fucking Jackson", "1", "3.42");
+        
+        mj.getSongsInPlaylist().add(beatIt);
+        
         songs.add(excited);
         songs.add(beatIt);
         songs.add(bohemian);
@@ -112,6 +128,8 @@ public class SongModel {
         currentPlaylist.add(beatIt);
         currentPlaylist.add(bohemian);
         currentPlaylist.add(happyRock);
+        
+        playlists.add(mj);
     }
 
     /**
