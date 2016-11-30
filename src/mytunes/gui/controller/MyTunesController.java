@@ -79,14 +79,16 @@ public class MyTunesController implements Initializable {
     @FXML
     private ImageView speaker;
 
-    private Stage primStage;
-
-    private double lastVolume;
-
     private final Image play = new Image(getClass().getResourceAsStream("/mytunes/assets/icons/play.png"));
     private final Image pause = new Image(getClass().getResourceAsStream("/mytunes/assets/icons/pause.png"));
     private final Image normal = new Image(getClass().getResourceAsStream("/mytunes/assets/icons/speaker.png"));
     private final Image mute = new Image(getClass().getResourceAsStream("/mytunes/assets/icons/muted.png"));
+
+    private Song selectedSong;
+
+    private Stage primStage;
+
+    private double lastVolume;
 
     private SongModel songModel;
 
@@ -235,8 +237,8 @@ public class MyTunesController implements Initializable {
      * @param event
      */
     @FXML
-    private void handlePlayButton(MouseEvent event) {
-        Song selectedSong = selectedView.getSelectedItem();
+    private void handlePlayButton() {
+        selectedSong = selectedView.getSelectedItem();
         //If a song is selected and we're not currently playing anything fire up the selected song and change play button to pause
         if (btnPlay.getImage() == play) {
             if (selectedSong != null) {
@@ -249,6 +251,17 @@ public class MyTunesController implements Initializable {
             lblIsPlaying.setText(songModel.getCurrentSongPlaying().getTitle().get() + IS_PAUSED);
         }
 
+    }
+
+    /**
+     * Play a song on a double click
+     */
+    @FXML
+    private void handleDoubleClick(MouseEvent event) {
+        if (event.getClickCount() == 2) {
+            selectedSong = selectedView.getSelectedItem();
+            playSong(selectedSong);
+        }
     }
 
     /**
