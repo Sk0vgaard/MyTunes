@@ -10,13 +10,18 @@ import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import mytunes.be.Playlist;
+import javafx.fxml.FXMLLoader;
 import mytunes.be.Song;
 import mytunes.bll.FileManager;
 import mytunes.bll.MusicPlayer;
+import mytunes.gui.controller.MyTunesController;
 
-public class SongModel {
+public class SongModel
+{
 
     private static SongModel instance;
+
+    private MyTunesController mtController;
 
     private final ObservableList<Song> songs;
     private final ObservableList<Song> currentPlaylist;
@@ -39,35 +44,73 @@ public class SongModel {
      *
      * @return
      */
-    public static SongModel getInstance() {
-        if (instance == null) {
+    public static SongModel getInstance()
+    {
+        if (instance == null)
+        {
             instance = new SongModel();
         }
         return instance;
     }
 
-    private SongModel() {
+    private SongModel()
+    {
         songs = FXCollections.observableArrayList();
         currentPlaylist = FXCollections.observableArrayList();
         playlists = FXCollections.observableArrayList();
         musicPlayer = MusicPlayer.getInstance();
+        musicPlayer.setSongModel(this);
         savedSongs = new ArrayList<>();
         fileManager = new FileManager();
         mockupSongs();
     }
-    
-    
 
     /**
      *
      * @return songs
      */
-    public ObservableList<Song> getSongs() {
+    public ObservableList<Song> getSongs()
+    {
         return songs;
     }
 
-    public ObservableList<Song> getCurrentPlaylist() {
+    /**
+     * Returns the currentPlaylist.
+     *
+     * @return
+     */
+    public ObservableList<Song> getCurrentPlaylist()
+    {
         return currentPlaylist;
+    }
+
+    /**
+     * Updates the currentPlaylist with the given arrayList.
+     *
+     * @param playlist
+     */
+    public void updateCurrentPlaylust(ArrayList<Song> playlist)
+    {
+        currentPlaylist.clear();
+        for (Song song : playlist)
+        {
+            currentPlaylist.add(song);
+        }
+    }
+
+    /**
+     * Returns the songs in the observableList as ArrayList.
+     *
+     * @return
+     */
+    public ArrayList<Song> getCurrentPlaylistAsArrayList()
+    {
+        ArrayList<Song> playlist = new ArrayList<>();
+        for (Song song : currentPlaylist)
+        {
+            playlist.add(song);
+        }
+        return playlist;
     }
 
     public ObservableList<Playlist> getPlaylists()
@@ -75,12 +118,11 @@ public class SongModel {
         return playlists;
     }
 
-    
-    
     /**
      * Creates some mockup songs
      */
-    private void mockupSongs() {
+    private void mockupSongs()
+    {
 
         Song excited = new Song(
                 "I'm So excited",
@@ -114,21 +156,37 @@ public class SongModel {
                 "POP",
                 "2.5");
         baby.setFileName(MOCK_PATH + "baby.mp3");
-
+                
         Playlist mj = new Playlist("Michael fucking Jackson", "1", "3.42");
-        
+
         mj.getSongsInPlaylist().add(beatIt);
-        
+
+        Song testEnd = new Song(
+                        "TestEnd",
+                        "RandomGuy",
+                        "Not Really",
+                        "0.16");
+        testEnd.setFileName(MOCK_PATH + "testEnd.mp3");
+
+        Song testPiano = new Song(
+                "TestPiano",
+                "Random",
+                "Nope",
+                "0.19");
+        testPiano.setFileName(MOCK_PATH + "piano.mp3");
+
+        songs.add(testPiano);
         songs.add(excited);
         songs.add(beatIt);
         songs.add(bohemian);
         songs.add(happyRock);
         songs.add(baby);
+        songs.add(testEnd);
 
         currentPlaylist.add(beatIt);
         currentPlaylist.add(bohemian);
         currentPlaylist.add(happyRock);
-        
+
         playlists.add(mj);
     }
 
@@ -137,18 +195,23 @@ public class SongModel {
      *
      * @param song
      */
-    public void playSelectedSong(Song song) {
+    public void playSelectedSong(Song song)
+    {
         //Check if the MusicPlayer is currentplay at all
-        if (musicPlayer.isPlaying()) {
+        if (musicPlayer.isPlaying())
+        {
             //If it is playing, then check if it is the same song we want to resume
-            if (musicPlayer.getCurrentSong().equals(song)) {
+            if (musicPlayer.getCurrentSong().equals(song))
+            {
                 musicPlayer.resumeSong();
                 //If not then play the newly parsed song
-            } else {
+            } else
+            {
                 musicPlayer.playSong(song);
             }
             //If not just play the newly parsed song
-        } else {
+        } else
+        {
             musicPlayer.playSong(song);
         }
     }
@@ -158,22 +221,26 @@ public class SongModel {
      *
      * @return
      */
-    public Song getCurrentSongPlaying() {
+    public Song getCurrentSongPlaying()
+    {
         return musicPlayer.getCurrentSong();
     }
 
     /**
      * Pauses playing of current song in MusicPlayer
      */
-    public void pausePlaying() {
+    public void pausePlaying()
+    {
         musicPlayer.pausePlaying();
     }
 
     /**
      * Stops playing the current song in MusicPlayer
      */
-    public void stopPlaying() {
-        if (musicPlayer.isPlaying()) {
+    public void stopPlaying()
+    {
+        if (musicPlayer.isPlaying())
+        {
             musicPlayer.stopPlaying();
         }
     }
@@ -181,8 +248,10 @@ public class SongModel {
     /**
      * Replays the song
      */
-    public void replaySong() {
-        if (musicPlayer.isPlaying()) {
+    public void replaySong()
+    {
+        if (musicPlayer.isPlaying())
+        {
             musicPlayer.replaySong();
         }
     }
@@ -192,12 +261,15 @@ public class SongModel {
      *
      * @param searchString
      */
-    public void searchSong(String searchString) {
+    public void searchSong(String searchString)
+    {
         ArrayList<Song> songsFromSearch = new ArrayList<>();
         savedSongs.addAll(songs);
         songs.clear();
-        for (Song savedSong : savedSongs) {
-            if (savedSong.getTitle().get().toLowerCase().contains(searchString)) {
+        for (Song savedSong : savedSongs)
+        {
+            if (savedSong.getTitle().get().toLowerCase().contains(searchString))
+            {
                 songsFromSearch.add(savedSong);
             }
         }
@@ -207,8 +279,10 @@ public class SongModel {
     /**
      * Reset search
      */
-    public void clearSearch() {
-        if (!savedSongs.isEmpty()) {
+    public void clearSearch()
+    {
+        if (!savedSongs.isEmpty())
+        {
             songs.clear();
             songs.addAll(savedSongs);
             savedSongs.clear();
@@ -220,8 +294,30 @@ public class SongModel {
      *
      * @return
      */
-    public String openFileDialog() throws IOException {
+    public String openFileDialog() throws IOException
+    {
         fileManager.openFile();
         return fileManager.getPath();
+    }
+
+    /**
+     * Sets the mtController so the SongModel has a reference to the
+     * MyTunesController.
+     *
+     * @param mtController
+     */
+    public void setMyTunesController(MyTunesController mtController)
+    {
+        this.mtController = mtController;
+    }
+
+    /**
+     * Calls the playNextSong method from the MyTunesController.
+     *
+     * @throws IOException
+     */
+    public void playNextSong() throws IOException
+    {
+        mtController.playNextSong();
     }
 }

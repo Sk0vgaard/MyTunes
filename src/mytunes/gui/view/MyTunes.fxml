@@ -72,12 +72,12 @@
                   <Image url="@../../assets/icons/search.png" />
                </image>
             </ImageView>
-            <ImageView id="moveSongUp" fitHeight="27.0" fitWidth="40.0" layoutX="233.0" layoutY="528.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView id="moveSongUp" fitHeight="27.0" fitWidth="40.0" layoutX="233.0" layoutY="528.0" onMouseClicked="#handleMoveSongUpButton" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../assets/icons/upArrow.png" />
                </image>
             </ImageView>
-            <ImageView id="moveSongDown" fitHeight="27.0" fitWidth="40.0" layoutX="289.0" layoutY="528.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView id="moveSongDown" fitHeight="27.0" fitWidth="40.0" layoutX="289.0" layoutY="528.0" onMouseClicked="#handleMoveSongDownButton" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../assets/icons/downArrow.png" />
                </image>
