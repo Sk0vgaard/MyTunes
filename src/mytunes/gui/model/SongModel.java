@@ -7,11 +7,17 @@ package mytunes.gui.model;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import mytunes.be.Song;
 import mytunes.bll.FileManager;
 import mytunes.bll.MusicPlayer;
+import org.jaudiotagger.audio.exceptions.CannotReadException;
+import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException;
+import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
+import org.jaudiotagger.tag.TagException;
 
 public class SongModel {
 
@@ -202,8 +208,23 @@ public class SongModel {
      *
      * @return
      */
-    public String openFileDialog() throws IOException {
-        fileManager.openFile();
-        return fileManager.getPath();
+    public Song getSongFromFile() {
+        Song retrievedSong = null;
+        try {
+            retrievedSong = fileManager.openFile();
+        } catch (IOException ex) {
+            Logger.getLogger(SongModel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(SongModel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (CannotReadException ex) {
+            Logger.getLogger(SongModel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (TagException ex) {
+            Logger.getLogger(SongModel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ReadOnlyFileException ex) {
+            Logger.getLogger(SongModel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InvalidAudioFrameException ex) {
+            Logger.getLogger(SongModel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return retrievedSong;
     }
 }

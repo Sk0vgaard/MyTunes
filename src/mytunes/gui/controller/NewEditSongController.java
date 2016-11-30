@@ -5,6 +5,7 @@
  */
 package mytunes.gui.controller;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -105,8 +106,13 @@ public class NewEditSongController implements Initializable {
     }
 
     @FXML
-    private void handleChooseButton() throws IOException {
-        txtFile.setText(songModel.openFileDialog());
+    private void handleChooseButton() throws IOException, FileNotFoundException, InterruptedException {
+        Song selectedSong = songModel.getSongFromFile();
+        txtTitle.setText(selectedSong.getTitle().get());
+        txtArtist.setText(selectedSong.getArtist().get());
+        txtFile.setText(selectedSong.getFileName().get());
+        comboGenre.getSelectionModel().select(selectedSong.getGenre().get());
+        txtDuration.setText(selectedSong.getDuration().get());
     }
 
     @FXML

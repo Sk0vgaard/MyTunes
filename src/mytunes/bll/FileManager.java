@@ -8,51 +8,39 @@ package mytunes.bll;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Map;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.stage.FileChooser;
 import mytunes.be.Song;
+import org.jaudiotagger.audio.AudioFileIO;
+import org.jaudiotagger.audio.exceptions.CannotReadException;
+import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException;
+import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
+import org.jaudiotagger.audio.mp3.MP3AudioHeader;
+import org.jaudiotagger.audio.mp3.MP3File;
+import org.jaudiotagger.tag.FieldKey;
+import org.jaudiotagger.tag.Tag;
+import org.jaudiotagger.tag.TagException;
 
 public class FileManager {
 
     private String path;
 
-    public void openFile() throws FileNotFoundException, IOException {
+    private final Song selectedSong = new Song("", "", "", "");
+
+    public Song openFile() throws FileNotFoundException, IOException, InterruptedException, CannotReadException, TagException, ReadOnlyFileException, InvalidAudioFrameException {
         FileChooser fc = new FileChooser();
         FileChooser.ExtensionFilter mp3Filter = new FileChooser.ExtensionFilter("MP3 (*.mp3)", "*.mp3");
         fc.setSelectedExtensionFilter(mp3Filter);
         File song = fc.showOpenDialog(null);
         path = song.getAbsolutePath();
         path = path.replace("\\", "/");
-        getMetaData();
-
-    }
-
-    /**
-     * Gets the meta data from the song
-     */
-    private Song getMetaData() {
-        Song selectedSong = new Song("", "", "", "");
-        Media file = new Media("file:///" + path);
-        MediaPlayer test = new MediaPlayer(file);
-        test.setOnReady(new Runnable() {
-
-            @Override
-            public void run() {
-
-                System.out.println("Duration: " + file.getDuration().toSeconds());
-                System.out.println("Title " + file.getMetadata().get("title"));
-
-                // display media's metadata
-                for (Map.Entry<String, Object> entry : file.getMetadata().entrySet()) {
-                    System.out.println(entry.getKey() + ": " + entry.getValue());
-                }
-            }
-        });
-        selectedSong.setTitle(file.getMetadata().get("title").toString());
-        selectedSong.setArtist(file.getMetadata().get("artist").toString());
-        selectedSong.setArtist(file.getMetadata().get("genre").toString());
+        MP3File selectedFile = (MP3File) AudioFileIO.read(song);
+        MP3AudioHeader header = selectedFile.getMP3AudioHeader();
+        Tag tag = selectedFile.getTag();
+        selectedSong.setTitle(tag.getFirst(FieldKey.TITLE));
+        selectedSong.setArtist(tag.getFirst(FieldKey.ARTIST));
+        selectedSong.setGenre(tag.getFirst(FieldKey.GENRE));
+        selectedSong.setDuration(header.getTrackLengthAsString());
+        selectedSong.setFileName(path);
         return selectedSong;
     }
 
