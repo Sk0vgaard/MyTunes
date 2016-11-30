@@ -67,9 +67,40 @@ public class SongModel {
     public ObservableList<Song> getSongs() {
         return songs;
     }
-
+    
+    /**
+     * Returns the currentPlaylist.
+     * @return 
+     */
     public ObservableList<Song> getCurrentPlaylist() {
         return currentPlaylist;
+    }
+    
+    /**
+     * Updates the currentPlaylist with the given arrayList.
+     * @param playlist 
+     */
+    public void updateCurrentPlaylust(ArrayList<Song> playlist)
+    {
+        currentPlaylist.clear();
+        for (Song song : playlist)
+        {
+            currentPlaylist.add(song);
+        }
+    }
+    
+    /**
+     * Returns the songs in the observableList as ArrayList.
+     * @return 
+     */
+    public ArrayList<Song> getCurrentPlaylistAsArrayList()
+    {
+        ArrayList<Song> playlist = new ArrayList<>();
+        for (Song song : currentPlaylist)
+        {
+            playlist.add(song);
+        }
+        return playlist;
     }
 
     /**

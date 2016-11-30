@@ -7,6 +7,9 @@ package mytunes.gui.controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
@@ -86,6 +89,8 @@ public class MyTunesController implements Initializable
 
     private TableView.TableViewSelectionModel<Song> selectedView;
     private TableView.TableViewSelectionModel<Song> playingView;
+    @FXML
+    private ImageView btnAddSong11;
 
     @Override
     public void initialize(URL url, ResourceBundle rb)
@@ -101,7 +106,6 @@ public class MyTunesController implements Initializable
         //Set a heartily welcome message
         lblIsPlaying.setText(IDLE_TEXT);
 
-        //updates the current active view
         selectedView = tableSongs.getSelectionModel(); //Setting the default view to tableSongs.
         playingView = tableSongs.getSelectionModel(); //Setting the default playingView.
 
@@ -416,5 +420,39 @@ public class MyTunesController implements Initializable
     @FXML
     private void handleEditPlaylist(MouseEvent event)
     {
+    }
+    
+    /**
+     * Moves the selected song one up when clicked.
+     * @param event 
+     */
+    @FXML
+    private void handleMoveSongUpButton(MouseEvent event)
+    {
+        int selectedIndex = tableCurrentPlaylist.getSelectionModel().getSelectedIndex();
+        ArrayList<Song> currentPlaylist = songModel.getCurrentPlaylistAsArrayList();
+        if(selectedIndex - 1 >= 0)
+        {
+            Collections.swap(currentPlaylist, selectedIndex, selectedIndex - 1);
+            songModel.updateCurrentPlaylust(currentPlaylist);
+            tableCurrentPlaylist.getSelectionModel().select(selectedIndex - 1);
+        }        
+    }
+    
+    /**
+     * Moves the selected song one down when clicked.
+     * @param event 
+     */
+    @FXML
+    private void handleMoveSongDownButton(MouseEvent event)
+    {
+        int selectedIndex = tableCurrentPlaylist.getSelectionModel().getSelectedIndex();
+        ArrayList<Song> currentPlaylist = songModel.getCurrentPlaylistAsArrayList();
+        if(selectedIndex + 1 < currentPlaylist.size() && selectedView == tableCurrentPlaylist.getSelectionModel())
+        {
+            Collections.swap(currentPlaylist, selectedIndex, selectedIndex + 1);
+            songModel.updateCurrentPlaylust(currentPlaylist);
+            tableCurrentPlaylist.getSelectionModel().select(selectedIndex + 1);
+        } 
     }
 }
