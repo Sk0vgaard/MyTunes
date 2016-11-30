@@ -382,7 +382,7 @@ public class MyTunesController implements Initializable {
     @FXML
     private void handleSongToPlaylist(MouseEvent event) {
         Song songToAdd = tableSongs.getSelectionModel().getSelectedItem();
-        songModel.getCurrentPlaylist().add(songToAdd);
+        songModel.addSongToPlaylist(songToAdd);
     }
 
     /**

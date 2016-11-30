@@ -27,14 +27,18 @@ public class FileManager {
 
     private final Song selectedSong = new Song("", "", "", "");
 
-    public Song openFile() {
+    public Song openFile() throws NullPointerException {
         FileChooser fc = new FileChooser();
         FileChooser.ExtensionFilter mp3Filter = new FileChooser.ExtensionFilter("MP3 (*.mp3)", "*.mp3");
         fc.setSelectedExtensionFilter(mp3Filter);
-        File song = fc.showOpenDialog(null);
-        path = song.getAbsolutePath();
-        path = path.replace("\\", "/");
-        getMetaData(song);
+        try {
+            File song = fc.showOpenDialog(null);
+            path = song.getAbsolutePath();
+            path = path.replace("\\", "/");
+            getMetaData(song);
+        } catch (NullPointerException npe) {
+            System.out.println("You should select an mp3 file " + npe);
+        }
         return selectedSong;
     }
 

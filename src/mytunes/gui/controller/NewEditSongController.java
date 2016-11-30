@@ -80,7 +80,6 @@ public class NewEditSongController implements Initializable {
      * @param rb
      */
     @Override
-
     public void initialize(URL url, ResourceBundle rb) {
         songModel = SongModel.getInstance();
         comboGenre.setItems(genreList);
@@ -88,8 +87,12 @@ public class NewEditSongController implements Initializable {
         comboGenre.getSelectionModel().selectFirst();
     }
 
+    /**
+     * Open modal to add more genres
+     *
+     * @throws IOException
+     */
     @FXML
-
     private void handleMoreButton() throws IOException {
         primStage = (Stage) txtTitle.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/MoreGenreView.fxml"));
@@ -105,8 +108,15 @@ public class NewEditSongController implements Initializable {
 
     }
 
+    /**
+     * Choose song on hdd and load information from it, if available
+     *
+     * @throws IOException
+     * @throws FileNotFoundException
+     * @throws InterruptedException
+     */
     @FXML
-    private void handleChooseButton() throws IOException, FileNotFoundException, InterruptedException {
+    private void handleChooseButton() {
         Song selectedSong = songModel.getSongFromFile();
         txtTitle.setText(selectedSong.getTitle().get());
         txtArtist.setText(selectedSong.getArtist().get());
@@ -115,15 +125,18 @@ public class NewEditSongController implements Initializable {
         txtDuration.setText(selectedSong.getDuration().get());
     }
 
+    /**
+     * Checks if we're editing a song or adding a new one and then either edits
+     * or adds
+     */
     @FXML
     private void handleSaveButton() {
-
         if (!currentSong.getTitle().get().equals("")) {
             setSongInfo();
 
         } else {
             setSongInfo();
-            songModel.getSongs().add(currentSong);
+            songModel.addSong(currentSong);
         }
 
         // get a handle to the stage
@@ -164,6 +177,9 @@ public class NewEditSongController implements Initializable {
         this.comboGenre.getSelectionModel().select(comboGenre);
     }
 
+    /**
+     * Cancel adding/editing song
+     */
     @FXML
     private void handleCancelButton() {
         // get a handle to the stage

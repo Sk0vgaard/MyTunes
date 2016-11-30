@@ -320,4 +320,22 @@ public class SongModel {
     public void shuffleCurrentPlaylist() {
         Collections.shuffle(currentPlaylist);
     }
+
+    /**
+     * Add song to playlist
+     *
+     * @param song
+     */
+    public void addSongToPlaylist(Song song) {
+        currentPlaylist.add(song);
+    }
+
+    /**
+     * Add song to songs
+     *
+     * @param song
+     */
+    public void addSong(Song song) {
+
+    }
 }
