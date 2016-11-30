@@ -296,4 +296,20 @@ public class SongModel {
     public void switchVolume(double value) {
         musicPlayer.setVolume(value);
     }
+
+    /**
+     * Mute
+     */
+    public void mute() {
+        musicPlayer.setVolume(0);
+    }
+
+    /**
+     * Unmute
+     *
+     * @param lastValue
+     */
+    public void unmute(double lastValue) {
+        musicPlayer.setVolume(lastValue);
+    }
 }

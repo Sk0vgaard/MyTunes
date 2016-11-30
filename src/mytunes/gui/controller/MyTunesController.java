@@ -76,11 +76,17 @@ public class MyTunesController implements Initializable {
     private TableColumn<Song, String> clmSongGenre;
     @FXML
     private ImageView btnPlay;
+    @FXML
+    private ImageView speaker;
 
     private Stage primStage;
 
+    private double lastVolume;
+
     private final Image play = new Image(getClass().getResourceAsStream("/mytunes/assets/icons/play.png"));
     private final Image pause = new Image(getClass().getResourceAsStream("/mytunes/assets/icons/pause.png"));
+    private final Image normal = new Image(getClass().getResourceAsStream("/mytunes/assets/icons/speaker.png"));
+    private final Image mute = new Image(getClass().getResourceAsStream("/mytunes/assets/icons/muted.png"));
 
     private SongModel songModel;
 
@@ -90,8 +96,6 @@ public class MyTunesController implements Initializable {
 
     private TableView.TableViewSelectionModel<Song> selectedView;
     private TableView.TableViewSelectionModel<Song> playingView;
-    @FXML
-    private ImageView btnAddSong11;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -100,6 +104,8 @@ public class MyTunesController implements Initializable {
         songModel.setMyTunesController(this);
 
         btnPlay.setImage(play);
+
+        speaker.setImage(normal);
 
         initializeTables();
 
@@ -505,5 +511,28 @@ public class MyTunesController implements Initializable {
             }
 
         });
+    }
+
+    /**
+     * Mute or unmutes the music player
+     *
+     * @param event
+     */
+    @FXML
+    private void handleMute(MouseEvent event) {
+        if (speaker.getImage().equals(normal)) {
+            lastVolume = sliderVolume.getValue();
+            songModel.switchVolume(0);
+            sliderVolume.setValue(0);
+            speaker.setImage(mute);
+        } else {
+            songModel.switchVolume(lastVolume);
+            sliderVolume.setValue(lastVolume);
+            speaker.setImage(normal);
+        }
+    }
+
+    @FXML
+    private void handleShuffle(MouseEvent event) {
     }
 }

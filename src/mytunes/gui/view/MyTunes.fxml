@@ -72,12 +72,12 @@
                   <Image url="@../../assets/icons/search.png" />
                </image>
             </ImageView>
-            <ImageView id="moveSongUp" fitHeight="27.0" fitWidth="40.0" layoutX="233.0" layoutY="528.0" onMouseClicked="#handleMoveSongUpButton" pickOnBounds="true" preserveRatio="true">
+            <ImageView id="moveSongUp" fitHeight="27.0" fitWidth="40.0" layoutX="220.0" layoutY="528.0" onMouseClicked="#handleMoveSongUpButton" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../assets/icons/upArrow.png" />
                </image>
             </ImageView>
-            <ImageView id="moveSongDown" fitHeight="27.0" fitWidth="40.0" layoutX="289.0" layoutY="528.0" onMouseClicked="#handleMoveSongDownButton" pickOnBounds="true" preserveRatio="true">
+            <ImageView id="moveSongDown" fitHeight="27.0" fitWidth="40.0" layoutX="260.0" layoutY="528.0" onMouseClicked="#handleMoveSongDownButton" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../assets/icons/downArrow.png" />
                </image>
@@ -112,7 +112,7 @@
                   <Image url="@../../assets/icons/edit.png" />
                </image>
             </ImageView>
-            <ImageView id="editPlaylist" fx:id="btnAddSong11" fitHeight="27.0" fitWidth="27.0" layoutX="96.0" layoutY="528.0" onMouseClicked="#handlePlaylistTableButton" pickOnBounds="true" preserveRatio="true">
+            <ImageView id="editPlaylist" fitHeight="27.0" fitWidth="27.0" layoutX="96.0" layoutY="528.0" onMouseClicked="#handlePlaylistTableButton" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../assets/icons/edit.png" />
                </image>
@@ -132,9 +132,14 @@
                   <Image url="@../../assets/icons/replay.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="14.0" layoutY="69.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="speaker" fitHeight="25.0" fitWidth="25.0" layoutX="14.0" layoutY="69.0" onMouseClicked="#handleMute" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../assets/icons/speaker.png" />
+               </image>
+            </ImageView>
+            <ImageView id="moveSongDown" fitHeight="27.0" fitWidth="40.0" layoutX="319.0" layoutY="528.0" onMouseClicked="#handleShuffle" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../assets/icons/shuffle.png" />
                </image>
             </ImageView>
          </children>
