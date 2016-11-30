@@ -132,11 +132,11 @@ public class SongModel {
                 "6.06");
         bohemian.setFileName(MOCK_PATH + "bohemian.mp3");
 
-        Song happyRock = new Song("HappyRock",
-                "SomeArtist",
+        Song happyRock = new Song("BetterRock",
+                "Lynyrd Skynyrd",
                 "Rock",
-                "1.45");
-        happyRock.setFileName(MOCK_PATH + "happyrock.mp3");
+                "4.30");
+        happyRock.setFileName(MOCK_PATH + "alabama.mp3");
 
         Song baby = new Song(
                 "Baby",
