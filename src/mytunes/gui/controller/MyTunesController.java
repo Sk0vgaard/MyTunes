@@ -148,6 +148,18 @@ public class MyTunesController implements Initializable {
                 }
             }
         });
+        
+        tablePlaylists.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Playlist>() {
+            @Override
+            public void changed(ObservableValue<? extends Playlist> observable, Playlist oldValue, Playlist newValue)
+            {
+                if(newValue != null)
+                {
+                    ArrayList<Song> list = tablePlaylists.getSelectionModel().getSelectedItem().getSongsInPlaylist();
+                    songModel.updateCurrentPlaylist(list);
+                }
+            }
+        });
     }
 
     /**
@@ -489,7 +501,7 @@ public class MyTunesController implements Initializable {
         ArrayList<Song> currentPlaylist = songModel.getCurrentPlaylistAsArrayList();
         if (selectedIndex - 1 >= 0) {
             Collections.swap(currentPlaylist, selectedIndex, selectedIndex - 1);
-            songModel.updateCurrentPlaylust(currentPlaylist);
+            songModel.updateCurrentPlaylist(currentPlaylist);
             tableCurrentPlaylist.getSelectionModel().select(selectedIndex - 1);
         }
     }
@@ -505,7 +517,7 @@ public class MyTunesController implements Initializable {
         ArrayList<Song> currentPlaylist = songModel.getCurrentPlaylistAsArrayList();
         if (selectedIndex + 1 < currentPlaylist.size() && selectedView == tableCurrentPlaylist.getSelectionModel()) {
             Collections.swap(currentPlaylist, selectedIndex, selectedIndex + 1);
-            songModel.updateCurrentPlaylust(currentPlaylist);
+            songModel.updateCurrentPlaylist(currentPlaylist);
             tableCurrentPlaylist.getSelectionModel().select(selectedIndex + 1);
         }
     }

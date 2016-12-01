@@ -83,7 +83,7 @@ public class SongModel {
      *
      * @param playlist
      */
-    public void updateCurrentPlaylust(ArrayList<Song> playlist) {
+    public void updateCurrentPlaylist(ArrayList<Song> playlist) {
         currentPlaylist.clear();
         for (Song song : playlist) {
             currentPlaylist.add(song);
