@@ -205,10 +205,6 @@ public class SongModel {
         songs.add(cc3);
         songs.add(testEnd);
 
-        currentPlaylist.add(beatIt);
-        currentPlaylist.add(bohemian);
-        currentPlaylist.add(happyRock);
-
         playlists.add(mj);
         playlists.add(cc);
     }
