@@ -148,17 +148,6 @@ public class MyTunesController implements Initializable {
                 }
             }
         });
-
-        tablePlaylists.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Playlist>() {
-            @Override
-            public void changed(ObservableValue<? extends Playlist> observable, Playlist oldValue, Playlist newValue) {
-                if (newValue != null) {
-                    ArrayList<Song> list = tablePlaylists.getSelectionModel().getSelectedItem().getSongsInPlaylist();
-                    songModel.updateCurrentPlaylist(list);
-
-                }
-            }
-        });
     }
 
     /**
@@ -587,10 +576,16 @@ public class MyTunesController implements Initializable {
     private void handleShuffle(MouseEvent event) {
         songModel.shuffleCurrentPlaylist();
     }
-
+    
+    /**
+     * When a playlist is selected, show it's song in the currentPlaylist view.
+     * @param event 
+     */
     @FXML
     private void handleSelectPlaylist(MouseEvent event) {
         int playlistId = tablePlaylists.getSelectionModel().getSelectedItem().getId();
         songModel.setPlaylistID(playlistId);
+        ArrayList<Song> list = tablePlaylists.getSelectionModel().getSelectedItem().getSongsInPlaylist();
+        songModel.updateCurrentPlaylist(list);
     }
 }
