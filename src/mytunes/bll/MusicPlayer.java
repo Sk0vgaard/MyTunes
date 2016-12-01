@@ -51,7 +51,7 @@ public class MusicPlayer {
      */
     public void playSong(Song song) throws MediaException {
         //Pick the song to be played and put it in the myTunesPlayer.
-        pick = new Media("file:///" + song.getFileName().get().replace('\\', '/'));
+        pick = new Media("file:///" + song.getFileName().get());
         myTunesPlayer = new MediaPlayer(pick);
         myTunesPlayer.play();
         isPlaying = true;
