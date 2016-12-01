@@ -21,8 +21,7 @@ import mytunes.gui.model.SongModel;
  *
  * @author mathi
  */
-public class NewEditPlaylistController implements Initializable
-{
+public class NewEditPlaylistController implements Initializable {
 
     @FXML
     private Button btnCancel;
@@ -33,36 +32,34 @@ public class NewEditPlaylistController implements Initializable
 
     private Playlist currentPlaylist = new Playlist("", "", "");
 
-    private SongModel songModel = SongModel.getInstance();
+    private final SongModel songModel = SongModel.getInstance();
 
     /**
      * Initializes the controller class.
+     *
+     * @param url
+     * @param rb
      */
     @Override
-    public void initialize(URL url, ResourceBundle rb)
-    {
+    public void initialize(URL url, ResourceBundle rb) {
         // TODO
     }
 
-    public TextField getTxtName()
-    {
+    public TextField getTxtName() {
         return txtName;
     }
 
-    public void setTxtName(String txtName)
-    {
+    public void setTxtName(String txtName) {
         this.txtName.setText(txtName);
 
     }
 
-    public void setCurrentPlaylist(Playlist currentPlaylist)
-    {
+    public void setCurrentPlaylist(Playlist currentPlaylist) {
         this.currentPlaylist = currentPlaylist;
     }
 
     @FXML
-    private void handleCalcelButton(ActionEvent event)
-    {
+    private void handleCalcelButton(ActionEvent event) {
         // get a handle to the stage
         Stage stage = (Stage) txtName.getScene().getWindow();
         // do what you have to do
@@ -70,13 +67,10 @@ public class NewEditPlaylistController implements Initializable
     }
 
     @FXML
-    private void handleSaveButton(ActionEvent event)
-    {
-        if (!currentPlaylist.getName().get().equals(""))
-        {
+    private void handleSaveButton(ActionEvent event) {
+        if (!currentPlaylist.getName().get().equals("")) {
             currentPlaylist.setName(txtName.getText());
-        } else
-        {
+        } else {
             currentPlaylist.setName(txtName.getText());
             songModel.addPlaylist(currentPlaylist);
         }

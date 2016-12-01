@@ -5,55 +5,55 @@
  */
 package mytunes.be;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import mytunes.bll.IDCreator;
 
-public class Playlist {
+public class Playlist implements Serializable {
 
     private int id = 0;
-    private final StringProperty name;
-    private final StringProperty songs;
-    private final StringProperty duration;
+    private String name;
+    private String songs;
+    private String duration;
 
     private final ArrayList<Song> songsInPlaylist;
 
     public Playlist(String name, String songs, String duration) //String songs)
     {
-        this.name = new SimpleStringProperty();
-        this.songs = new SimpleStringProperty();
-        this.duration = new SimpleStringProperty();
+        this.name = name;
+        this.songs = songs;
+        this.duration = duration;
         songsInPlaylist = new ArrayList<>();
         id = IDCreator.createPlaylistId();
-
-        setName(name);
-        setSongs(songs);
-        setDuration(duration);
     }
 
     public void setName(String name) {
-        this.name.set(name);
+        this.name = name;
     }
 
     public void setSongs(String songs) {
-        this.songs.set(songs);
+        this.songs = songs;
     }
 
     public void setDuration(String duration) {
-        this.duration.set(duration);
+        this.duration = duration;
     }
 
     public StringProperty getName() {
-        return name;
+        StringProperty propertyName = new SimpleStringProperty(name);
+        return propertyName;
     }
 
     public StringProperty getSongs() {
-        return songs;
+        StringProperty propertySongs = new SimpleStringProperty(songs);
+        return propertySongs;
     }
 
     public StringProperty getDuration() {
-        return duration;
+        StringProperty propertyDuration = new SimpleStringProperty(duration);
+        return propertyDuration;
     }
 
     public ArrayList<Song> getSongsInPlaylist() {

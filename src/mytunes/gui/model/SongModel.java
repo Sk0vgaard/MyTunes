@@ -370,12 +370,18 @@ public class SongModel {
     /**
      * Add song to songs
      *
-     * @param song
+     * @param playlist
      */
     public void addPlaylist(Playlist playlist) {
         playlists.add(playlist);
+        savePlaylists();
     }
 
+    /**
+     * Adds the parsed song
+     *
+     * @param song
+     */
     public void addSong(Song song) {
         songs.add(song);
         saveSongs();
@@ -385,7 +391,7 @@ public class SongModel {
      * Save the songs
      */
     private void saveSongs() {
-        ArrayList<Song> songsToSave = new ArrayList<>(this.songs);
+        ArrayList<Song> songsToSave = new ArrayList<>(songs);
         musicDao.writeSongs(songsToSave);
     }
 
@@ -401,18 +407,51 @@ public class SongModel {
      * Load saved songs
      */
     public void loadSavedSongs() {
-        if (!musicDao.getSongsFromFile().isEmpty()) {
+        ArrayList<Song> songsFromFile = musicDao.getSongsFromFile();
+        if (!songsFromFile.isEmpty()) {
             songs.clear();
-            songs.addAll(musicDao.getSongsFromFile());
+            songs.addAll(songsFromFile);
         }
     }
 
+    /**
+     * Load saved playlists
+     *
+     */
+    public void loadSavedPlaylists() {
+        ArrayList<Playlist> playlistsFromFile = musicDao.getPlaylistsFromFile();
+        if (!playlistsFromFile.isEmpty()) {
+            playlists.clear();
+            playlists.addAll(playlistsFromFile);
+        }
+    }
+
+    /**
+     * Removes song
+     *
+     * @param songToDelete
+     */
     public void deleteSong(Song songToDelete) {
         songs.remove(songToDelete);
         saveSongs();
 
     }
 
+    /**
+     * Removes playlist
+     *
+     * @param playlistToDelete
+     */
+    public void deletePlaylist(Playlist playlistToDelete) {
+        playlists.remove(playlistToDelete);
+        savePlaylists();
+    }
+
+    /**
+     * Sets the current playlist id
+     *
+     * @param playlistID
+     */
     public void setPlaylistID(int playlistID) {
         this.playlistID = playlistID;
     }

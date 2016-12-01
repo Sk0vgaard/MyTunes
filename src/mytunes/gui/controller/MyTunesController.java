@@ -171,6 +171,7 @@ public class MyTunesController implements Initializable {
         clmPlaylistName.setCellValueFactory(i -> i.getValue().getName());
         clmPlaylistSongsAmount.setCellValueFactory(i -> i.getValue().getSongs());
         clmPlaylistTotalDuration.setCellValueFactory(i -> i.getValue().getDuration());
+        songModel.loadSavedPlaylists();
         tablePlaylists.setItems(songModel.getPlaylists());
     }
 
@@ -496,7 +497,7 @@ public class MyTunesController implements Initializable {
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
-            songModel.getPlaylists().remove(playlistToDelete);
+            songModel.deletePlaylist(playlistToDelete);
         }
     }
 
@@ -576,10 +577,11 @@ public class MyTunesController implements Initializable {
     private void handleShuffle(MouseEvent event) {
         songModel.shuffleCurrentPlaylist();
     }
-    
+
     /**
      * When a playlist is selected, show it's song in the currentPlaylist view.
-     * @param event 
+     *
+     * @param event
      */
     @FXML
     private void handleSelectPlaylist(MouseEvent event) {
