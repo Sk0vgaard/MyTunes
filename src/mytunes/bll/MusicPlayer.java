@@ -5,20 +5,26 @@
  */
 package mytunes.bll;
 
+import java.io.IOException;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaException;
 import javafx.scene.media.MediaPlayer;
 import mytunes.be.Song;
+import mytunes.gui.model.SongModel;
 
 public class MusicPlayer {
 
     private static MusicPlayer instance;
+
+    private SongModel songModel;
 
     private MediaPlayer myTunesPlayer;
 
     private boolean isPlaying = false;
 
     private Song currentSong;
+
+    private Media pick;
 
     public static MusicPlayer getInstance() {
         if (instance == null) {
@@ -27,7 +33,13 @@ public class MusicPlayer {
         return instance;
     }
 
-    private MusicPlayer() {
+    /**
+     * Sets the songModel so the musicPlayer has a reference to the SongModel.
+     *
+     * @param sModel
+     */
+    public void setSongModel(SongModel sModel) {
+        songModel = sModel;
     }
 
     /**
@@ -39,11 +51,22 @@ public class MusicPlayer {
      */
     public void playSong(Song song) throws MediaException {
         //Pick the song to be played and put it in the myTunesPlayer.
-        Media pick = new Media("file:///" + song.getFileName().get().replace('\\', '/'));
+        pick = new Media("file:///" + song.getFileName().get().replace('\\', '/'));
         myTunesPlayer = new MediaPlayer(pick);
         myTunesPlayer.play();
         isPlaying = true;
         currentSong = song;
+        myTunesPlayer.setOnEndOfMedia(new Runnable() //Listens for when a song ends.
+        {
+            @Override
+            public void run() {
+                try {
+                    songModel.playNextSong(); //Plays the next song.
+                } catch (IOException ex) {
+                    System.out.println(ex.getMessage());
+                }
+            }
+        });
     }
 
     /**
@@ -51,6 +74,7 @@ public class MusicPlayer {
      */
     public void pausePlaying() {
         myTunesPlayer.pause();
+
     }
 
     /**
@@ -69,14 +93,35 @@ public class MusicPlayer {
     }
 
     /**
+     * Restarts the current song
+     */
+    public void replaySong() {
+        myTunesPlayer.stop();
+        myTunesPlayer.play();
+    }
+
+    /**
      *
-     * @return
+     * @return status of MyTunesPlayer playing
      */
     public boolean isPlaying() {
         return isPlaying;
     }
 
+    /**
+     *
+     * @return current song
+     */
     public Song getCurrentSong() {
         return currentSong;
+    }
+
+    /**
+     * Set the music volume
+     *
+     * @param volume
+     */
+    public void setVolume(double volume) {
+        myTunesPlayer.setVolume(volume);
     }
 }

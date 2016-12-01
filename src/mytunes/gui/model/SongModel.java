@@ -5,25 +5,37 @@
  */
 package mytunes.gui.model;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import mytunes.be.Playlist;
 import mytunes.be.Song;
 import mytunes.bll.FileManager;
 import mytunes.bll.MusicPlayer;
+import mytunes.dal.MusicDAO;
+import mytunes.gui.controller.MyTunesController;
 
 public class SongModel {
 
     private static SongModel instance;
 
+    private int playlistID;
+
+    private MyTunesController mtController;
+
     private final ObservableList<Song> songs;
     private final ObservableList<Song> currentPlaylist;
+    private final ObservableList<Playlist> playlists;
 
     private final ArrayList<Song> savedSongs;
 
     private final MusicPlayer musicPlayer;
 
     private final FileManager fileManager;
+
+    private final MusicDAO musicDao = MusicDAO.getInstance();
 
     private static final String MOCK_PATH = System.getProperty("user.dir").replace('\\', '/') + "/src/mytunes/assets/mp3/";
 
@@ -46,7 +58,9 @@ public class SongModel {
     private SongModel() {
         songs = FXCollections.observableArrayList();
         currentPlaylist = FXCollections.observableArrayList();
+        playlists = FXCollections.observableArrayList();
         musicPlayer = MusicPlayer.getInstance();
+        musicPlayer.setSongModel(this);
         savedSongs = new ArrayList<>();
         fileManager = new FileManager();
         mockupSongs();
@@ -59,10 +73,44 @@ public class SongModel {
     public ObservableList<Song> getSongs() {
         return songs;
     }
-    
-    public ObservableList<Song> getCurrentPlaylist()
-    {
+
+    /**
+     * Returns the currentPlaylist.
+     *
+     * @return
+     */
+    public ObservableList<Song> getCurrentPlaylist() {
         return currentPlaylist;
+    }
+
+    /**
+     * Updates the currentPlaylist with the given arrayList.
+     *
+     * @param playlist
+     */
+    public void updateCurrentPlaylist(ArrayList<Song> playlist) {
+
+        currentPlaylist.clear();
+        for (Song song : playlist) {
+            currentPlaylist.add(song);
+        }
+    }
+
+    /**
+     * Returns the songs in the observableList as ArrayList.
+     *
+     * @return
+     */
+    public ArrayList<Song> getCurrentPlaylistAsArrayList() {
+        ArrayList<Song> playlist = new ArrayList<>();
+        for (Song song : currentPlaylist) {
+            playlist.add(song);
+        }
+        return playlist;
+    }
+
+    public ObservableList<Playlist> getPlaylists() {
+        return playlists;
     }
 
     /**
@@ -90,11 +138,11 @@ public class SongModel {
                 "6.06");
         bohemian.setFileName(MOCK_PATH + "bohemian.mp3");
 
-        Song happyRock = new Song("HappyRock",
-                "SomeArtist",
+        Song happyRock = new Song("BetterRock",
+                "Lynyrd Skynyrd",
                 "Rock",
-                "1.45");
-        happyRock.setFileName(MOCK_PATH + "happyrock.mp3");
+                "4.30");
+        happyRock.setFileName(MOCK_PATH + "alabama.mp3");
 
         Song baby = new Song(
                 "Baby",
@@ -103,34 +151,62 @@ public class SongModel {
                 "2.5");
         baby.setFileName(MOCK_PATH + "baby.mp3");
 
+        Song cc1 = new Song(
+                "Voice of Truth",
+                "Casting Crowns",
+                "Christian",
+                "3.25");
+        cc1.setFileName(MOCK_PATH + "voiceOfTruth.mp3");
+
+        Song cc2 = new Song(
+                "What this world needs",
+                "Casting Crowns",
+                "Chritian",
+                "3.25");
+        cc2.setFileName(MOCK_PATH + "whatThisWorldNeeds.mp3");
+
+        Song cc3 = new Song(
+                "Does anybody hear her",
+                "Casting Crowns",
+                "Christian",
+                "3.25");
+        cc3.setFileName(MOCK_PATH + "doesAnybodyHearHer.mp3");
+
+        Playlist mj = new Playlist("Michael fucking Jackson", "1", "3.42");
+        Playlist cc = new Playlist("Casting Crowns", "3", "10");
+
+        mj.getSongsInPlaylist().add(beatIt);
+        cc.getSongsInPlaylist().add(cc1);
+        cc.getSongsInPlaylist().add(cc2);
+        cc.getSongsInPlaylist().add(cc3);
+
+        Song testEnd = new Song(
+                "TestEnd",
+                "RandomGuy",
+                "Not Really",
+                "0.16");
+        testEnd.setFileName(MOCK_PATH + "testEnd.mp3");
+
+        Song testPiano = new Song(
+                "TestPiano",
+                "Random",
+                "Nope",
+                "0.19");
+        testPiano.setFileName(MOCK_PATH + "piano.mp3");
+
+        songs.add(testPiano);
         songs.add(excited);
         songs.add(beatIt);
         songs.add(bohemian);
         songs.add(happyRock);
         songs.add(baby);
-        
-        Song beatIt2 = new Song(
-                "Beat It",
-                "Michael Jackson",
-                "POP", "3.42");
-        beatIt2.setFileName("beatIt.mp3");
+        songs.add(cc1);
+        songs.add(cc2);
+        songs.add(cc3);
+        songs.add(testEnd);
 
-        Song bohemian2 = new Song(
-                "Bohemian Rhapsody",
-                "Queen",
-                "POP",
-                "6.06");
-        bohemian2.setFileName("bohemian.mp3");
-
-        Song happyRock2 = new Song("HappyRock",
-                "SomeArtist",
-                "Rock",
-                "1.45");
-        happyRock2.setFileName("happyrock.mp3");
-        
-        currentPlaylist.add(beatIt2);
-        currentPlaylist.add(bohemian2);
-        currentPlaylist.add(happyRock2);
+        playlists.add(mj);
+        playlists.add(cc);
     }
 
     /**
@@ -180,7 +256,16 @@ public class SongModel {
     }
 
     /**
-     * Search for song
+     * Replays the song
+     */
+    public void replaySong() {
+        if (musicPlayer.isPlaying()) {
+            musicPlayer.replaySong();
+        }
+    }
+
+    /**
+     * Search for song from parsed string
      *
      * @param searchString
      */
@@ -208,12 +293,127 @@ public class SongModel {
     }
 
     /**
-     * Find song
+     * Find song on drive
      *
      * @return
      */
-    public String openFileDialog() {
-        fileManager.openFile();
-        return fileManager.getPath();
+    public Song getSongFromFile() {
+        return fileManager.openFile();
+    }
+
+    /**
+     * Sets the mtController so the SongModel has a reference to the
+     * MyTunesController.
+     *
+     * @param mtController
+     */
+    public void setMyTunesController(MyTunesController mtController) {
+        this.mtController = mtController;
+    }
+
+    /**
+     * Calls the playNextSong method from the MyTunesController.
+     *
+     * @throws IOException
+     */
+    public void playNextSong() throws IOException {
+        mtController.playNextSong();
+    }
+
+    /**
+     * Switch sound level on music player
+     *
+     * @param value
+     */
+    public void switchVolume(double value) {
+        musicPlayer.setVolume(value);
+    }
+
+    /**
+     * Mute
+     */
+    public void mute() {
+        musicPlayer.setVolume(0);
+    }
+
+    /**
+     * Unmute
+     *
+     * @param lastValue
+     */
+    public void unmute(double lastValue) {
+        musicPlayer.setVolume(lastValue);
+    }
+
+    /**
+     * Shuffle the current playlist
+     */
+    public void shuffleCurrentPlaylist() {
+        Collections.shuffle(currentPlaylist);
+    }
+
+    /**
+     * Add song to playlist
+     *
+     * @param song
+     */
+    public void addSongToPlaylist(Song song) {
+        currentPlaylist.add(song);
+        for (Playlist playlist : playlists) {
+            if (playlist.getId() == playlistID) {
+                playlist.addSong(song);
+            }
+        }
+        savePlaylists();
+    }
+
+    /**
+     * Add song to songs
+     *
+     * @param song
+     */
+    public void addPlaylist(Playlist playlist) {
+        playlists.add(playlist);
+    }
+
+    public void addSong(Song song) {
+        songs.add(song);
+        saveSongs();
+    }
+
+    /**
+     * Save the songs
+     */
+    private void saveSongs() {
+        ArrayList<Song> songsToSave = new ArrayList<>(this.songs);
+        musicDao.writeSongs(songsToSave);
+    }
+
+    /**
+     * Save playlists
+     */
+    private void savePlaylists() {
+        ArrayList<Playlist> playlistsToSave = new ArrayList<>(playlists);
+        musicDao.writePlaylists(playlistsToSave);
+    }
+
+    /**
+     * Load saved songs
+     */
+    public void loadSavedSongs() {
+        if (!musicDao.getSongsFromFile().isEmpty()) {
+            songs.clear();
+            songs.addAll(musicDao.getSongsFromFile());
+        }
+    }
+
+    public void deleteSong(Song songToDelete) {
+        songs.remove(songToDelete);
+        saveSongs();
+
+    }
+
+    public void setPlaylistID(int playlistID) {
+        this.playlistID = playlistID;
     }
 }

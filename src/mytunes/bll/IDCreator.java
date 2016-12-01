@@ -7,16 +7,27 @@ package mytunes.bll;
 
 public class IDCreator {
 
-    private static int id = 0;
+    private static int songId = 0;
+    private static int playListId = 0;
 
     /**
-     * Increases the working id and returns the value
+     * Increases the working song id and returns the value
      *
      * @return
      */
-    public static int createId() {
-        id++;
-        return id;
+    public static int createSongId() {
+        songId++;
+        return songId;
+    }
+
+    /**
+     * Increases the working playlist id and returns the value
+     *
+     * @return
+     */
+    public static int createPlaylistId() {
+        playListId++;
+        return playListId;
     }
 
 }

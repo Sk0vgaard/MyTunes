@@ -5,8 +5,8 @@
  */
 package mytunes.gui.controller;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -29,7 +29,8 @@ import mytunes.gui.model.SongModel;
  *
  * @author Rasmus
  */
-public class NewEditSongController implements Initializable {
+public class NewEditSongController implements Initializable
+{
 
     private SongModel songModel = SongModel.getInstance();
     @FXML
@@ -51,6 +52,8 @@ public class NewEditSongController implements Initializable {
     @FXML
     private Button btnCancel;
 
+    private Stage primStage;
+
     private static ObservableList<String> genreList = FXCollections.observableArrayList(
             "Rock",
             "POP",
@@ -67,7 +70,8 @@ public class NewEditSongController implements Initializable {
 
     private Song currentSong = new Song("", "", "", "");
 
-    public static ObservableList<String> getGenreList() {
+    public static ObservableList<String> getGenreList()
+    {
         return genreList;
     }
 
@@ -78,18 +82,23 @@ public class NewEditSongController implements Initializable {
      * @param rb
      */
     @Override
-
-    public void initialize(URL url, ResourceBundle rb) {
+    public void initialize(URL url, ResourceBundle rb)
+    {
         songModel = SongModel.getInstance();
         comboGenre.setItems(genreList);
         comboGenre.setVisibleRowCount(6);
         comboGenre.getSelectionModel().selectFirst();
     }
 
+    /**
+     * Open modal to add more genres
+     *
+     * @throws IOException
+     */
     @FXML
-
-    private void handleMoreButton() throws IOException {
-        Stage primStage = (Stage) txtTitle.getScene().getWindow();
+    private void handleMoreButton() throws IOException
+    {
+        primStage = (Stage) txtTitle.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/MoreGenreView.fxml"));
         Parent root = loader.load();
 
@@ -103,23 +112,39 @@ public class NewEditSongController implements Initializable {
 
     }
 
+    /**
+     * Choose song on hdd and load information from it, if available
+     *
+     * @throws IOException
+     * @throws FileNotFoundException
+     * @throws InterruptedException
+     */
     @FXML
-    private void handleChooseButton() {
-        txtFile.setText(songModel.openFileDialog());
+    private void handleChooseButton()
+    {
+        Song selectedSong = songModel.getSongFromFile();
+        txtTitle.setText(selectedSong.getTitle().get());
+        txtArtist.setText(selectedSong.getArtist().get());
+        txtFile.setText(selectedSong.getFileName().get());
+        comboGenre.getSelectionModel().select(selectedSong.getGenre().get());
+        txtDuration.setText(selectedSong.getDuration().get());
     }
 
+    /**
+     * Checks if we're editing a song or adding a new one and then either edits
+     * or adds
+     */
     @FXML
-    private void handleSaveButton() throws InvocationTargetException {
-        currentSong.setTitle(txtTitle.getText());
-        currentSong.setArtist(txtArtist.getText());
-        currentSong.setGenre(comboGenre.getValue());
-        currentSong.setDuration(txtDuration.getText());
-        currentSong.setFileName(txtFile.getText());
+    private void handleSaveButton()
+    {
+        if (!currentSong.getTitle().get().equals(""))
+        {
+            setSongInfo();
 
-        if (currentSong.getTitle().get().equals("")) {
-
-        } else {
-            songModel.getSongs().add(currentSong);
+        } else
+        {
+            setSongInfo();
+            songModel.addSong(currentSong);
         }
 
         // get a handle to the stage
@@ -128,32 +153,51 @@ public class NewEditSongController implements Initializable {
         stage.close();
     }
 
-    public void setTxtTitle(String newString) {
+    private void setSongInfo()
+    {
+        currentSong.setTitle(txtTitle.getText());
+        currentSong.setArtist(txtArtist.getText());
+        currentSong.setGenre(comboGenre.getValue());
+        currentSong.setDuration(txtDuration.getText());
+        currentSong.setFileName(txtFile.getText());
+    }
+
+    public void setTxtTitle(String newString)
+    {
         this.txtTitle.setText(newString);
     }
 
-    public void setTxtArtist(String newString) {
+    public void setTxtArtist(String newString)
+    {
         this.txtArtist.setText(newString);
     }
 
-    public void setTxtDuration(String newString) {
+    public void setTxtDuration(String newString)
+    {
         this.txtDuration.setText(newString);
     }
 
-    public void setTxtFile(String newString) {
+    public void setTxtFile(String newString)
+    {
         this.txtFile.setText(newString);
     }
 
-    public void setCurrentSong(Song songToEdit) {
+    public void setCurrentSong(Song songToEdit)
+    {
         currentSong = songToEdit;
     }
 
-    public void setComboGenre(String comboGenre) {
+    public void setComboGenre(String comboGenre)
+    {
         this.comboGenre.getSelectionModel().select(comboGenre);
     }
 
+    /**
+     * Cancel adding/editing song
+     */
     @FXML
-    private void handleCancelButton() {
+    private void handleCancelButton()
+    {
         // get a handle to the stage
         Stage stage = (Stage) txtFile.getScene().getWindow();
         // do what you have to do
