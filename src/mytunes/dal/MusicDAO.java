@@ -5,30 +5,34 @@
  */
 package mytunes.dal;
 
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
 import java.util.ArrayList;
+import mytunes.be.Playlist;
 import mytunes.be.Song;
 
-public class SongDAO {
+public class MusicDAO {
 
-    private static SongDAO instance;
+    private static MusicDAO instance;
 
     private final String path = System.getProperty("user.dir").replace('\\', '/') + "/src/mytunes/data/";
 
     private ArrayList<Song> savedSongs;
 
-    public static SongDAO getInstance() {
+    public static MusicDAO getInstance() {
         if (instance == null) {
-            instance = new SongDAO();
+            instance = new MusicDAO();
         }
         return instance;
     }
 
-    private SongDAO() {
+    private MusicDAO() {
         savedSongs = new ArrayList<>();
     }
 
@@ -37,18 +41,7 @@ public class SongDAO {
      *
      * @param songs
      */
-    public void writeObject(ArrayList<Song> songs) {
-        //File writing
-//        File songData = new File(path + "songs.data");
-//        try (PrintWriter out = new PrintWriter(songData)) {
-//            for (Song song : songs) {
-//                out.write(song.getId() + "," + song.getTitle().get());
-//                out.println();
-//            }
-//        } catch (FileNotFoundException fnfe) {
-//            System.out.println("File not found");
-//        }
-
+    public void writeSongs(ArrayList<Song> songs) {
         //Object writing
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("songs.data"))) {
             oos.writeObject(songs);
@@ -72,6 +65,26 @@ public class SongDAO {
             System.out.println("Error " + ex);
         }
         return savedSongs;
+    }
+
+    /**
+     * Writes the playlists to a file
+     *
+     * @param playlists
+     */
+    public void writePlaylists(ArrayList<Playlist> playlists) {
+        //File writing
+        File songData = new File("playlists.data");
+        try (PrintWriter out = new PrintWriter(songData)) {
+            for (Playlist playlist : playlists) {
+                for (Song song : playlist.getSongsInPlaylist()) {
+                    out.write(playlist.getId() + "," + song.getId());
+                    out.println();
+                }
+            }
+        } catch (FileNotFoundException fnfe) {
+            System.out.println("File not found");
+        }
     }
 
 }

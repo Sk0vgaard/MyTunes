@@ -148,15 +148,17 @@ public class MyTunesController implements Initializable {
                 }
             }
         });
-        
+
         tablePlaylists.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Playlist>() {
+            int playlistID = tableCurrentPlaylist.getSelectionModel().getSelectedItem().getId();
+
             @Override
-            public void changed(ObservableValue<? extends Playlist> observable, Playlist oldValue, Playlist newValue)
-            {
-                if(newValue != null)
-                {
+            public void changed(ObservableValue<? extends Playlist> observable, Playlist oldValue, Playlist newValue) {
+                if (newValue != null) {
                     ArrayList<Song> list = tablePlaylists.getSelectionModel().getSelectedItem().getSongsInPlaylist();
                     songModel.updateCurrentPlaylist(list);
+                    songModel.setPlaylistID(playlistID);
+
                 }
             }
         });

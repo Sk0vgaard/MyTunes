@@ -60,4 +60,12 @@ public class Playlist {
         return songsInPlaylist;
     }
 
+    /**
+     *
+     * @return id
+     */
+    public int getId() {
+        return id;
+    }
+
 }

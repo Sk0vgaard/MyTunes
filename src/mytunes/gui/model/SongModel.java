@@ -14,7 +14,7 @@ import mytunes.be.Playlist;
 import mytunes.be.Song;
 import mytunes.bll.FileManager;
 import mytunes.bll.MusicPlayer;
-import mytunes.dal.SongDAO;
+import mytunes.dal.MusicDAO;
 import mytunes.gui.controller.MyTunesController;
 
 public class SongModel {
@@ -33,7 +33,7 @@ public class SongModel {
 
     private final FileManager fileManager;
 
-    private SongDAO songDao = SongDAO.getInstance();
+    private final MusicDAO musicDao = MusicDAO.getInstance();
 
     private static final String MOCK_PATH = System.getProperty("user.dir").replace('\\', '/') + "/src/mytunes/assets/mp3/";
 
@@ -360,6 +360,7 @@ public class SongModel {
      */
     public void addSongToPlaylist(Song song) {
         currentPlaylist.add(song);
+        savePlaylists();
     }
 
     /**
@@ -377,16 +378,24 @@ public class SongModel {
      */
     private void saveSongs() {
         ArrayList<Song> songsToSave = new ArrayList<>(this.songs);
-        songDao.writeObject(songsToSave);
+        musicDao.writeSongs(songsToSave);
+    }
+
+    /**
+     * Save playlists
+     */
+    private void savePlaylists() {
+        ArrayList<Playlist> playlistsToSave = new ArrayList<>(playlists);
+        musicDao.writePlaylists(playlistsToSave);
     }
 
     /**
      * Load saved songs
      */
     public void loadSavedSongs() {
-        if (!songDao.getSongsFromFile().isEmpty()) {
+        if (!musicDao.getSongsFromFile().isEmpty()) {
             songs.clear();
-            songs.addAll(songDao.getSongsFromFile());
+            songs.addAll(musicDao.getSongsFromFile());
         }
     }
 
