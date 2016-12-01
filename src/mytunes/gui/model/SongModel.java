@@ -415,4 +415,8 @@ public class SongModel {
     public void setPlaylistID(int playlistID) {
         this.playlistID = playlistID;
     }
+
+    public void test() {
+
+    }
 }
