@@ -156,6 +156,18 @@ public class MyTunesController implements Initializable
                 }
             }
         });
+        
+        tablePlaylists.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Playlist>() {
+            @Override
+            public void changed(ObservableValue<? extends Playlist> observable, Playlist oldValue, Playlist newValue)
+            {
+                if(newValue != null)
+                {
+                    ArrayList<Song> list = tablePlaylists.getSelectionModel().getSelectedItem().getSongsInPlaylist();
+                    songModel.updateCurrentPlaylist(list);
+                }
+            }
+        });
     }
 
     /**
@@ -168,9 +180,10 @@ public class MyTunesController implements Initializable
         clmSongArtist.setCellValueFactory(i -> i.getValue().getArtist());
         clmSongGenre.setCellValueFactory(i -> i.getValue().getGenre());
         clmSongDuration.setCellValueFactory(i -> i.getValue().getDuration());
+        songModel.loadSavedSongs();
         tableSongs.setItems(songModel.getSongs());
 
-        //Add songto current playlist
+        //Add song to current playlist
         clmCurrentPlaylistTrack.setCellValueFactory(column -> new ReadOnlyObjectWrapper<>(tableCurrentPlaylist.getItems().indexOf(column.getValue())).asString());
         clmCurrentPlaylistTitle.setCellValueFactory(i -> i.getValue().getTitle());
         tableCurrentPlaylist.setItems(songModel.getCurrentPlaylist());
@@ -277,10 +290,11 @@ public class MyTunesController implements Initializable
      * Play a song on a double click
      */
     @FXML
-    private void handleDoubleClick(MouseEvent event)
-    {
-        if (event.getClickCount() == 2)
-        {
+
+    private void handleDoubleClick(MouseEvent event) {
+        if (event.getClickCount() == 2) {
+            songModel.stopPlaying();
+
             selectedSong = selectedView.getSelectedItem();
             playSong(selectedSong);
         }
@@ -405,9 +419,9 @@ public class MyTunesController implements Initializable
             Alert alert = songRemoveDialog(songToDelete);
 
             Optional<ButtonType> result = alert.showAndWait();
-            if (result.get() == ButtonType.OK)
-            {
-                songModel.getSongs().remove(songToDelete);
+
+            if (result.get() == ButtonType.OK) {
+                songModel.deleteSong(songToDelete);
             }
         } catch (NullPointerException npe)
         {
@@ -557,7 +571,7 @@ public class MyTunesController implements Initializable
         if (selectedIndex - 1 >= 0)
         {
             Collections.swap(currentPlaylist, selectedIndex, selectedIndex - 1);
-            songModel.updateCurrentPlaylust(currentPlaylist);
+            songModel.updateCurrentPlaylist(currentPlaylist);
             tableCurrentPlaylist.getSelectionModel().select(selectedIndex - 1);
         }
     }
@@ -575,7 +589,7 @@ public class MyTunesController implements Initializable
         if (selectedIndex + 1 < currentPlaylist.size() && selectedView == tableCurrentPlaylist.getSelectionModel())
         {
             Collections.swap(currentPlaylist, selectedIndex, selectedIndex + 1);
-            songModel.updateCurrentPlaylust(currentPlaylist);
+            songModel.updateCurrentPlaylist(currentPlaylist);
             tableCurrentPlaylist.getSelectionModel().select(selectedIndex + 1);
         }
     }

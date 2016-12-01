@@ -92,6 +92,7 @@ dist/
 nbbuild/
 nbdist/
 .nb-gradle/
+*.data
 
 
 ### Intellij ###

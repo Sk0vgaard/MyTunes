@@ -14,6 +14,7 @@ import mytunes.be.Playlist;
 import mytunes.be.Song;
 import mytunes.bll.FileManager;
 import mytunes.bll.MusicPlayer;
+import mytunes.dal.SongDAO;
 import mytunes.gui.controller.MyTunesController;
 
 public class SongModel
@@ -32,6 +33,8 @@ public class SongModel
     private final MusicPlayer musicPlayer;
 
     private final FileManager fileManager;
+
+    private SongDAO songDao = SongDAO.getInstance();
 
     private static final String MOCK_PATH = System.getProperty("user.dir").replace('\\', '/') + "/src/mytunes/assets/mp3/";
 
@@ -89,8 +92,11 @@ public class SongModel
      *
      * @param playlist
      */
-    public void updateCurrentPlaylust(ArrayList<Song> playlist)
+        
+
+    public void updateCurrentPlaylist(ArrayList<Song> playlist)
     {
+         
         currentPlaylist.clear();
         for (Song song : playlist)
         {
@@ -157,9 +163,34 @@ public class SongModel
                 "2.5");
         baby.setFileName(MOCK_PATH + "baby.mp3");
 
+        Song cc1 = new Song(
+                "Voice of Truth",
+                "Casting Crowns",
+                "Christian",
+                "3.25");
+        cc1.setFileName(MOCK_PATH + "voiceOfTruth.mp3");
+
+        Song cc2 = new Song(
+                "What this world needs",
+                "Casting Crowns",
+                "Chritian",
+                "3.25");
+        cc2.setFileName(MOCK_PATH + "whatThisWorldNeeds.mp3");
+
+        Song cc3 = new Song(
+                "Does anybody hear her",
+                "Casting Crowns",
+                "Christian",
+                "3.25");
+        cc3.setFileName(MOCK_PATH + "doesAnybodyHearHer.mp3");
+
         Playlist mj = new Playlist("Michael fucking Jackson", "1", "3.42");
+        Playlist cc = new Playlist("Casting Crowns", "3", "10");
 
         mj.getSongsInPlaylist().add(beatIt);
+        cc.getSongsInPlaylist().add(cc1);
+        cc.getSongsInPlaylist().add(cc2);
+        cc.getSongsInPlaylist().add(cc3);
 
         Song testEnd = new Song(
                 "TestEnd",
@@ -181,6 +212,9 @@ public class SongModel
         songs.add(bohemian);
         songs.add(happyRock);
         songs.add(baby);
+        songs.add(cc1);
+        songs.add(cc2);
+        songs.add(cc3);
         songs.add(testEnd);
 
         currentPlaylist.add(beatIt);
@@ -188,6 +222,7 @@ public class SongModel
         currentPlaylist.add(happyRock);
 
         playlists.add(mj);
+        playlists.add(cc);
     }
 
     /**
@@ -371,13 +406,42 @@ public class SongModel
      *
      * @param song
      */
-    public void addSong(Song song)
-    {
-        songs.add(song);
-    }
-    
     public void addPlaylist(Playlist playlist)
     {
         playlists.add(playlist);
+    }
+
+    public void addSong(Song song)
+    {
+        songs.add(song);
+        saveSongs();
+    }
+
+    /**
+     * Save the songs
+     */
+    private void saveSongs()
+    {
+        ArrayList<Song> songsToSave = new ArrayList<>(this.songs);
+        songDao.writeObject(songsToSave);
+    }
+
+    /**
+     * Load saved songs
+     */
+    public void loadSavedSongs()
+    {
+        if (!songDao.getSongsFromFile().isEmpty())
+        {
+            songs.clear();
+            songs.addAll(songDao.getSongsFromFile());
+        }
+    }
+
+    public void deleteSong(Song songToDelete)
+    {
+        songs.remove(songToDelete);
+        saveSongs();
+        
     }
 }
