@@ -147,25 +147,25 @@ public class SongModel {
                 "POP",
                 "2.5");
         baby.setFileName(MOCK_PATH + "baby.mp3");
-        
+
         Song cc1 = new Song(
-                "Voice of Truth", 
-                "Casting Crowns", 
-                "Christian", 
+                "Voice of Truth",
+                "Casting Crowns",
+                "Christian",
                 "3.25");
         cc1.setFileName(MOCK_PATH + "voiceOfTruth.mp3");
-        
+
         Song cc2 = new Song(
-                "What this world needs", 
-                "Casting Crowns", 
-                "Chritian", 
+                "What this world needs",
+                "Casting Crowns",
+                "Chritian",
                 "3.25");
         cc2.setFileName(MOCK_PATH + "whatThisWorldNeeds.mp3");
-        
+
         Song cc3 = new Song(
-                "Does anybody hear her", 
-                "Casting Crowns", 
-                "Christian", 
+                "Does anybody hear her",
+                "Casting Crowns",
+                "Christian",
                 "3.25");
         cc3.setFileName(MOCK_PATH + "doesAnybodyHearHer.mp3");
 
