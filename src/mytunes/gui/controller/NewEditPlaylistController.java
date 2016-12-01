@@ -12,6 +12,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+import mytunes.be.Playlist;
+import mytunes.gui.model.SongModel;
 
 /**
  * FXML Controller class
@@ -28,6 +31,10 @@ public class NewEditPlaylistController implements Initializable
     @FXML
     private TextField txtName;
 
+    private Playlist currentPlaylist = new Playlist("", "", "");
+
+    private SongModel songModel = SongModel.getInstance();
+
     /**
      * Initializes the controller class.
      */
@@ -35,7 +42,7 @@ public class NewEditPlaylistController implements Initializable
     public void initialize(URL url, ResourceBundle rb)
     {
         // TODO
-    }    
+    }
 
     public TextField getTxtName()
     {
@@ -45,16 +52,39 @@ public class NewEditPlaylistController implements Initializable
     public void setTxtName(String txtName)
     {
         this.txtName.setText(txtName);
+
+    }
+
+    public void setCurrentPlaylist(Playlist currentPlaylist)
+    {
+        this.currentPlaylist = currentPlaylist;
     }
 
     @FXML
     private void handleCalcelButton(ActionEvent event)
     {
+        // get a handle to the stage
+        Stage stage = (Stage) txtName.getScene().getWindow();
+        // do what you have to do
+        stage.close();
     }
 
     @FXML
     private void handleSaveButton(ActionEvent event)
     {
+        if (!currentPlaylist.getName().get().equals(""))
+        {
+            currentPlaylist.setName(txtName.getText());
+        } else
+        {
+            currentPlaylist.setName(txtName.getText());
+            songModel.addPlaylist(currentPlaylist);
+        }
+
+        // get a handle to the stage
+        Stage stage = (Stage) txtName.getScene().getWindow();
+        // do what you have to do
+        stage.close();
     }
-    
+
 }

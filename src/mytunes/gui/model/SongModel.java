@@ -21,6 +21,8 @@ public class SongModel {
 
     private static SongModel instance;
 
+    private int playlistID;
+
     private MyTunesController mtController;
 
     private final ObservableList<Song> songs;
@@ -87,6 +89,7 @@ public class SongModel {
      * @param playlist
      */
     public void updateCurrentPlaylist(ArrayList<Song> playlist) {
+
         currentPlaylist.clear();
         for (Song song : playlist) {
             currentPlaylist.add(song);
@@ -368,6 +371,10 @@ public class SongModel {
      *
      * @param song
      */
+    public void addPlaylist(Playlist playlist) {
+        playlists.add(playlist);
+    }
+
     public void addSong(Song song) {
         songs.add(song);
         saveSongs();
@@ -402,5 +409,10 @@ public class SongModel {
     public void deleteSong(Song songToDelete) {
         songs.remove(songToDelete);
         saveSongs();
+
+    }
+
+    public void setPlaylistID(int playlistID) {
+        this.playlistID = playlistID;
     }
 }

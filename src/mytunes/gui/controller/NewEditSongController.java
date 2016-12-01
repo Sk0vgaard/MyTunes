@@ -29,7 +29,8 @@ import mytunes.gui.model.SongModel;
  *
  * @author Rasmus
  */
-public class NewEditSongController implements Initializable {
+public class NewEditSongController implements Initializable
+{
 
     private SongModel songModel = SongModel.getInstance();
     @FXML
@@ -69,7 +70,8 @@ public class NewEditSongController implements Initializable {
 
     private Song currentSong = new Song("", "", "", "");
 
-    public static ObservableList<String> getGenreList() {
+    public static ObservableList<String> getGenreList()
+    {
         return genreList;
     }
 
@@ -80,7 +82,8 @@ public class NewEditSongController implements Initializable {
      * @param rb
      */
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
+    public void initialize(URL url, ResourceBundle rb)
+    {
         songModel = SongModel.getInstance();
         comboGenre.setItems(genreList);
         comboGenre.setVisibleRowCount(6);
@@ -93,7 +96,8 @@ public class NewEditSongController implements Initializable {
      * @throws IOException
      */
     @FXML
-    private void handleMoreButton() throws IOException {
+    private void handleMoreButton() throws IOException
+    {
         primStage = (Stage) txtTitle.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/MoreGenreView.fxml"));
         Parent root = loader.load();
@@ -116,7 +120,8 @@ public class NewEditSongController implements Initializable {
      * @throws InterruptedException
      */
     @FXML
-    private void handleChooseButton() {
+    private void handleChooseButton()
+    {
         Song selectedSong = songModel.getSongFromFile();
         txtTitle.setText(selectedSong.getTitle().get());
         txtArtist.setText(selectedSong.getArtist().get());
@@ -130,11 +135,14 @@ public class NewEditSongController implements Initializable {
      * or adds
      */
     @FXML
-    private void handleSaveButton() {
-        if (!currentSong.getTitle().get().equals("")) {
+    private void handleSaveButton()
+    {
+        if (!currentSong.getTitle().get().equals(""))
+        {
             setSongInfo();
 
-        } else {
+        } else
+        {
             setSongInfo();
             songModel.addSong(currentSong);
         }
@@ -145,7 +153,8 @@ public class NewEditSongController implements Initializable {
         stage.close();
     }
 
-    private void setSongInfo() {
+    private void setSongInfo()
+    {
         currentSong.setTitle(txtTitle.getText());
         currentSong.setArtist(txtArtist.getText());
         currentSong.setGenre(comboGenre.getValue());
@@ -153,27 +162,33 @@ public class NewEditSongController implements Initializable {
         currentSong.setFileName(txtFile.getText());
     }
 
-    public void setTxtTitle(String newString) {
+    public void setTxtTitle(String newString)
+    {
         this.txtTitle.setText(newString);
     }
 
-    public void setTxtArtist(String newString) {
+    public void setTxtArtist(String newString)
+    {
         this.txtArtist.setText(newString);
     }
 
-    public void setTxtDuration(String newString) {
+    public void setTxtDuration(String newString)
+    {
         this.txtDuration.setText(newString);
     }
 
-    public void setTxtFile(String newString) {
+    public void setTxtFile(String newString)
+    {
         this.txtFile.setText(newString);
     }
 
-    public void setCurrentSong(Song songToEdit) {
+    public void setCurrentSong(Song songToEdit)
+    {
         currentSong = songToEdit;
     }
 
-    public void setComboGenre(String comboGenre) {
+    public void setComboGenre(String comboGenre)
+    {
         this.comboGenre.getSelectionModel().select(comboGenre);
     }
 
@@ -181,7 +196,8 @@ public class NewEditSongController implements Initializable {
      * Cancel adding/editing song
      */
     @FXML
-    private void handleCancelButton() {
+    private void handleCancelButton()
+    {
         // get a handle to the stage
         Stage stage = (Stage) txtFile.getScene().getWindow();
         // do what you have to do
