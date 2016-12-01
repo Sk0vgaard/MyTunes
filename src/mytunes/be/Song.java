@@ -5,27 +5,26 @@
  */
 package mytunes.be;
 
+import java.io.Serializable;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import mytunes.bll.IDCreator;
 
-public class Song {
+public class Song implements Serializable {
 
-    private final StringProperty title;
-    private final StringProperty artist;
-    private final StringProperty genre;
-    private final StringProperty duration;
-    private final StringProperty fileName;
+    private final int id;
+    private String title;
+    private String artist;
+    private String genre;
+    private String duration;
+    private String fileName;
 
     public Song(String title, String artist, String genre, String duration) {
-        this.title = new SimpleStringProperty();
-        this.artist = new SimpleStringProperty();
-        this.genre = new SimpleStringProperty();
-        this.duration = new SimpleStringProperty();
-        this.fileName = new SimpleStringProperty();
-        setTitle(title);
-        setArtist(artist);
-        setGenre(genre);
-        setDuration(duration);
+        this.title = title;
+        this.artist = artist;
+        this.genre = genre;
+        this.duration = duration;
+        id = IDCreator.createSongId();
     }
 
     /**
@@ -34,23 +33,24 @@ public class Song {
      * @return
      */
     public StringProperty getTitle() {
-        return title;
+        StringProperty propertyTitle = new SimpleStringProperty(title);
+        return propertyTitle;
     }
 
     public void setTitle(String title) {
-        this.title.set(title);
+        this.title = title;
     }
 
     public void setArtist(String artist) {
-        this.artist.set(artist);
+        this.artist = artist;
     }
 
     public void setGenre(String genre) {
-        this.genre.set(genre);
+        this.genre = genre;
     }
 
     public void setDuration(String duration) {
-        this.duration.set(duration);
+        this.duration = duration;
     }
 
     /**
@@ -59,7 +59,8 @@ public class Song {
      * @return
      */
     public StringProperty getArtist() {
-        return artist;
+        StringProperty propertyArtist = new SimpleStringProperty(artist);
+        return propertyArtist;
     }
 
     /**
@@ -68,7 +69,8 @@ public class Song {
      * @return
      */
     public StringProperty getGenre() {
-        return genre;
+        StringProperty propertyGenre = new SimpleStringProperty(genre);
+        return propertyGenre;
     }
 
     /**
@@ -77,7 +79,8 @@ public class Song {
      * @return
      */
     public StringProperty getDuration() {
-        return duration;
+        StringProperty propertyDuration = new SimpleStringProperty(duration);
+        return propertyDuration;
     }
 
     /**
@@ -86,7 +89,7 @@ public class Song {
      * @param path
      */
     public void setFileName(String path) {
-        this.fileName.set(path);
+        this.fileName = path;
     }
 
     /**
@@ -95,7 +98,16 @@ public class Song {
      * @return
      */
     public StringProperty getFileName() {
-        return fileName;
+        StringProperty propertyFilename = new SimpleStringProperty(fileName);
+        return propertyFilename;
+    }
+
+    /**
+     *
+     * @return id
+     */
+    public int getId() {
+        return id;
     }
 
 }

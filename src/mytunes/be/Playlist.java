@@ -8,59 +8,55 @@ package mytunes.be;
 import java.util.ArrayList;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import mytunes.bll.IDCreator;
 
-public class Playlist
-{
+public class Playlist {
 
+    private final int id;
     private final StringProperty name;
     private final StringProperty songs;
     private final StringProperty duration;
 
-    private ArrayList<Song> songsInPlaylist = new ArrayList<>();
+    private final ArrayList<Song> songsInPlaylist;
 
     public Playlist(String name, String songs, String duration) //String songs)
     {
         this.name = new SimpleStringProperty();
         this.songs = new SimpleStringProperty();
         this.duration = new SimpleStringProperty();
+        songsInPlaylist = new ArrayList<>();
+        id = IDCreator.createPlaylistId();
 
         setName(name);
         setSongs(songs);
         setDuration(duration);
     }
 
-    public void setName(String name)
-    {
+    public void setName(String name) {
         this.name.set(name);
     }
 
-    public void setSongs(String songs)
-    {
+    public void setSongs(String songs) {
         this.songs.set(songs);
     }
 
-    public void setDuration(String duration)
-    {
+    public void setDuration(String duration) {
         this.duration.set(duration);
     }
 
-    public StringProperty getName()
-    {
+    public StringProperty getName() {
         return name;
     }
 
-    public StringProperty getSongs()
-    {
+    public StringProperty getSongs() {
         return songs;
     }
 
-    public StringProperty getDuration()
-    {
+    public StringProperty getDuration() {
         return duration;
     }
 
-    public ArrayList<Song> getSongsInPlaylist()
-    {
+    public ArrayList<Song> getSongsInPlaylist() {
         return songsInPlaylist;
     }
 

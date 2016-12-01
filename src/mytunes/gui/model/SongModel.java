@@ -14,6 +14,7 @@ import mytunes.be.Playlist;
 import mytunes.be.Song;
 import mytunes.bll.FileManager;
 import mytunes.bll.MusicPlayer;
+import mytunes.dal.SongDAO;
 import mytunes.gui.controller.MyTunesController;
 
 public class SongModel {
@@ -31,6 +32,8 @@ public class SongModel {
     private final MusicPlayer musicPlayer;
 
     private final FileManager fileManager;
+
+    private SongDAO songDao = SongDAO.getInstance();
 
     private static final String MOCK_PATH = System.getProperty("user.dir").replace('\\', '/') + "/src/mytunes/assets/mp3/";
 
@@ -365,6 +368,28 @@ public class SongModel {
      * @param song
      */
     public void addSong(Song song) {
+        songs.add(song);
+        saveSongs();
+    }
 
+    /**
+     * Save the songs
+     */
+    private void saveSongs() {
+        ArrayList<Song> songsToSave = new ArrayList<>(this.songs);
+        songDao.writeObject(songsToSave);
+    }
+
+    /**
+     * Load saved songs
+     */
+    public void loadSavedSongs() {
+        songs.clear();
+        songs.addAll(songDao.getSongsFromFile());
+    }
+
+    public void deleteSong(Song songToDelete) {
+        songs.remove(songToDelete);
+        saveSongs();
     }
 }

@@ -171,9 +171,10 @@ public class MyTunesController implements Initializable {
         clmSongArtist.setCellValueFactory(i -> i.getValue().getArtist());
         clmSongGenre.setCellValueFactory(i -> i.getValue().getGenre());
         clmSongDuration.setCellValueFactory(i -> i.getValue().getDuration());
+        songModel.loadSavedSongs();
         tableSongs.setItems(songModel.getSongs());
 
-        //Add songto current playlist
+        //Add song to current playlist
         clmCurrentPlaylistTrack.setCellValueFactory(column -> new ReadOnlyObjectWrapper<>(tableCurrentPlaylist.getItems().indexOf(column.getValue())).asString());
         clmCurrentPlaylistTitle.setCellValueFactory(i -> i.getValue().getTitle());
         tableCurrentPlaylist.setItems(songModel.getCurrentPlaylist());
@@ -271,6 +272,7 @@ public class MyTunesController implements Initializable {
     @FXML
     private void handleDoubleClick(MouseEvent event) {
         if (event.getClickCount() == 2) {
+            songModel.stopPlaying();
             selectedSong = selectedView.getSelectedItem();
             playSong(selectedSong);
         }
@@ -383,7 +385,7 @@ public class MyTunesController implements Initializable {
 
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK) {
-                songModel.getSongs().remove(songToDelete);
+                songModel.deleteSong(songToDelete);
             }
         } catch (NullPointerException npe) {
             System.out.println("Wrong delete button");
