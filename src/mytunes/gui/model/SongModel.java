@@ -16,7 +16,8 @@ import mytunes.bll.FileManager;
 import mytunes.bll.MusicPlayer;
 import mytunes.gui.controller.MyTunesController;
 
-public class SongModel {
+public class SongModel
+{
 
     private static SongModel instance;
 
@@ -43,14 +44,17 @@ public class SongModel {
      *
      * @return
      */
-    public static SongModel getInstance() {
-        if (instance == null) {
+    public static SongModel getInstance()
+    {
+        if (instance == null)
+        {
             instance = new SongModel();
         }
         return instance;
     }
 
-    private SongModel() {
+    private SongModel()
+    {
         songs = FXCollections.observableArrayList();
         currentPlaylist = FXCollections.observableArrayList();
         playlists = FXCollections.observableArrayList();
@@ -65,7 +69,8 @@ public class SongModel {
      *
      * @return songs
      */
-    public ObservableList<Song> getSongs() {
+    public ObservableList<Song> getSongs()
+    {
         return songs;
     }
 
@@ -74,7 +79,8 @@ public class SongModel {
      *
      * @return
      */
-    public ObservableList<Song> getCurrentPlaylist() {
+    public ObservableList<Song> getCurrentPlaylist()
+    {
         return currentPlaylist;
     }
 
@@ -83,9 +89,11 @@ public class SongModel {
      *
      * @param playlist
      */
-    public void updateCurrentPlaylust(ArrayList<Song> playlist) {
+    public void updateCurrentPlaylust(ArrayList<Song> playlist)
+    {
         currentPlaylist.clear();
-        for (Song song : playlist) {
+        for (Song song : playlist)
+        {
             currentPlaylist.add(song);
         }
     }
@@ -95,22 +103,26 @@ public class SongModel {
      *
      * @return
      */
-    public ArrayList<Song> getCurrentPlaylistAsArrayList() {
+    public ArrayList<Song> getCurrentPlaylistAsArrayList()
+    {
         ArrayList<Song> playlist = new ArrayList<>();
-        for (Song song : currentPlaylist) {
+        for (Song song : currentPlaylist)
+        {
             playlist.add(song);
         }
         return playlist;
     }
 
-    public ObservableList<Playlist> getPlaylists() {
+    public ObservableList<Playlist> getPlaylists()
+    {
         return playlists;
     }
 
     /**
      * Creates some mockup songs
      */
-    private void mockupSongs() {
+    private void mockupSongs()
+    {
 
         Song excited = new Song(
                 "I'm So excited",
@@ -183,18 +195,23 @@ public class SongModel {
      *
      * @param song
      */
-    public void playSelectedSong(Song song) {
+    public void playSelectedSong(Song song)
+    {
         //Check if the MusicPlayer is currentplay at all
-        if (musicPlayer.isPlaying()) {
+        if (musicPlayer.isPlaying())
+        {
             //If it is playing, then check if it is the same song we want to resume
-            if (musicPlayer.getCurrentSong().equals(song)) {
+            if (musicPlayer.getCurrentSong().equals(song))
+            {
                 musicPlayer.resumeSong();
                 //If not then play the newly parsed song
-            } else {
+            } else
+            {
                 musicPlayer.playSong(song);
             }
             //If not just play the newly parsed song
-        } else {
+        } else
+        {
             musicPlayer.playSong(song);
         }
     }
@@ -204,22 +221,26 @@ public class SongModel {
      *
      * @return
      */
-    public Song getCurrentSongPlaying() {
+    public Song getCurrentSongPlaying()
+    {
         return musicPlayer.getCurrentSong();
     }
 
     /**
      * Pauses playing of current song in MusicPlayer
      */
-    public void pausePlaying() {
+    public void pausePlaying()
+    {
         musicPlayer.pausePlaying();
     }
 
     /**
      * Stops playing the current song in MusicPlayer
      */
-    public void stopPlaying() {
-        if (musicPlayer.isPlaying()) {
+    public void stopPlaying()
+    {
+        if (musicPlayer.isPlaying())
+        {
             musicPlayer.stopPlaying();
         }
     }
@@ -227,8 +248,10 @@ public class SongModel {
     /**
      * Replays the song
      */
-    public void replaySong() {
-        if (musicPlayer.isPlaying()) {
+    public void replaySong()
+    {
+        if (musicPlayer.isPlaying())
+        {
             musicPlayer.replaySong();
         }
     }
@@ -238,12 +261,15 @@ public class SongModel {
      *
      * @param searchString
      */
-    public void searchSong(String searchString) {
+    public void searchSong(String searchString)
+    {
         ArrayList<Song> songsFromSearch = new ArrayList<>();
         savedSongs.addAll(songs);
         songs.clear();
-        for (Song savedSong : savedSongs) {
-            if (savedSong.getTitle().get().toLowerCase().contains(searchString)) {
+        for (Song savedSong : savedSongs)
+        {
+            if (savedSong.getTitle().get().toLowerCase().contains(searchString))
+            {
                 songsFromSearch.add(savedSong);
             }
         }
@@ -253,8 +279,10 @@ public class SongModel {
     /**
      * Reset search
      */
-    public void clearSearch() {
-        if (!savedSongs.isEmpty()) {
+    public void clearSearch()
+    {
+        if (!savedSongs.isEmpty())
+        {
             songs.clear();
             songs.addAll(savedSongs);
             savedSongs.clear();
@@ -266,7 +294,8 @@ public class SongModel {
      *
      * @return
      */
-    public Song getSongFromFile() {
+    public Song getSongFromFile()
+    {
         return fileManager.openFile();
     }
 
@@ -276,7 +305,8 @@ public class SongModel {
      *
      * @param mtController
      */
-    public void setMyTunesController(MyTunesController mtController) {
+    public void setMyTunesController(MyTunesController mtController)
+    {
         this.mtController = mtController;
     }
 
@@ -285,7 +315,8 @@ public class SongModel {
      *
      * @throws IOException
      */
-    public void playNextSong() throws IOException {
+    public void playNextSong() throws IOException
+    {
         mtController.playNextSong();
     }
 
@@ -294,14 +325,16 @@ public class SongModel {
      *
      * @param value
      */
-    public void switchVolume(double value) {
+    public void switchVolume(double value)
+    {
         musicPlayer.setVolume(value);
     }
 
     /**
      * Mute
      */
-    public void mute() {
+    public void mute()
+    {
         musicPlayer.setVolume(0);
     }
 
@@ -310,14 +343,16 @@ public class SongModel {
      *
      * @param lastValue
      */
-    public void unmute(double lastValue) {
+    public void unmute(double lastValue)
+    {
         musicPlayer.setVolume(lastValue);
     }
 
     /**
      * Shuffle the current playlist
      */
-    public void shuffleCurrentPlaylist() {
+    public void shuffleCurrentPlaylist()
+    {
         Collections.shuffle(currentPlaylist);
     }
 
@@ -326,7 +361,8 @@ public class SongModel {
      *
      * @param song
      */
-    public void addSongToPlaylist(Song song) {
+    public void addSongToPlaylist(Song song)
+    {
         currentPlaylist.add(song);
     }
 
@@ -335,7 +371,13 @@ public class SongModel {
      *
      * @param song
      */
-    public void addSong(Song song) {
-
+    public void addSong(Song song)
+    {
+        songs.add(song);
+    }
+    
+    public void addPlaylist(Playlist playlist)
+    {
+        playlists.add(playlist);
     }
 }
