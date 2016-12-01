@@ -33,7 +33,7 @@ public class FileManager {
         fc.setSelectedExtensionFilter(mp3Filter);
         try {
             File song = fc.showOpenDialog(null);
-            path = song.getPath();
+            path = song.toURI().toASCIIString();
             path = path.replace("\\", "/");
             getMetaData(song);
         } catch (NullPointerException npe) {
