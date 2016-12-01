@@ -430,6 +430,7 @@ public class MyTunesController implements Initializable {
     /**
      * Opens a dialog for remove confirmation
      *
+     * @param songToRemove
      * @return
      */
     private Alert songRemoveDialog(Song songToRemove) {
@@ -440,6 +441,12 @@ public class MyTunesController implements Initializable {
         return alert;
     }
 
+    /**
+     * Opens a dialog for remove confirmation
+     *
+     * @param playlistToRemove
+     * @return
+     */
     private Alert playlistRemoveDialog(Playlist playlistToRemove) {
         Alert alert = new Alert(AlertType.CONFIRMATION);
         alert.setTitle("Confirmation Dialog");
