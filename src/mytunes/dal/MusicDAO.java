@@ -87,4 +87,13 @@ public class MusicDAO {
         }
     }
 
+    /**
+     * open the playlists.data and load in playlist
+     *
+     * @return
+     */
+    public ArrayList<Playlist> getPlaylistsFromFile() {
+        return null;
+    }
+
 }
