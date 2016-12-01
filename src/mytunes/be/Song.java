@@ -12,7 +12,7 @@ import mytunes.bll.IDCreator;
 
 public class Song implements Serializable {
 
-    private final int id;
+    private int id = 0;
     private String title;
     private String artist;
     private String genre;

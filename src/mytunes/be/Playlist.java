@@ -12,7 +12,7 @@ import mytunes.bll.IDCreator;
 
 public class Playlist {
 
-    private final int id;
+    private int id = 0;
     private final StringProperty name;
     private final StringProperty songs;
     private final StringProperty duration;
@@ -58,6 +58,10 @@ public class Playlist {
 
     public ArrayList<Song> getSongsInPlaylist() {
         return songsInPlaylist;
+    }
+
+    public void addSong(Song song) {
+        songsInPlaylist.add(song);
     }
 
     /**

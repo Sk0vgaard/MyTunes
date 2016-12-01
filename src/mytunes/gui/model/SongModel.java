@@ -363,6 +363,11 @@ public class SongModel {
      */
     public void addSongToPlaylist(Song song) {
         currentPlaylist.add(song);
+        for (Playlist playlist : playlists) {
+            if (playlist.getId() == playlistID) {
+                playlist.addSong(song);
+            }
+        }
         savePlaylists();
     }
 
@@ -414,9 +419,5 @@ public class SongModel {
 
     public void setPlaylistID(int playlistID) {
         this.playlistID = playlistID;
-    }
-
-    public void test() {
-
     }
 }
