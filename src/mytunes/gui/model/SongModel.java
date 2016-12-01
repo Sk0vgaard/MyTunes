@@ -384,8 +384,10 @@ public class SongModel {
      * Load saved songs
      */
     public void loadSavedSongs() {
-        songs.clear();
-        songs.addAll(songDao.getSongsFromFile());
+        if (!songDao.getSongsFromFile().isEmpty()) {
+            songs.clear();
+            songs.addAll(songDao.getSongsFromFile());
+        }
     }
 
     public void deleteSong(Song songToDelete) {

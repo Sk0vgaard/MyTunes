@@ -50,7 +50,7 @@ public class SongDAO {
 //        }
 
         //Object writing
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(path + "songs.data"))) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("songs.data"))) {
             oos.writeObject(songs);
             System.out.println("Done");
 
@@ -65,7 +65,7 @@ public class SongDAO {
      * @return
      */
     public ArrayList<Song> getSongsFromFile() {
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(path + "songs.data"))) {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("songs.data"))) {
             savedSongs = (ArrayList<Song>) ois.readObject();
             System.out.println("Loaded songs!");
         } catch (IOException | ClassNotFoundException ex) {
