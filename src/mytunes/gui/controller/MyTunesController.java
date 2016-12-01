@@ -648,4 +648,8 @@ public class MyTunesController implements Initializable
     {
         songModel.shuffleCurrentPlaylist();
     }
+    
+    public void test2(){
+        
+    }
 }
