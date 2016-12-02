@@ -39,6 +39,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import mytunes.be.Playlist;
 import mytunes.be.Song;
+import mytunes.bll.MathManager;
 import mytunes.gui.model.SongModel;
 
 /**
@@ -98,6 +99,7 @@ public class MyTunesController implements Initializable {
     private double lastVolume;
 
     private SongModel songModel;
+    private MathManager mathManager;
 
     private static final String IDLE_TEXT = "Enjoy your music!";
     private static final String IS_PLAYING = " is playing";
@@ -111,6 +113,7 @@ public class MyTunesController implements Initializable {
 
         songModel = SongModel.getInstance();
         songModel.setMyTunesController(this);
+//        mathManager = MathManager.getInstance();
 
         btnPlay.setImage(play);
 
@@ -633,6 +636,7 @@ public class MyTunesController implements Initializable {
      */
     public void updateTotals() {
         lblTotalSongs.setText(songModel.getSongs().size() + "");
-        lblTotalDuration.setText(songModel.getTotalDurationAllSongs() + "");
+//        double duration = mathManager.convertToMinutes(Double.parseDouble(songModel.getSongs().get(1).getDuration().get()));
+//        lblTotalDuration.setText(duration +"");
     }
 }
