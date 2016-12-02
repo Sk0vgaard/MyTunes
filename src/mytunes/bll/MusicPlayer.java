@@ -150,8 +150,8 @@ public class MusicPlayer {
                     Duration currentTime = MusicPlayer.getPlayer().getCurrentTime();
                     mtController.lblTime.setText(TimeManager.formatTime(currentTime, duration));
                     mtController.sliderMusic.setDisable(duration.isUnknown());
-                    if (!mtController.sliderMusic.isDisabled() && duration.greaterThan(Duration.ZERO) && !mtController.sliderMusic.isValueChanging()) {
-                        mtController.sliderMusic.setValue(currentTime.divide(duration).toMillis() * 100.0);
+                    if (!mtController.sliderMusic.isDisabled() && duration.greaterThan(Duration.ZERO)) {
+                        mtController.sliderMusic.setProgress(currentTime.toSeconds() / duration.toSeconds());
                     }
 
                 }

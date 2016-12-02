@@ -19,12 +19,14 @@ import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Bounds;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TableColumn;
@@ -86,7 +88,7 @@ public class MyTunesController implements Initializable {
     @FXML
     private Label lblTotalDuration;
     @FXML
-    public Slider sliderMusic;
+    public ProgressBar sliderMusic;
     @FXML
     public Label lblTime;
 
@@ -660,13 +662,17 @@ public class MyTunesController implements Initializable {
 
     @FXML
     private void handleSeek(MouseEvent event) {
-        sliderMusic.valueChangingProperty().addListener(new InvalidationListener() {
-            @Override
-            public void invalidated(Observable ov) {
-                double time = sliderMusic.getValue() / 100.0;
-                songModel.setNewTime(time);
-            }
-        });
+        if (songModel.isMusicPlayerPlaying()) {
+            //Get the complete bounds of the progress bar
+            Bounds b1 = sliderMusic.getLayoutBounds();
+            //get the x-coordinate of the mouse click
+            double mouseX = event.getX();
+            double percent = (((b1.getMinX() + mouseX) * 100) / b1.getMaxX());
+            double finalValue = percent / 100;
+            //Update progress bar and send value to music player
+            sliderMusic.setProgress(finalValue);
+            songModel.setNewTime(finalValue);
+        }
     }
 
     /**

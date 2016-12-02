@@ -152,6 +152,15 @@ public class SongModel {
     }
 
     /**
+     * Check if music player is playing
+     *
+     * @return
+     */
+    public boolean isMusicPlayerPlaying() {
+        return musicPlayer.isPlaying();
+    }
+
+    /**
      * Get current song playing
      *
      * @return
