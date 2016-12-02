@@ -24,7 +24,7 @@ public class SongModel {
 
     private int playlistID;
 
-    private MyTunesController mtController;
+    private final MyTunesController mtController;
 
     private final ObservableList<Song> songs;
     private final ObservableList<Song> currentPlaylist;
@@ -75,19 +75,6 @@ public class SongModel {
     }
 
     /**
-     * Returns all the songs in an ArrayList.
-     *
-     * @return
-     */
-    public ArrayList<Song> getSongsAsAraryList() {
-        ArrayList<Song> list = new ArrayList<>();
-        for (Song song : songs) {
-            list.add(song);
-        }
-        return list;
-    }
-
-    /**
      * Returns the currentPlaylist.
      *
      * @return
@@ -102,7 +89,6 @@ public class SongModel {
      * @param playlist
      */
     public void updateCurrentPlaylist(ArrayList<Song> playlist) {
-
         currentPlaylist.clear();
         for (Song song : playlist) {
             currentPlaylist.add(song);
@@ -115,11 +101,28 @@ public class SongModel {
      * @return
      */
     public ArrayList<Song> getCurrentPlaylistAsArrayList() {
-        ArrayList<Song> playlist = new ArrayList<>();
-        for (Song song : currentPlaylist) {
-            playlist.add(song);
-        }
-        return playlist;
+        ArrayList<Song> playlistAsArrayList = new ArrayList<>(currentPlaylist);
+        return playlistAsArrayList;
+    }
+
+    /**
+     * Returns all the songs in an ArrayList.
+     *
+     * @return
+     */
+    public ArrayList<Song> getSongsAsAraryList() {
+        ArrayList<Song> songsAsArrayList = new ArrayList<>(songs);
+        return songsAsArrayList;
+    }
+
+    /**
+     * Returns playlists in the Observable list
+     *
+     * @return
+     */
+    public ArrayList<Playlist> getPlaylistsAsArrayList() {
+        ArrayList<Playlist> playlistsAsArrayList = new ArrayList<>(playlists);
+        return playlistsAsArrayList;
     }
 
     public ObservableList<Playlist> getPlaylists() {
@@ -299,16 +302,14 @@ public class SongModel {
      * Save the songs
      */
     private void saveSongs() {
-        ArrayList<Song> songsToSave = new ArrayList<>(songs);
-        musicDao.writeSongs(songsToSave);
+        musicDao.writeSongs(getSongsAsAraryList());
     }
 
     /**
      * Save playlists
      */
     private void savePlaylists() {
-        ArrayList<Playlist> playlistsToSave = new ArrayList<>(playlists);
-        musicDao.writePlaylists(playlistsToSave);
+        musicDao.writePlaylists(getPlaylistsAsArrayList());
     }
 
     /**

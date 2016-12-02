@@ -29,8 +29,8 @@ public class FileManager {
 
     public Song openFile() throws NullPointerException {
         FileChooser fc = new FileChooser();
-        FileChooser.ExtensionFilter mp3Filter = new FileChooser.ExtensionFilter("MP3 (*.mp3)", "*.mp3");
-        fc.setSelectedExtensionFilter(mp3Filter);
+        fc.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("MP3 Files", "*.mp3"));
         try {
             File song = fc.showOpenDialog(null);
             path = song.toURI().toASCIIString();
