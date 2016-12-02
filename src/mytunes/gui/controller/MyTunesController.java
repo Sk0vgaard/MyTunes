@@ -571,9 +571,16 @@ public class MyTunesController implements Initializable {
             public void invalidated(Observable observable) {
                 if (sliderVolume.isValueChanging()) {
                     songModel.switchVolume(sliderVolume.getValue() / 100.0);
-                } else if (sliderVolume.isPressed())
-                {
+                    if (speaker.getImage().equals(mute))
+                    {
+                        speaker.setImage(normal);
+                    }
+                } else if (sliderVolume.isPressed()) {
                     songModel.switchVolume(sliderVolume.getValue() / 100.0);
+                    if (speaker.getImage().equals(mute))
+                    {
+                        speaker.setImage(normal);
+                    }
                 }
             }
 
