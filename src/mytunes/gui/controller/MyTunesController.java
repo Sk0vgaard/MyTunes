@@ -16,7 +16,6 @@ import javafx.beans.Observable;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -383,16 +382,16 @@ public class MyTunesController implements Initializable {
     @FXML
     private void handleSongDeleteButton(MouseEvent event) {
         try {
-            ObservableList<Song> songsSelected = tableSongs.getSelectionModel().getSelectedItems();
-            ArrayList<Song> songsToDelete = new ArrayList<>(songsSelected);
+
+            Song songToDelete = tableSongs.getSelectionModel().getSelectedItem();
 
             //Show popup window and await user confirmation. If user clicks "OK" then we remove the song
-            Alert alert = songRemoveDialog(songsToDelete.get(0));
+            Alert alert = songRemoveDialog(songToDelete);
 
             Optional<ButtonType> result = alert.showAndWait();
 
             if (result.get() == ButtonType.OK) {
-                songModel.deleteSongs(songsToDelete);
+                //songModel.deleteSongs(songsToDelete);
                 updateTotals();
             }
         } catch (NullPointerException npe) {
@@ -428,15 +427,14 @@ public class MyTunesController implements Initializable {
     @FXML
     private void handleRemoveSongFromPlaylistButton(MouseEvent event) {
         try {
-            ObservableList<Song> selectedSongs = tableCurrentPlaylist.getSelectionModel().getSelectedItems();
-            ArrayList<Song> songsToDelete = new ArrayList<>(selectedSongs);
+            Song songToRemoveFromPlaylist = tableCurrentPlaylist.getSelectionModel().getSelectedItem();
 
             //Show popup window and await user confirmation. If user clicks "OK" then we remove the song
-            Alert alert = songRemoveDialog(songsToDelete.get(0));
+            Alert alert = songRemoveDialog(songToRemoveFromPlaylist);
 
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK) {
-                songModel.removeSongsFromCurrentPlaylist(songsToDelete);
+                songModel.getCurrentPlaylist().remove(songToRemoveFromPlaylist);
             }
         } catch (NullPointerException npe) {
             System.out.println("Wrong delete buttom");
@@ -514,14 +512,13 @@ public class MyTunesController implements Initializable {
      */
     @FXML
     private void handleRemovePlaylist(MouseEvent event) {
-        ObservableList<Playlist> selectedPlaylists = tablePlaylists.getSelectionModel().getSelectedItems();
-        ArrayList<Playlist> playlistsToDelete = new ArrayList<>(selectedPlaylists);
+        Playlist playlistToDelete = tablePlaylists.getSelectionModel().getSelectedItem();
 
-        Alert alert = playlistRemoveDialog(selectedPlaylists.get(0));
+        Alert alert = playlistRemoveDialog(playlistToDelete);
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
-            songModel.deletePlaylist(playlistsToDelete);
+            songModel.deletePlaylist(playlistToDelete);
         }
     }
 
