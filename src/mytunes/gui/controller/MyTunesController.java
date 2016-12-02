@@ -623,7 +623,7 @@ public class MyTunesController implements Initializable {
      * Select more than one song
      */
     private void handleMultiSelect(KeyEvent event) {
-        if (event.isControlDown() | event.isShiftDown()) {
+        if (event.isControlDown()) {
             selectedView.setSelectionMode(SelectionMode.MULTIPLE);
             tablePlaylists.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         } else {
