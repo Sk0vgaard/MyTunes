@@ -423,7 +423,7 @@ public class SongModel {
                 songs.addAll(songsFromFile);
             }
         } else {
-            System.out.println("Sheit");
+            System.out.println("Sheit songs.data isn't there?");
         }
     }
 
@@ -439,7 +439,7 @@ public class SongModel {
                 playlists.addAll(playlistsFromFile);
             }
         } else {
-            System.out.println("Sheit");
+            System.out.println("Sheit playlists.data isn't there?");
         }
     }
 

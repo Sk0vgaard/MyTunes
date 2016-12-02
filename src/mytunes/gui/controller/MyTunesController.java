@@ -621,7 +621,7 @@ public class MyTunesController implements Initializable {
      */
     @FXML
     private void handleMultiSelect(KeyEvent event) {
-        if (event.isControlDown()) {
+        if (event.isControlDown() | event.isShiftDown()) {
             selectedView.setSelectionMode(SelectionMode.MULTIPLE);
             tablePlaylists.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         } else {
