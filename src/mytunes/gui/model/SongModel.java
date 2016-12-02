@@ -73,16 +73,15 @@ public class SongModel {
     public ObservableList<Song> getSongs() {
         return songs;
     }
-    
+
     /**
      * Returns all the songs in an ArrayList.
-     * @return 
+     *
+     * @return
      */
-    public ArrayList<Song> getSongsAsAraryList()
-    {
+    public ArrayList<Song> getSongsAsAraryList() {
         ArrayList<Song> list = new ArrayList<>();
-        for (Song song : songs)
-        {
+        for (Song song : songs) {
             list.add(song);
         }
         return list;
@@ -424,9 +423,10 @@ public class SongModel {
             if (!mtController.sliderMusic.isValueChanging()
                     && total.greaterThan(Duration.ZERO)) {
 
-                mtController.sliderMusic.setValue(time.toMillis() / total.toMillis() * 100);
+                mtController.sliderMusic.setValue(time.toSeconds() / total.toSeconds() * 100);
             }
-            String timeAsString = String.format("%.2f", time.toMinutes()).replaceAll(",", ".");
+            String timeAsString = String.format("%.2f", time.toMinutes()).replaceAll(",", ":")
+                    + " / " + String.format("%.2f", total.toMinutes()).replaceAll(",", ":");
 
             mtController.lblTime.setText(timeAsString);
         });
