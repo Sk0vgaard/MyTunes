@@ -5,6 +5,7 @@
  */
 package mytunes.dal;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -66,6 +67,17 @@ public class MusicDAO {
     }
 
     /**
+     * Check if songs.data is there
+     *
+     * @return
+     */
+    public boolean isSongsThere() {
+        File songs = new File("songs.data");
+        boolean songsExists = songs.exists();
+        return songsExists;
+    }
+
+    /**
      * Writes the playlists to a file
      *
      * @param playlists
@@ -90,10 +102,21 @@ public class MusicDAO {
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("playlists.data"))) {
             savedPlaylists = (ArrayList<Playlist>) ois.readObject();
             System.out.println("Loaded playlists!");
-        } catch (Error | IOException | ClassNotFoundException ex) {
+        } catch (IOException | ClassNotFoundException ex) {
             System.out.println("Songs read Error " + ex);
         }
         return savedPlaylists;
+    }
+
+    /**
+     * Check if playlists.data exists
+     *
+     * @return
+     */
+    public boolean isPlaylistsThere() {
+        File playlists = new File("playlists.data");
+        boolean playlistsExists = playlists.exists();
+        return playlistsExists;
     }
 
 }

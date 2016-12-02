@@ -415,11 +415,15 @@ public class SongModel {
     /**
      * Load saved songs
      */
-    public void loadSavedSongs() throws NullPointerException {
-        ArrayList<Song> songsFromFile = musicDao.getSongsFromFile();
-        if (!songsFromFile.isEmpty()) {
-            songs.clear();
-            songs.addAll(songsFromFile);
+    public void loadSavedSongs() {
+        if (musicDao.isSongsThere()) {
+            ArrayList<Song> songsFromFile = musicDao.getSongsFromFile();
+            if (!songsFromFile.isEmpty()) {
+                songs.clear();
+                songs.addAll(songsFromFile);
+            }
+        } else {
+            System.out.println("Sheit");
         }
     }
 
@@ -427,11 +431,15 @@ public class SongModel {
      * Load saved playlists
      *
      */
-    public void loadSavedPlaylists() throws NullPointerException {
-        ArrayList<Playlist> playlistsFromFile = musicDao.getPlaylistsFromFile();
-        if (!playlistsFromFile.isEmpty()) {
-            playlists.clear();
-            playlists.addAll(playlistsFromFile);
+    public void loadSavedPlaylists() {
+        if (musicDao.isPlaylistsThere()) {
+            ArrayList<Playlist> playlistsFromFile = musicDao.getPlaylistsFromFile();
+            if (!playlistsFromFile.isEmpty()) {
+                playlists.clear();
+                playlists.addAll(playlistsFromFile);
+            }
+        } else {
+            System.out.println("Sheit");
         }
     }
 
