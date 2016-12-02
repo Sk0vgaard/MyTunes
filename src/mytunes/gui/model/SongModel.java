@@ -8,11 +8,8 @@ package mytunes.gui.model;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.util.Duration;
 import mytunes.be.Playlist;
 import mytunes.be.Song;
 import mytunes.bll.FileManager;
@@ -39,8 +36,8 @@ public class SongModel {
 
     private final FileManager fileManager;
 
-    private final MusicDAO musicDao = MusicDAO.getInstance();
-    private final MathManager mathManager = MathManager.getInstance();
+    private final MusicDAO musicDao;
+    private final MathManager mathManager;
 
     /**
      * If SongModel has not been instantiated, make a new instance off of it and
@@ -61,9 +58,12 @@ public class SongModel {
         currentPlaylist = FXCollections.observableArrayList();
         playlists = FXCollections.observableArrayList();
         musicPlayer = MusicPlayer.getInstance();
+        musicDao = MusicDAO.getInstance();
+        mathManager = MathManager.getInstance();
         musicPlayer.setSongModel(this);
         savedSongs = new ArrayList<>();
         fileManager = new FileManager();
+        mtController = MyTunesController.getInstance();
     }
 
     /**
@@ -216,16 +216,6 @@ public class SongModel {
      */
     public Song getSongFromFile() {
         return fileManager.openFile();
-    }
-
-    /**
-     * Sets the mtController so the SongModel has a reference to the
-     * MyTunesController.
-     *
-     * @param mtController
-     */
-    public void setMyTunesController(MyTunesController mtController) {
-        this.mtController = mtController;
     }
 
     /**
@@ -415,28 +405,16 @@ public class SongModel {
     /**
      * Updates the music player
      */
-    public void updateSliderTime() {
-        MusicPlayer.getPlayer().currentTimeProperty().addListener((Observable ov) -> {
-            Duration time = MusicPlayer.getPlayer().getCurrentTime();
-            Duration total = MusicPlayer.getPlayer().getTotalDuration();
+    public void trackTime() {
+        musicPlayer.trackTime();
+    }
 
-            if (!mtController.sliderMusic.isValueChanging()
-                    && total.greaterThan(Duration.ZERO)) {
-
-                mtController.sliderMusic.setValue(time.toSeconds() / total.toSeconds() * 100);
-            }
-            String timeAsString = String.format("%.2f", time.toMinutes()).replaceAll(",", ":")
-                    + " / " + String.format("%.2f", total.toMinutes()).replaceAll(",", ":");
-
-            mtController.lblTime.setText(timeAsString);
-        });
-
-        mtController.sliderMusic.valueChangingProperty().addListener(new InvalidationListener() {
-            @Override
-            public void invalidated(Observable ov) {
-                MusicPlayer.getPlayer().seek(MusicPlayer.getPlayer().getTotalDuration()
-                        .multiply(mtController.sliderMusic.getValue() / 100.0));
-            }
-        });
+    /**
+     * Sends time change to music player
+     *
+     * @param time
+     */
+    public void setNewTime(Double time) {
+        musicPlayer.setNewTime(time);
     }
 }

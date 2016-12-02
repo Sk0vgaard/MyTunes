@@ -6,11 +6,14 @@
 package mytunes.bll;
 
 import java.io.IOException;
+import javafx.application.Platform;
+import javafx.beans.Observable;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaException;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 import mytunes.be.Song;
+import mytunes.gui.controller.MyTunesController;
 import mytunes.gui.model.SongModel;
 
 public class MusicPlayer {
@@ -19,6 +22,8 @@ public class MusicPlayer {
 
     private SongModel songModel;
 
+    private MyTunesController mtController = MyTunesController.getInstance();
+
     private static MediaPlayer myTunesPlayer;
 
     private boolean isPlaying = false;
@@ -26,8 +31,6 @@ public class MusicPlayer {
     private Song currentSong;
 
     private Media pick;
-
-    private Duration currentTime;
 
     public static MusicPlayer getInstance() {
         if (instance == null) {
@@ -134,5 +137,35 @@ public class MusicPlayer {
      */
     public static MediaPlayer getPlayer() {
         return myTunesPlayer;
+    }
+
+    /**
+     * Starts tracking the songs time and updates the display for it
+     */
+    public void trackTime() {
+        myTunesPlayer.currentTimeProperty().addListener((Observable ov) -> {
+            Platform.runLater(new Runnable() {
+                public void run() {
+                    Duration duration = MusicPlayer.getPlayer().getTotalDuration();
+                    Duration currentTime = MusicPlayer.getPlayer().getCurrentTime();
+                    mtController.lblTime.setText(TimeManager.formatTime(currentTime, duration));
+                    mtController.sliderMusic.setDisable(duration.isUnknown());
+                    if (!mtController.sliderMusic.isDisabled() && duration.greaterThan(Duration.ZERO) && !mtController.sliderMusic.isValueChanging()) {
+                        mtController.sliderMusic.setValue(currentTime.divide(duration).toMillis() * 100.0);
+                    }
+
+                }
+            });
+        });
+    }
+
+    /**
+     * Changes the song to the current time provided
+     *
+     * @param time
+     */
+    public void setNewTime(Double time) {
+        myTunesPlayer.seek(myTunesPlayer.getTotalDuration()
+                .multiply(time));
     }
 }

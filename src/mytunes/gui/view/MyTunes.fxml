@@ -155,7 +155,7 @@
                   <Label fx:id="lblTotalDuration" text="&lt;error&gt;" />
                </children>
             </HBox>
-            <Slider fx:id="sliderMusic" layoutX="329.0" layoutY="41.0" />
+            <Slider fx:id="sliderMusic" layoutX="329.0" layoutY="41.0" onDragDetected="#handleSeek" />
             <Label fx:id="lblTime" layoutX="385.0" layoutY="18.0" />
          </children>
       </Pane>

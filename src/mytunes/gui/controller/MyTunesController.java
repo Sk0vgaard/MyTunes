@@ -39,7 +39,6 @@ import javafx.stage.Stage;
 import mytunes.be.Playlist;
 import mytunes.be.Song;
 import mytunes.bll.MathManager;
-import mytunes.bll.MusicPlayer;
 import mytunes.gui.model.SongModel;
 
 /**
@@ -112,13 +111,18 @@ public class MyTunesController implements Initializable {
     private TableView.TableViewSelectionModel<Song> selectedView;
     private TableView.TableViewSelectionModel<Song> playingView;
 
-    private MusicPlayer player = MusicPlayer.getInstance();
+    private static MyTunesController instance;
+
+    public static MyTunesController getInstance() {
+        return instance;
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
+        instance = this;
+
         songModel = SongModel.getInstance();
-        songModel.setMyTunesController(this);
         mathManager = MathManager.getInstance();
 
         btnPlay.setImage(play);
@@ -272,7 +276,7 @@ public class MyTunesController implements Initializable {
             lblIsPlaying.setText(songModel.getCurrentSongPlaying().getTitle().get() + IS_PAUSED);
         }
 
-        songModel.updateSliderTime();
+        songModel.trackTime();
     }
 
     /**
@@ -571,14 +575,12 @@ public class MyTunesController implements Initializable {
             public void invalidated(Observable observable) {
                 if (sliderVolume.isValueChanging()) {
                     songModel.switchVolume(sliderVolume.getValue() / 100.0);
-                    if (speaker.getImage().equals(mute))
-                    {
+                    if (speaker.getImage().equals(mute)) {
                         speaker.setImage(normal);
                     }
                 } else if (sliderVolume.isPressed()) {
                     songModel.switchVolume(sliderVolume.getValue() / 100.0);
-                    if (speaker.getImage().equals(mute))
-                    {
+                    if (speaker.getImage().equals(mute)) {
                         speaker.setImage(normal);
                     }
                 }
@@ -656,5 +658,16 @@ public class MyTunesController implements Initializable {
         String duration = songModel.getTotalDurationAllSongs();
         duration = duration.replace(".", ":");
         lblTotalDuration.setText(duration);
+    }
+
+    @FXML
+    private void handleSeek(MouseEvent event) {
+        sliderMusic.valueChangingProperty().addListener(new InvalidationListener() {
+            @Override
+            public void invalidated(Observable ov) {
+                double time = sliderMusic.getValue() / 100.0;
+                songModel.setNewTime(time);
+            }
+        });
     }
 }
