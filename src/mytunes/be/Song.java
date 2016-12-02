@@ -29,12 +29,7 @@ public class Song implements Serializable {
         this.genre = genre;
         this.duration = duration;
         id = IDCreator.createSongId();
-        mathManager = MathManager.getInstance();
-        if(!duration.isEmpty())
-        {
-            this.duration = String.valueOf(mathManager.convertToMinutes(Double.parseDouble(duration))); 
-            this.duration = String.format("%.2f", Double.parseDouble(this.duration));            
-        }        
+        mathManager = MathManager.getInstance();        
     }
 
     /**

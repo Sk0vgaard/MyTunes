@@ -653,7 +653,8 @@ public class MyTunesController implements Initializable {
      */
     public void updateTotals() {
         lblTotalSongs.setText(songModel.getSongs().size() + "");
-        double duration = mathManager.convertToMinutes(songModel.getTotalDurationAllSongs());
-        lblTotalDuration.setText(String.format("%.2f", duration));
+        String duration = songModel.getTotalDurationAllSongs();
+        duration = duration.replace(".", ":");
+        lblTotalDuration.setText(duration);
     }
 }

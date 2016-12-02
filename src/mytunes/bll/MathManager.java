@@ -46,20 +46,26 @@ public class MathManager
      * @param list
      * @return 
      */
-    public double totalDuration(ArrayList<Song> list)
+    public String totalDuration(ArrayList<Song> list)
     {
         int minutes = 0;
-        double seconds = 0;
+        int seconds = 0;
         for (Song song : list)
         {
-            String placeHolderString = song.getDuration().get().replace(",", ".");
-            double placeHolder = Double.parseDouble(placeHolderString);
-            minutes += (int) placeHolder;
-            seconds += placeHolder % 1;
+            String[] placeHolderString = song.getDuration().get().split(":");
+            minutes += Integer.parseInt(placeHolderString[0]);
+            seconds += Integer.parseInt(placeHolderString[1]);
         }
-        seconds /= 60;
-        double totalDuration = (double) minutes + seconds;
-        return totalDuration;
+        
+        if(seconds >= 60)
+        {
+            minutes += seconds /60;
+            seconds = seconds % 60;
+        }
+        double totalDuration = (double) minutes + ((double)seconds / 60.0);
+        totalDuration = convertToMinutes(totalDuration);
+        String durationAsString = String.valueOf(totalDuration);
+        return durationAsString;
         
     }
 }
