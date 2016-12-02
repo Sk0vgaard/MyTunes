@@ -37,10 +37,6 @@ public class SongModel {
 
     private final MusicDAO musicDao = MusicDAO.getInstance();
 
-    private static final String MOCK_PATH = System.getProperty("user.dir").replace('\\', '/') + "/src/mytunes/assets/mp3/";
-
-    //TODO ALH: We need to be able to retrieve the List, so that we can show it in the GUI
-    //TODO ALH: We need a method to add songs to the List, so that our other awesome developers can call this method and add a new song!
     /**
      * If SongModel has not been instantiated, make a new instance off of it and
      * return it. If there already is an instance of SongModel, return that
@@ -63,7 +59,6 @@ public class SongModel {
         musicPlayer.setSongModel(this);
         savedSongs = new ArrayList<>();
         fileManager = new FileManager();
-        mockupSongs();
     }
 
     /**
@@ -111,102 +106,6 @@ public class SongModel {
 
     public ObservableList<Playlist> getPlaylists() {
         return playlists;
-    }
-
-    /**
-     * Creates some mockup songs
-     */
-    private void mockupSongs() {
-
-        Song excited = new Song(
-                "I'm So excited",
-                "Pointer Sisters",
-                "POP",
-                "3.42");
-        excited.setFileName(MOCK_PATH + "excited.mp3");
-
-        Song beatIt = new Song(
-                "Beat It",
-                "Michael Jackson",
-                "POP", "3.42");
-        beatIt.setFileName(MOCK_PATH + "beatIt.mp3");
-
-        Song bohemian = new Song(
-                "Bohemian Rhapsody",
-                "Queen",
-                "POP",
-                "6.06");
-        bohemian.setFileName(MOCK_PATH + "bohemian.mp3");
-
-        Song happyRock = new Song("BetterRock",
-                "Lynyrd Skynyrd",
-                "Rock",
-                "4.30");
-        happyRock.setFileName(MOCK_PATH + "alabama.mp3");
-
-        Song baby = new Song(
-                "Baby",
-                "Justin Bieber",
-                "POP",
-                "2.5");
-        baby.setFileName(MOCK_PATH + "baby.mp3");
-
-        Song cc1 = new Song(
-                "Voice of Truth",
-                "Casting Crowns",
-                "Christian",
-                "3.25");
-        cc1.setFileName(MOCK_PATH + "voiceOfTruth.mp3");
-
-        Song cc2 = new Song(
-                "What this world needs",
-                "Casting Crowns",
-                "Chritian",
-                "3.25");
-        cc2.setFileName(MOCK_PATH + "whatThisWorldNeeds.mp3");
-
-        Song cc3 = new Song(
-                "Does anybody hear her",
-                "Casting Crowns",
-                "Christian",
-                "3.25");
-        cc3.setFileName(MOCK_PATH + "doesAnybodyHearHer.mp3");
-
-        Playlist mj = new Playlist("Michael fucking Jackson", "1", "3.42");
-        Playlist cc = new Playlist("Casting Crowns", "3", "10");
-
-        mj.getSongsInPlaylist().add(beatIt);
-        cc.getSongsInPlaylist().add(cc1);
-        cc.getSongsInPlaylist().add(cc2);
-        cc.getSongsInPlaylist().add(cc3);
-
-        Song testEnd = new Song(
-                "TestEnd",
-                "RandomGuy",
-                "Not Really",
-                "0.16");
-        testEnd.setFileName(MOCK_PATH + "testEnd.mp3");
-
-        Song testPiano = new Song(
-                "TestPiano",
-                "Random",
-                "Nope",
-                "0.19");
-        testPiano.setFileName(MOCK_PATH + "piano.mp3");
-
-        songs.add(testPiano);
-        songs.add(excited);
-        songs.add(beatIt);
-        songs.add(bohemian);
-        songs.add(happyRock);
-        songs.add(baby);
-        songs.add(cc1);
-        songs.add(cc2);
-        songs.add(cc3);
-        songs.add(testEnd);
-
-        playlists.add(mj);
-        playlists.add(cc);
     }
 
     /**
