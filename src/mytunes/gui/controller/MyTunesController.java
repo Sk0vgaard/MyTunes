@@ -193,7 +193,7 @@ public class MyTunesController implements Initializable {
         clmPlaylistName.setCellValueFactory(i -> i.getValue().getName());
         clmPlaylistSongsAmount.setCellValueFactory(i -> i.getValue().getSongs());
         clmPlaylistTotalDuration.setCellValueFactory(i -> i.getValue().getDuration());
-//        songModel.loadSavedPlaylists();
+        songModel.loadSavedPlaylists();
         tablePlaylists.setItems(songModel.getPlaylists());
     }
 
@@ -275,8 +275,6 @@ public class MyTunesController implements Initializable {
             btnPlay.setImage(play);
             lblIsPlaying.setText(songModel.getCurrentSongPlaying().getTitle().get() + IS_PAUSED);
         }
-
-        songModel.trackTime();
     }
 
     /**
@@ -669,5 +667,19 @@ public class MyTunesController implements Initializable {
                 songModel.setNewTime(time);
             }
         });
+    }
+
+    /**
+     * Refreshes the table on changes
+     */
+    public void refreshTable() {
+        for (int i = 0; i < tableSongs.getColumns().size(); i++) {
+            ((TableColumn) (tableSongs.getColumns().get(i))).setVisible(false);
+            ((TableColumn) (tableSongs.getColumns().get(i))).setVisible(true);
+        }
+        for (int i = 0; i < tableCurrentPlaylist.getColumns().size(); i++) {
+            ((TableColumn) (tableCurrentPlaylist.getColumns().get(i))).setVisible(false);
+            ((TableColumn) (tableCurrentPlaylist.getColumns().get(i))).setVisible(true);
+        }
     }
 }

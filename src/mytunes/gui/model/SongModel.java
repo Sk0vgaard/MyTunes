@@ -132,7 +132,7 @@ public class SongModel {
      * @param song
      */
     public void playSelectedSong(Song song) {
-        //Check if the MusicPlayer is currentplay at all
+        //Check if the MusicPlayer is current playing at all
         if (musicPlayer.isPlaying()) {
             //If it is playing, then check if it is the same song we want to resume
             if (musicPlayer.getCurrentSong().equals(song)) {
@@ -145,6 +145,7 @@ public class SongModel {
         } else {
             musicPlayer.playSong(song);
         }
+        trackTime();
     }
 
     /**
@@ -216,15 +217,6 @@ public class SongModel {
      */
     public Song getSongFromFile() {
         return fileManager.openFile();
-    }
-
-    /**
-     * Gets the myTunesController.
-     *
-     * @return
-     */
-    public MyTunesController getMyTunesController() {
-        return mtController;
     }
 
     /**
@@ -330,7 +322,7 @@ public class SongModel {
                 songs.addAll(songsFromFile);
             }
         } else {
-            System.out.println("Sheit");
+            System.out.println("Sheit songs.data isn't there!");
         }
     }
 
@@ -346,7 +338,7 @@ public class SongModel {
                 playlists.addAll(playlistsFromFile);
             }
         } else {
-            System.out.println("Sheit");
+            System.out.println("Sheit playlist.data isn't there!");
         }
     }
 

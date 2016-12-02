@@ -6,11 +6,9 @@
 package mytunes.be;
 
 import java.io.Serializable;
-import java.text.DecimalFormat;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import mytunes.bll.IDCreator;
-import mytunes.bll.MathManager;
 
 public class Song implements Serializable {
 
@@ -20,8 +18,6 @@ public class Song implements Serializable {
     private String genre;
     private String duration;
     private String fileName;
-    
-    private MathManager mathManager;
 
     public Song(String title, String artist, String genre, String duration) {
         this.title = title;
@@ -29,7 +25,6 @@ public class Song implements Serializable {
         this.genre = genre;
         this.duration = duration;
         id = IDCreator.createSongId();
-        mathManager = MathManager.getInstance();        
     }
 
     /**
