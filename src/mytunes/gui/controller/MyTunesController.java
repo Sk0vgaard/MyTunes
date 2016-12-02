@@ -112,7 +112,7 @@ public class MyTunesController implements Initializable {
 
         songModel = SongModel.getInstance();
         songModel.setMyTunesController(this);
-//        mathManager = MathManager.getInstance();
+        mathManager = MathManager.getInstance();
 
         btnPlay.setImage(play);
 
@@ -181,7 +181,7 @@ public class MyTunesController implements Initializable {
         clmPlaylistName.setCellValueFactory(i -> i.getValue().getName());
         clmPlaylistSongsAmount.setCellValueFactory(i -> i.getValue().getSongs());
         clmPlaylistTotalDuration.setCellValueFactory(i -> i.getValue().getDuration());
-        songModel.loadSavedPlaylists();
+//        songModel.loadSavedPlaylists();
         tablePlaylists.setItems(songModel.getPlaylists());
     }
 
@@ -634,7 +634,7 @@ public class MyTunesController implements Initializable {
      */
     public void updateTotals() {
         lblTotalSongs.setText(songModel.getSongs().size() + "");
-//        double duration = mathManager.convertToMinutes(Double.parseDouble(songModel.getSongs().get(1).getDuration().get()));
-//        lblTotalDuration.setText(duration +"");
+        double duration = mathManager.convertToMinutes(songModel.getTotalDurationAllSongs());
+        lblTotalDuration.setText(String.format("%.2f", duration));
     }
 }

@@ -13,6 +13,7 @@ import javafx.collections.ObservableList;
 import mytunes.be.Playlist;
 import mytunes.be.Song;
 import mytunes.bll.FileManager;
+import mytunes.bll.MathManager;
 import mytunes.bll.MusicPlayer;
 import mytunes.dal.MusicDAO;
 import mytunes.gui.controller.MyTunesController;
@@ -36,6 +37,7 @@ public class SongModel {
     private final FileManager fileManager;
 
     private final MusicDAO musicDao = MusicDAO.getInstance();
+    private final MathManager mathManager = MathManager.getInstance();
 
     /**
      * If SongModel has not been instantiated, make a new instance off of it and
@@ -67,6 +69,20 @@ public class SongModel {
      */
     public ObservableList<Song> getSongs() {
         return songs;
+    }
+    
+    /**
+     * Returns all the songs in an ArrayList.
+     * @return 
+     */
+    public ArrayList<Song> getSongsAsAraryList()
+    {
+        ArrayList<Song> list = new ArrayList<>();
+        for (Song song : songs)
+        {
+            list.add(song);
+        }
+        return list;
     }
 
     /**
@@ -385,9 +401,12 @@ public class SongModel {
      */
     public double getTotalDurationAllSongs() {
         double totalduration = 0;
-        for (Song song : songs) {
-            totalduration += Double.parseDouble(song.getDuration().get());
-        }
+//        for (Song song : songs) {
+//            //Replace all "," with ".". If not, the program chrashes.
+//            String durationString = song.getDuration().get().replace(",", ".");
+//            totalduration += Double.parseDouble(durationString);
+//        }
+        totalduration = mathManager.totalDuration(getSongsAsAraryList());
         return totalduration;
     }
 }
