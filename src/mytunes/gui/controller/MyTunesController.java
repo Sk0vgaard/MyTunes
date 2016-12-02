@@ -25,14 +25,12 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
-import javafx.scene.control.SelectionMode;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -390,6 +388,7 @@ public class MyTunesController implements Initializable {
             if (result.get() == ButtonType.OK) {
                 //songModel.deleteSongs(songsToDelete);
                 updateTotals();
+                songModel.deleteSong(songToDelete);
             }
         } catch (NullPointerException npe) {
             System.out.println("Wrong delete button");
@@ -602,30 +601,11 @@ public class MyTunesController implements Initializable {
      * @param event
      */
     @FXML
-    private void handleSelectPlaylist(MouseEvent event) throws NullPointerException {
-        try {
-            int playlistId = tablePlaylists.getSelectionModel().getSelectedItem().getId();
-            songModel.setPlaylistID(playlistId);
-            ArrayList<Song> list = tablePlaylists.getSelectionModel().getSelectedItem().getSongsInPlaylist();
-            songModel.updateCurrentPlaylist(list);
-        } catch (Exception e) {
-            System.out.println("Selection error " + e);
-        }
-    }
-
-    /**
-     * Select more than one song
-     */
-    @FXML
-    private void handleMultiSelect(KeyEvent event) {
-        if (event.isControlDown()) {
-            selectedView.setSelectionMode(SelectionMode.MULTIPLE);
-            tablePlaylists.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        } else {
-            selectedView.setSelectionMode(SelectionMode.SINGLE);
-            tablePlaylists.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-
-        }
+    private void handleSelectPlaylist(MouseEvent event) {
+        int playlistId = tablePlaylists.getSelectionModel().getSelectedItem().getId();
+        songModel.setPlaylistID(playlistId);
+        ArrayList<Song> list = tablePlaylists.getSelectionModel().getSelectedItem().getSongsInPlaylist();
+        songModel.updateCurrentPlaylist(list);
     }
 
     /**
