@@ -355,10 +355,10 @@ public class SongModel {
     /**
      * Removes song
      *
-     * @param songToDelete
+     * @param songsToDelete
      */
-    public void deleteSong(Song songToDelete) {
-        songs.remove(songToDelete);
+    public void deleteSong(ObservableList<Song> songsToDelete) {
+        songs.removeAll(songsToDelete);
         saveSongs();
 
     }
@@ -366,10 +366,10 @@ public class SongModel {
     /**
      * Removes playlist
      *
-     * @param playlistToDelete
+     * @param playlistsToDelete
      */
-    public void deletePlaylist(Playlist playlistToDelete) {
-        playlists.remove(playlistToDelete);
+    public void deletePlaylist(ObservableList<Playlist> playlistsToDelete) {
+        playlists.removeAll(playlistsToDelete);
         savePlaylists();
     }
 

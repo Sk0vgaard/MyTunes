@@ -16,6 +16,7 @@ import javafx.beans.Observable;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -130,6 +131,8 @@ public class MyTunesController implements Initializable {
         btnPlay.setImage(play);
 
         speaker.setImage(normal);
+
+        lblTime.setText("");
 
         initializeTables();
 
@@ -393,17 +396,20 @@ public class MyTunesController implements Initializable {
     private void handleSongDeleteButton(MouseEvent event) {
         try {
 
-            Song songToDelete = tableSongs.getSelectionModel().getSelectedItem();
-
+            ObservableList<Song> songsToDelete = tableSongs.getSelectionModel().getSelectedItems();
+            Alert alert;
             //Show popup window and await user confirmation. If user clicks "OK" then we remove the song
-            Alert alert = songRemoveDialog(songToDelete);
+            if (songsToDelete.size() > 1) {
+                alert = removeManyItems();
+            } else {
+                alert = songRemoveDialog(songsToDelete.get(0));
+            }
 
             Optional<ButtonType> result = alert.showAndWait();
 
             if (result.get() == ButtonType.OK) {
-                //songModel.deleteSongs(songsToDelete);
+                songModel.deleteSong(songsToDelete);
                 updateTotals();
-                songModel.deleteSong(songToDelete);
             }
         } catch (NullPointerException npe) {
             System.out.println("Wrong delete button");
@@ -450,6 +456,17 @@ public class MyTunesController implements Initializable {
         } catch (NullPointerException npe) {
             System.out.println("Wrong delete buttom");
         }
+    }
+
+    /**
+     * Opens a dialog for remove confirmation
+     */
+    private Alert removeManyItems() {
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation Dialog");
+        alert.setHeaderText("Are you sure you want to remove all these elements?");
+        alert.setContentText("Press 'OK' to remove.");
+        return alert;
     }
 
     /**
@@ -523,13 +540,17 @@ public class MyTunesController implements Initializable {
      */
     @FXML
     private void handleRemovePlaylist(MouseEvent event) {
-        Playlist playlistToDelete = tablePlaylists.getSelectionModel().getSelectedItem();
-
-        Alert alert = playlistRemoveDialog(playlistToDelete);
+        ObservableList<Playlist> playlistsToDelete = tablePlaylists.getSelectionModel().getSelectedItems();
+        Alert alert;
+        if (playlistsToDelete.size() > 1) {
+            alert = removeManyItems();
+        } else {
+            alert = playlistRemoveDialog(playlistsToDelete.get(0));
+        }
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
-            songModel.deletePlaylist(playlistToDelete);
+            songModel.deletePlaylist(playlistsToDelete);
         }
     }
 

@@ -41,8 +41,6 @@
             <Slider fx:id="sliderVolume" layoutX="40.0" layoutY="74.0" onDragDetected="#handleMusicVolume" onMouseClicked="#handleMusicVolume" value="100.0" />
             <Label layoutX="19.0" layoutY="103.0" text="Playlists" />
             <Label layoutX="217.0" layoutY="103.0" text="Songs in playlist" />
-
-            <Label layoutX="479.0" layoutY="103.0" text="Songs" />
             <TableView fx:id="tableCurrentPlaylist" layoutX="217.0" layoutY="121.0" onKeyPressed="#handleMultiSelect" onMouseClicked="#handleDoubleClick" prefHeight="398.0" prefWidth="200.0">
               <columns>
                 <TableColumn fx:id="clmCurrentPlaylistTrack" prefWidth="50.0" text="Track" />
@@ -144,15 +142,12 @@
                   <Image url="@../../assets/icons/shuffle.png" />
                </image>
             </ImageView>
-            <HBox layoutX="528.0" layoutY="103.0" prefHeight="25.0" prefWidth="142.0">
-               <children>
-                  <Label text="Total songs: " />
-                  <Label fx:id="lblTotalSongs" text="&lt;error&gt;" />
-               </children>
-            </HBox>
             <HBox layoutX="663.0" layoutY="103.0" prefHeight="25.0" prefWidth="142.0">
                <children>
-                  <Label prefHeight="21.0" prefWidth="68.0" text="Duration: " />
+                  <Label prefHeight="21.0" prefWidth="68.0" text="Duration: ">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font></Label>
                   <Label fx:id="lblTotalDuration" text="&lt;error&gt;" />
                </children>
             </HBox>
@@ -161,6 +156,16 @@
                   <Font size="14.0" />
                </font></Label>
             <ProgressBar fx:id="sliderMusic" layoutX="299.0" layoutY="39.0" onMouseClicked="#handleSeek" prefWidth="200.0" progress="0.0" />
+            <HBox layoutX="474.0" layoutY="103.0" prefHeight="17.0" prefWidth="140.0">
+               <children>
+                  <Label text="Total songs: ">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lblTotalSongs" text="&lt;error&gt;" />
+               </children>
+            </HBox>
          </children>
       </Pane>
    </children>
