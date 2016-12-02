@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -17,14 +16,14 @@
    <children>
       <Pane layoutX="3.0" layoutY="6.0" prefHeight="597.0" prefWidth="815.0">
          <children>
-            <TableView fx:id="tablePlaylists" layoutX="14.0" layoutY="121.0" onMouseClicked="#handleSelectPlaylist" prefHeight="398.0" prefWidth="191.0">
+            <TableView fx:id="tablePlaylists" layoutX="14.0" layoutY="121.0" onKeyPressed="#handleMultiSelect" onMouseClicked="#handleSelectPlaylist" prefHeight="398.0" prefWidth="191.0">
               <columns>
                 <TableColumn fx:id="clmPlaylistName" prefWidth="71.0" text="Name" />
                 <TableColumn fx:id="clmPlaylistSongsAmount" minWidth="0.0" prefWidth="56.0" text="Songs" />
                   <TableColumn fx:id="clmPlaylistTotalDuration" prefWidth="63.0" text="Duration" />
               </columns>
             </TableView>
-            <TableView fx:id="tableSongs" layoutX="474.0" layoutY="121.0" onMouseClicked="#handleDoubleClick" prefHeight="398.0" prefWidth="331.0">
+            <TableView fx:id="tableSongs" layoutX="474.0" layoutY="121.0" onKeyPressed="#handleMultiSelect" onMouseClicked="#handleDoubleClick" prefHeight="398.0" prefWidth="331.0">
               <columns>
                 <TableColumn fx:id="clmSongTitle" prefWidth="108.0" text="Title" />
                 <TableColumn fx:id="clmSongArtist" prefWidth="90.0" text="Artist" />
@@ -43,7 +42,7 @@
             <Label layoutX="217.0" layoutY="103.0" text="Songs in playlist" />
 
             <Label layoutX="479.0" layoutY="103.0" text="Songs" />
-            <TableView fx:id="tableCurrentPlaylist" layoutX="217.0" layoutY="121.0" onMouseClicked="#handleDoubleClick" prefHeight="398.0" prefWidth="200.0">
+            <TableView fx:id="tableCurrentPlaylist" layoutX="217.0" layoutY="121.0" onKeyPressed="#handleMultiSelect" onMouseClicked="#handleDoubleClick" prefHeight="398.0" prefWidth="200.0">
               <columns>
                 <TableColumn fx:id="clmCurrentPlaylistTrack" prefWidth="50.0" text="Track" />
                 <TableColumn fx:id="clmCurrentPlaylistTitle" prefWidth="149.0" text="Title" />
@@ -156,7 +155,6 @@
                   <Label fx:id="lblTotalDuration" text="&lt;error&gt;" />
                </children>
             </HBox>
-            <ProgressBar fx:id="sliderMusic" layoutX="308.0" layoutY="39.0" prefWidth="200.0" progress="0.0" />
          </children>
       </Pane>
    </children>
