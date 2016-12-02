@@ -39,6 +39,7 @@ import javafx.stage.Stage;
 import mytunes.be.Playlist;
 import mytunes.be.Song;
 import mytunes.bll.MathManager;
+import mytunes.bll.MusicPlayer;
 import mytunes.gui.model.SongModel;
 
 /**
@@ -85,6 +86,10 @@ public class MyTunesController implements Initializable {
     private Label lblTotalSongs;
     @FXML
     private Label lblTotalDuration;
+    @FXML
+    public Slider sliderMusic;
+    @FXML
+    public Label lblTime;
 
     private final Image play = new Image(getClass().getResourceAsStream("/mytunes/assets/icons/play.png"));
     private final Image pause = new Image(getClass().getResourceAsStream("/mytunes/assets/icons/pause.png"));
@@ -107,6 +112,8 @@ public class MyTunesController implements Initializable {
     private TableView.TableViewSelectionModel<Song> selectedView;
     private TableView.TableViewSelectionModel<Song> playingView;
 
+    private MusicPlayer player = MusicPlayer.getInstance();
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
@@ -128,6 +135,7 @@ public class MyTunesController implements Initializable {
 
         //Add listeners to tables
         addChangeListenersToTables();
+
     }
 
     /**
@@ -264,6 +272,7 @@ public class MyTunesController implements Initializable {
             lblIsPlaying.setText(songModel.getCurrentSongPlaying().getTitle().get() + IS_PAUSED);
         }
 
+        songModel.updateSliderTime();
     }
 
     /**

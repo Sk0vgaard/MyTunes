@@ -9,6 +9,7 @@ import java.io.IOException;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaException;
 import javafx.scene.media.MediaPlayer;
+import javafx.util.Duration;
 import mytunes.be.Song;
 import mytunes.gui.model.SongModel;
 
@@ -18,13 +19,15 @@ public class MusicPlayer {
 
     private SongModel songModel;
 
-    private MediaPlayer myTunesPlayer;
+    private static MediaPlayer myTunesPlayer;
 
     private boolean isPlaying = false;
 
     private Song currentSong;
 
     private Media pick;
+
+    private Duration currentTime;
 
     public static MusicPlayer getInstance() {
         if (instance == null) {
@@ -56,6 +59,7 @@ public class MusicPlayer {
         myTunesPlayer.play();
         isPlaying = true;
         currentSong = song;
+
         myTunesPlayer.setOnEndOfMedia(new Runnable() //Listens for when a song ends.
         {
             @Override
@@ -123,5 +127,12 @@ public class MusicPlayer {
      */
     public void setVolume(double volume) {
         myTunesPlayer.setVolume(volume);
+    }
+
+    /**
+     * Get musicplayer
+     */
+    public static MediaPlayer getPlayer() {
+        return myTunesPlayer;
     }
 }

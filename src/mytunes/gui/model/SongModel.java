@@ -8,8 +8,11 @@ package mytunes.gui.model;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.util.Duration;
 import mytunes.be.Playlist;
 import mytunes.be.Song;
 import mytunes.bll.FileManager;
@@ -408,5 +411,32 @@ public class SongModel {
 //        }
         totalduration = mathManager.totalDuration(getSongsAsAraryList());
         return totalduration;
+    }
+
+    /**
+     * Updates the music player
+     */
+    public void updateSliderTime() {
+        MusicPlayer.getPlayer().currentTimeProperty().addListener((Observable ov) -> {
+            Duration time = MusicPlayer.getPlayer().getCurrentTime();
+            Duration total = MusicPlayer.getPlayer().getTotalDuration();
+
+            if (!mtController.sliderMusic.isValueChanging()
+                    && total.greaterThan(Duration.ZERO)) {
+
+                mtController.sliderMusic.setValue(time.toMillis() / total.toMillis() * 100);
+            }
+            String timeAsString = String.format("%.2f", time.toMinutes()).replaceAll(",", ".");
+
+            mtController.lblTime.setText(timeAsString);
+        });
+
+        mtController.sliderMusic.valueChangingProperty().addListener(new InvalidationListener() {
+            @Override
+            public void invalidated(Observable ov) {
+                MusicPlayer.getPlayer().seek(MusicPlayer.getPlayer().getTotalDuration()
+                        .multiply(mtController.sliderMusic.getValue() / 100.0));
+            }
+        });
     }
 }
