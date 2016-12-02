@@ -182,7 +182,7 @@ public class MyTunesController implements Initializable {
         clmPlaylistName.setCellValueFactory(i -> i.getValue().getName());
         clmPlaylistSongsAmount.setCellValueFactory(i -> i.getValue().getSongs());
         clmPlaylistTotalDuration.setCellValueFactory(i -> i.getValue().getDuration());
-        songModel.loadSavedPlaylists();
+        //songModel.loadSavedPlaylists();
         tablePlaylists.setItems(songModel.getPlaylists());
     }
 

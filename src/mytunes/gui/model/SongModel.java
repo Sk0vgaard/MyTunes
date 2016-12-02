@@ -415,7 +415,7 @@ public class SongModel {
     /**
      * Load saved songs
      */
-    public void loadSavedSongs() {
+    public void loadSavedSongs() throws NullPointerException {
         ArrayList<Song> songsFromFile = musicDao.getSongsFromFile();
         if (!songsFromFile.isEmpty()) {
             songs.clear();
@@ -427,7 +427,7 @@ public class SongModel {
      * Load saved playlists
      *
      */
-    public void loadSavedPlaylists() {
+    public void loadSavedPlaylists() throws NullPointerException {
         ArrayList<Playlist> playlistsFromFile = musicDao.getPlaylistsFromFile();
         if (!playlistsFromFile.isEmpty()) {
             playlists.clear();

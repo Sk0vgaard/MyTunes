@@ -59,7 +59,7 @@ public class MusicDAO {
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("songs.data"))) {
             savedSongs = (ArrayList<Song>) ois.readObject();
             System.out.println("Loaded songs!");
-        } catch (IOException | ClassNotFoundException ex) {
+        } catch (Error | IOException | ClassNotFoundException ex) {
             System.out.println("Songs read Error " + ex);
         }
         return savedSongs;
@@ -90,7 +90,7 @@ public class MusicDAO {
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("playlists.data"))) {
             savedPlaylists = (ArrayList<Playlist>) ois.readObject();
             System.out.println("Loaded playlists!");
-        } catch (IOException | ClassNotFoundException ex) {
+        } catch (Error | IOException | ClassNotFoundException ex) {
             System.out.println("Songs read Error " + ex);
         }
         return savedPlaylists;
