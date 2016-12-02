@@ -53,6 +53,8 @@ public class NewEditSongController implements Initializable
     private Button btnCancel;
 
     private Stage primStage;
+    
+    private MyTunesController mtController;
 
     private static ObservableList<String> genreList = FXCollections.observableArrayList(
             "Rock",
@@ -88,6 +90,7 @@ public class NewEditSongController implements Initializable
         comboGenre.setItems(genreList);
         comboGenre.setVisibleRowCount(6);
         comboGenre.getSelectionModel().selectFirst();
+        mtController = songModel.getMyTunesController();
     }
 
     /**
@@ -145,6 +148,7 @@ public class NewEditSongController implements Initializable
         {
             setSongInfo();
             songModel.addSong(currentSong);
+            mtController.updateTotals();
         }
 
         // get a handle to the stage

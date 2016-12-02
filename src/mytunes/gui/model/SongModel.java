@@ -312,6 +312,15 @@ public class SongModel {
     }
 
     /**
+     * Gets the myTunesController.
+     *
+     * @return
+     */
+    public MyTunesController getMyTunesController() {
+        return mtController;
+    }
+
+    /**
      * Calls the playNextSong method from the MyTunesController.
      *
      * @throws IOException
@@ -469,5 +478,18 @@ public class SongModel {
         for (Song song : songsToDelete) {
             currentPlaylist.remove(song);
         }
+    }
+
+    /**
+     * Gets the total duration of all songs as double.
+     *
+     * @return
+     */
+    public double getTotalDurationAllSongs() {
+        double totalduration = 0;
+        for (Song song : songs) {
+            totalduration += Double.parseDouble(song.getDuration().get());
+        }
+        return totalduration;
     }
 }

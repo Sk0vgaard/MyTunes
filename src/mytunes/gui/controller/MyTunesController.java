@@ -81,6 +81,10 @@ public class MyTunesController implements Initializable {
     private ImageView btnPlay;
     @FXML
     private ImageView speaker;
+    @FXML
+    private Label lblTotalSongs;
+    @FXML
+    private Label lblTotalDuration;
 
     private final Image play = new Image(getClass().getResourceAsStream("/mytunes/assets/icons/play.png"));
     private final Image pause = new Image(getClass().getResourceAsStream("/mytunes/assets/icons/pause.png"));
@@ -164,6 +168,7 @@ public class MyTunesController implements Initializable {
         clmSongDuration.setCellValueFactory(i -> i.getValue().getDuration());
         songModel.loadSavedSongs();
         tableSongs.setItems(songModel.getSongs());
+        updateTotals();
 
         //Add song to current playlist
         clmCurrentPlaylistTrack.setCellValueFactory(column -> new ReadOnlyObjectWrapper<>(tableCurrentPlaylist.getItems().indexOf(column.getValue())).asString());
@@ -382,6 +387,7 @@ public class MyTunesController implements Initializable {
 
             if (result.get() == ButtonType.OK) {
                 songModel.deleteSongs(songsToDelete);
+                updateTotals();
             }
         } catch (NullPointerException npe) {
             System.out.println("Wrong delete button");
@@ -620,5 +626,13 @@ public class MyTunesController implements Initializable {
             tablePlaylists.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
         }
+    }
+
+    /**
+     * Updates the totalSong and totalDuration labels.
+     */
+    public void updateTotals() {
+        lblTotalSongs.setText(songModel.getSongs().size() + "");
+        lblTotalDuration.setText(songModel.getTotalDurationAllSongs() + "");
     }
 }
