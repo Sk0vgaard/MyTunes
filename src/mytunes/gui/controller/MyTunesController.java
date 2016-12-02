@@ -16,6 +16,7 @@ import javafx.beans.Observable;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -25,12 +26,14 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -369,16 +372,16 @@ public class MyTunesController implements Initializable {
     @FXML
     private void handleSongDeleteButton(MouseEvent event) {
         try {
-
-            Song songToDelete = tableSongs.getSelectionModel().getSelectedItem();
+            ObservableList<Song> songsSelected = tableSongs.getSelectionModel().getSelectedItems();
+            ArrayList<Song> songsToDelete = new ArrayList<>(songsSelected);
 
             //Show popup window and await user confirmation. If user clicks "OK" then we remove the song
-            Alert alert = songRemoveDialog(songToDelete);
+            Alert alert = songRemoveDialog(songsToDelete.get(0));
 
             Optional<ButtonType> result = alert.showAndWait();
 
             if (result.get() == ButtonType.OK) {
-                songModel.deleteSong(songToDelete);
+                songModel.deleteSongs(songsToDelete);
             }
         } catch (NullPointerException npe) {
             System.out.println("Wrong delete button");
@@ -413,14 +416,15 @@ public class MyTunesController implements Initializable {
     @FXML
     private void handleRemoveSongFromPlaylistButton(MouseEvent event) {
         try {
-            Song songToRemoveFromPlaylist = tableCurrentPlaylist.getSelectionModel().getSelectedItem();
+            ObservableList<Song> selectedSongs = tableCurrentPlaylist.getSelectionModel().getSelectedItems();
+            ArrayList<Song> songsToDelete = new ArrayList<>(selectedSongs);
 
             //Show popup window and await user confirmation. If user clicks "OK" then we remove the song
-            Alert alert = songRemoveDialog(songToRemoveFromPlaylist);
+            Alert alert = songRemoveDialog(songsToDelete.get(0));
 
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK) {
-                songModel.getCurrentPlaylist().remove(songToRemoveFromPlaylist);
+                songModel.removeSongsFromCurrentPlaylist(songsToDelete);
             }
         } catch (NullPointerException npe) {
             System.out.println("Wrong delete buttom");
@@ -498,13 +502,14 @@ public class MyTunesController implements Initializable {
      */
     @FXML
     private void handleRemovePlaylist(MouseEvent event) {
-        Playlist playlistToDelete = tablePlaylists.getSelectionModel().getSelectedItem();
+        ObservableList<Playlist> selectedPlaylists = tablePlaylists.getSelectionModel().getSelectedItems();
+        ArrayList<Playlist> playlistsToDelete = new ArrayList<>(selectedPlaylists);
 
-        Alert alert = playlistRemoveDialog(playlistToDelete);
+        Alert alert = playlistRemoveDialog(selectedPlaylists.get(0));
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
-            songModel.deletePlaylist(playlistToDelete);
+            songModel.deletePlaylist(playlistsToDelete);
         }
     }
 
@@ -591,10 +596,29 @@ public class MyTunesController implements Initializable {
      * @param event
      */
     @FXML
-    private void handleSelectPlaylist(MouseEvent event) {
-        int playlistId = tablePlaylists.getSelectionModel().getSelectedItem().getId();
-        songModel.setPlaylistID(playlistId);
-        ArrayList<Song> list = tablePlaylists.getSelectionModel().getSelectedItem().getSongsInPlaylist();
-        songModel.updateCurrentPlaylist(list);
+    private void handleSelectPlaylist(MouseEvent event) throws NullPointerException {
+        try {
+            int playlistId = tablePlaylists.getSelectionModel().getSelectedItem().getId();
+            songModel.setPlaylistID(playlistId);
+            ArrayList<Song> list = tablePlaylists.getSelectionModel().getSelectedItem().getSongsInPlaylist();
+            songModel.updateCurrentPlaylist(list);
+        } catch (Exception e) {
+            System.out.println("Selection error " + e);
+        }
+    }
+
+    /**
+     * Select more than one song
+     */
+    @FXML
+    private void handleMultiSelect(KeyEvent event) {
+        if (event.isControlDown()) {
+            selectedView.setSelectionMode(SelectionMode.MULTIPLE);
+            tablePlaylists.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        } else {
+            selectedView.setSelectionMode(SelectionMode.SINGLE);
+            tablePlaylists.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+
+        }
     }
 }

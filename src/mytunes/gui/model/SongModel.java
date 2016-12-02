@@ -429,10 +429,12 @@ public class SongModel {
     /**
      * Removes song
      *
-     * @param songToDelete
+     * @param songsToDelete
      */
-    public void deleteSong(Song songToDelete) {
-        songs.remove(songToDelete);
+    public void deleteSongs(ArrayList<Song> songsToDelete) {
+        for (Song song : songsToDelete) {
+            songs.remove(song);
+        }
         saveSongs();
 
     }
@@ -440,10 +442,12 @@ public class SongModel {
     /**
      * Removes playlist
      *
-     * @param playlistToDelete
+     * @param playlistsToDelete
      */
-    public void deletePlaylist(Playlist playlistToDelete) {
-        playlists.remove(playlistToDelete);
+    public void deletePlaylist(ArrayList<Playlist> playlistsToDelete) {
+        for (Playlist playlist : playlistsToDelete) {
+            playlists.remove(playlist);
+        }
         savePlaylists();
     }
 
@@ -454,5 +458,16 @@ public class SongModel {
      */
     public void setPlaylistID(int playlistID) {
         this.playlistID = playlistID;
+    }
+
+    /**
+     * Removes the parsed songs from the current playlist
+     *
+     * @param songsToDelete
+     */
+    public void removeSongsFromCurrentPlaylist(ArrayList<Song> songsToDelete) {
+        for (Song song : songsToDelete) {
+            currentPlaylist.remove(song);
+        }
     }
 }
