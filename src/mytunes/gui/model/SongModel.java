@@ -312,6 +312,15 @@ public class SongModel {
     }
 
     /**
+     * Gets the myTunesController.
+     *
+     * @return
+     */
+    public MyTunesController getMyTunesController() {
+        return mtController;
+    }
+
+    /**
      * Calls the playNextSong method from the MyTunesController.
      *
      * @throws IOException
@@ -370,12 +379,18 @@ public class SongModel {
     /**
      * Add song to songs
      *
-     * @param song
+     * @param playlist
      */
     public void addPlaylist(Playlist playlist) {
         playlists.add(playlist);
+        savePlaylists();
     }
 
+    /**
+     * Adds the parsed song
+     *
+     * @param song
+     */
     public void addSong(Song song) {
         songs.add(song);
         saveSongs();
@@ -385,7 +400,7 @@ public class SongModel {
      * Save the songs
      */
     private void saveSongs() {
-        ArrayList<Song> songsToSave = new ArrayList<>(this.songs);
+        ArrayList<Song> songsToSave = new ArrayList<>(songs);
         musicDao.writeSongs(songsToSave);
     }
 
@@ -401,19 +416,88 @@ public class SongModel {
      * Load saved songs
      */
     public void loadSavedSongs() {
-        if (!musicDao.getSongsFromFile().isEmpty()) {
-            songs.clear();
-            songs.addAll(musicDao.getSongsFromFile());
+        if (musicDao.isSongsThere()) {
+            ArrayList<Song> songsFromFile = musicDao.getSongsFromFile();
+            if (!songsFromFile.isEmpty()) {
+                songs.clear();
+                songs.addAll(songsFromFile);
+            }
+        } else {
+            System.out.println("Sheit songs.data isn't there?");
         }
     }
 
-    public void deleteSong(Song songToDelete) {
-        songs.remove(songToDelete);
+    /**
+     * Load saved playlists
+     *
+     */
+    public void loadSavedPlaylists() {
+        if (musicDao.isPlaylistsThere()) {
+            ArrayList<Playlist> playlistsFromFile = musicDao.getPlaylistsFromFile();
+            if (!playlistsFromFile.isEmpty()) {
+                playlists.clear();
+                playlists.addAll(playlistsFromFile);
+            }
+        } else {
+            System.out.println("Sheit playlists.data isn't there?");
+        }
+    }
+
+    /**
+     * Removes song
+     *
+     * @param songsToDelete
+     */
+    public void deleteSongs(ArrayList<Song> songsToDelete) {
+        for (Song song : songsToDelete) {
+            songs.remove(song);
+        }
         saveSongs();
 
     }
 
+    /**
+     * Removes playlist
+     *
+     * @param playlistsToDelete
+     */
+    public void deletePlaylist(ArrayList<Playlist> playlistsToDelete) {
+        for (Playlist playlist : playlistsToDelete) {
+            playlists.remove(playlist);
+        }
+        savePlaylists();
+    }
+
+    /**
+     * Sets the current playlist id
+     *
+     * @param playlistID
+     */
     public void setPlaylistID(int playlistID) {
         this.playlistID = playlistID;
+    }
+
+    /**
+     * Removes the parsed songs from the current playlist
+     *
+     * @param songsToDelete
+     */
+    public void removeSongsFromCurrentPlaylist(ArrayList<Song> songsToDelete) {
+        for (Song song : songsToDelete) {
+            currentPlaylist.remove(song);
+        }
+    }
+
+    /**
+     * Gets the total duration of all songs as double.
+     *
+     * @return
+     */
+    public double getTotalDurationAllSongs() {
+        double totalduration = 0;
+        for (Song song : songs) {
+            totalduration += Double.parseDouble(song.getDuration().get());
+        }
+        return totalduration;
     }
 }

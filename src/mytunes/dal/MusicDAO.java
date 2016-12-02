@@ -7,12 +7,10 @@ package mytunes.dal;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import mytunes.be.Playlist;
 import mytunes.be.Song;
@@ -24,6 +22,7 @@ public class MusicDAO {
     private final String path = System.getProperty("user.dir").replace('\\', '/') + "/src/mytunes/data/";
 
     private ArrayList<Song> savedSongs;
+    private ArrayList<Playlist> savedPlaylists;
 
     public static MusicDAO getInstance() {
         if (instance == null) {
@@ -45,10 +44,10 @@ public class MusicDAO {
         //Object writing
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("songs.data"))) {
             oos.writeObject(songs);
-            System.out.println("Done");
+            System.out.println("Songs saved!");
 
         } catch (Exception ex) {
-            System.out.println("Error " + ex);
+            System.out.println("Songs save Error " + ex);
         }
     }
 
@@ -61,10 +60,21 @@ public class MusicDAO {
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("songs.data"))) {
             savedSongs = (ArrayList<Song>) ois.readObject();
             System.out.println("Loaded songs!");
-        } catch (IOException | ClassNotFoundException ex) {
-            System.out.println("Error " + ex);
+        } catch (Error | IOException | ClassNotFoundException ex) {
+            System.out.println("Songs read Error " + ex);
         }
         return savedSongs;
+    }
+
+    /**
+     * Check if songs.data is there
+     *
+     * @return
+     */
+    public boolean isSongsThere() {
+        File songs = new File("songs.data");
+        boolean songsExists = songs.exists();
+        return songsExists;
     }
 
     /**
@@ -74,16 +84,12 @@ public class MusicDAO {
      */
     public void writePlaylists(ArrayList<Playlist> playlists) {
         //File writing
-        File songData = new File("playlists.data");
-        try (PrintWriter out = new PrintWriter(songData)) {
-            for (Playlist playlist : playlists) {
-                for (Song song : playlist.getSongsInPlaylist()) {
-                    out.write(playlist.getId() + "," + song.getId());
-                    out.println();
-                }
-            }
-        } catch (FileNotFoundException fnfe) {
-            System.out.println("File not found");
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("playlists.data"))) {
+            oos.writeObject(playlists);
+            System.out.println("Playlists saved!");
+
+        } catch (Exception ex) {
+            System.out.println("Playlist Error " + ex);
         }
     }
 
@@ -93,7 +99,24 @@ public class MusicDAO {
      * @return
      */
     public ArrayList<Playlist> getPlaylistsFromFile() {
-        return null;
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("playlists.data"))) {
+            savedPlaylists = (ArrayList<Playlist>) ois.readObject();
+            System.out.println("Loaded playlists!");
+        } catch (IOException | ClassNotFoundException ex) {
+            System.out.println("Songs read Error " + ex);
+        }
+        return savedPlaylists;
+    }
+
+    /**
+     * Check if playlists.data exists
+     *
+     * @return
+     */
+    public boolean isPlaylistsThere() {
+        File playlists = new File("playlists.data");
+        boolean playlistsExists = playlists.exists();
+        return playlistsExists;
     }
 
 }

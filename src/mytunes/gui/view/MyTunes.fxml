@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -8,6 +9,7 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
@@ -142,6 +144,19 @@
                   <Image url="@../../assets/icons/shuffle.png" />
                </image>
             </ImageView>
+            <HBox layoutX="528.0" layoutY="103.0" prefHeight="25.0" prefWidth="142.0">
+               <children>
+                  <Label text="Total songs: " />
+                  <Label fx:id="lblTotalSongs" text="&lt;error&gt;" />
+               </children>
+            </HBox>
+            <HBox layoutX="663.0" layoutY="103.0" prefHeight="25.0" prefWidth="142.0">
+               <children>
+                  <Label prefHeight="21.0" prefWidth="68.0" text="Duration: " />
+                  <Label fx:id="lblTotalDuration" text="&lt;error&gt;" />
+               </children>
+            </HBox>
+            <ProgressBar fx:id="sliderMusic" layoutX="308.0" layoutY="39.0" prefWidth="200.0" progress="0.0" />
          </children>
       </Pane>
    </children>
