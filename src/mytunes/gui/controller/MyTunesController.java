@@ -26,6 +26,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TableColumn;
@@ -86,6 +87,8 @@ public class MyTunesController implements Initializable {
     private Label lblTotalSongs;
     @FXML
     private Label lblTotalDuration;
+    @FXML
+    private ProgressBar sliderMusic;
 
     private final Image play = new Image(getClass().getResourceAsStream("/mytunes/assets/icons/play.png"));
     private final Image pause = new Image(getClass().getResourceAsStream("/mytunes/assets/icons/pause.png"));
@@ -619,7 +622,6 @@ public class MyTunesController implements Initializable {
     /**
      * Select more than one song
      */
-    @FXML
     private void handleMultiSelect(KeyEvent event) {
         if (event.isControlDown() | event.isShiftDown()) {
             selectedView.setSelectionMode(SelectionMode.MULTIPLE);
@@ -632,6 +634,12 @@ public class MyTunesController implements Initializable {
     }
 
     /**
+     * Handle music progress
+     */
+    public void handleMusicProgress() {
+    }
+
+    /**
      * Updates the totalSong and totalDuration labels.
      */
     public void updateTotals() {
@@ -639,4 +647,5 @@ public class MyTunesController implements Initializable {
 //        double duration = mathManager.convertToMinutes(Double.parseDouble(songModel.getSongs().get(1).getDuration().get()));
 //        lblTotalDuration.setText(duration +"");
     }
+
 }
