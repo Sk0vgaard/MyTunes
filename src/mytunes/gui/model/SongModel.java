@@ -310,6 +310,15 @@ public class SongModel {
     public void setMyTunesController(MyTunesController mtController) {
         this.mtController = mtController;
     }
+    
+    /**
+     * Gets the myTunesController.
+     * @return 
+     */
+    public MyTunesController getMyTunesController()
+    {
+        return mtController;
+    }
 
     /**
      * Calls the playNextSong method from the MyTunesController.
@@ -454,5 +463,19 @@ public class SongModel {
      */
     public void setPlaylistID(int playlistID) {
         this.playlistID = playlistID;
+    }
+    
+    /**
+     * Gets the total duration of all songs as double.
+     * @return 
+     */
+    public double getTotalDurationAllSongs()
+    {
+        double totalduration = 0;
+        for (Song song : songs)
+        {
+            totalduration += Double.parseDouble(song.getDuration().get());
+        }
+        return totalduration;
     }
 }
