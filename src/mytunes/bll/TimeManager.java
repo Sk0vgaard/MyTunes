@@ -11,25 +11,27 @@ import javafx.util.Duration;
 
 public class TimeManager {
 
+    private static final int SECONDS_IN_MINUTE = 60;
+
     public static String formatTime(Duration elapsed, Duration duration) {
         int intElapsed = (int) floor(elapsed.toSeconds());
-        int elapsedHours = intElapsed / (60 * 60);
+        int elapsedHours = intElapsed / (SECONDS_IN_MINUTE * SECONDS_IN_MINUTE);
         if (elapsedHours > 0) {
-            intElapsed -= elapsedHours * 60 * 60;
+            intElapsed -= elapsedHours * SECONDS_IN_MINUTE * SECONDS_IN_MINUTE;
         }
-        int elapsedMinutes = intElapsed / 60;
-        int elapsedSeconds = intElapsed - elapsedHours * 60 * 60
-                - elapsedMinutes * 60;
+        int elapsedMinutes = intElapsed / SECONDS_IN_MINUTE;
+        int elapsedSeconds = intElapsed - elapsedHours * SECONDS_IN_MINUTE * SECONDS_IN_MINUTE
+                - elapsedMinutes * SECONDS_IN_MINUTE;
 
         if (duration.greaterThan(Duration.ZERO)) {
             int intDuration = (int) floor(duration.toSeconds());
-            int durationHours = intDuration / (60 * 60);
+            int durationHours = intDuration / (SECONDS_IN_MINUTE * SECONDS_IN_MINUTE);
             if (durationHours > 0) {
-                intDuration -= durationHours * 60 * 60;
+                intDuration -= durationHours * SECONDS_IN_MINUTE * SECONDS_IN_MINUTE;
             }
-            int durationMinutes = intDuration / 60;
-            int durationSeconds = intDuration - durationHours * 60 * 60
-                    - durationMinutes * 60;
+            int durationMinutes = intDuration / SECONDS_IN_MINUTE;
+            int durationSeconds = intDuration - durationHours * SECONDS_IN_MINUTE * SECONDS_IN_MINUTE
+                    - durationMinutes * SECONDS_IN_MINUTE;
             if (durationHours > 0) {
                 return format("%d:%02d:%02d/%d:%02d:%02d",
                         elapsedHours, elapsedMinutes, elapsedSeconds,
