@@ -92,9 +92,7 @@ public class SongModel {
      */
     public void updateCurrentPlaylist(ArrayList<Song> playlist) {
         currentPlaylist.clear();
-        for (Song song : playlist) {
-            currentPlaylist.add(song);
-        }
+        currentPlaylist.addAll(playlist);
     }
 
     /**
@@ -331,7 +329,7 @@ public class SongModel {
             songs.add(parsedSong);
             saveSongs();
         }
-        mtController.updateSongTotals();
+        mtController.updateInfo();
     }
 
     /**
@@ -397,7 +395,8 @@ public class SongModel {
      */
     public void deletePlaylist(ObservableList<Playlist> playlistsToDelete) {
         playlists.removeAll(playlistsToDelete);
-        savePlaylists();
+        currentPlaylist.clear();
+        mtController.updateInfo();
     }
 
     /**
@@ -409,6 +408,11 @@ public class SongModel {
         this.playlistID = playlistID;
     }
 
+    /**
+     * Remove parsed song from playlist
+     *
+     * @param songsToDelete
+     */
     public void removeSongsFromCurrentPlaylist(ObservableList<Song> songsToDelete) {
         currentPlaylist.removeAll(songsToDelete);
     }

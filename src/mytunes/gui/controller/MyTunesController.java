@@ -458,8 +458,7 @@ public class MyTunesController implements Initializable {
         if (tablePlaylists.getSelectionModel().getSelectedItem() != null && tableSongs.getSelectionModel().getSelectedItem() != null) {
             Song songToAdd = tableSongs.getSelectionModel().getSelectedItem();
             songModel.addSongToPlaylist(songToAdd);
-            updateCurrentPlaylistTotals();
-            refreshTable();
+            updateInfo();
         }
 
     }
@@ -484,8 +483,7 @@ public class MyTunesController implements Initializable {
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK) {
                 songModel.removeSongsFromCurrentPlaylist(songsToRemoveFromPlaylist);
-                updateCurrentPlaylistTotals();
-                refreshTable();
+                updateInfo();
             }
         } catch (NullPointerException npe) {
             System.out.println("Wrong delete buttom");
@@ -817,6 +815,15 @@ public class MyTunesController implements Initializable {
         tableCurrentPlaylist.setEffect(colorAdjust);
         tablePlaylists.setEffect(colorAdjust);
         tableSongs.setEffect(colorAdjust);
+    }
+
+    /**
+     * Updates all info
+     */
+    public void updateInfo() {
+        updateCurrentPlaylistTotals();
+        updateSongTotals();
+        refreshTable();
     }
 
 }
