@@ -193,6 +193,10 @@ public class NewEditSongController implements Initializable {
         this.comboGenre.getSelectionModel().select(comboGenre);
     }
 
+    public void setPath(String path) {
+        txtFile.setText(path);
+    }
+
     /**
      * Cancel adding/editing song
      */

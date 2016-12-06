@@ -397,6 +397,7 @@ public class SongModel {
         playlists.removeAll(playlistsToDelete);
         currentPlaylist.clear();
         mtController.updateInfo();
+        savePlaylists();
     }
 
     /**

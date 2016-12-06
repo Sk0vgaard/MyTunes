@@ -273,6 +273,7 @@ public class MyTunesController implements Initializable {
         songController.setTxtArtist(songToEdit.getArtist().get());
         songController.setTxtDuration(songToEdit.getDuration().get());
         songController.setComboGenre(songToEdit.getGenre().get());
+        songController.setPath(songToEdit.getFileName().get());
         songController.setCurrentSong(songToEdit);
     }
 
