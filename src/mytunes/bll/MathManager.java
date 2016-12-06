@@ -14,6 +14,8 @@ import mytunes.be.Song;
  * @author Rasmus
  */
 public class MathManager implements Serializable {
+    
+    private static final int A_MINUTE = 60;
 
     public static MathManager instance;
 
@@ -34,7 +36,7 @@ public class MathManager implements Serializable {
         int minutes = (int) numberToConvert;
         double seconds = numberToConvert % 1;
         seconds *= 3600;
-        seconds /= 60;
+        seconds /= A_MINUTE;
         seconds /= 100;
         double duration = (double) minutes + seconds;
         return duration;
@@ -55,11 +57,11 @@ public class MathManager implements Serializable {
             seconds += Integer.parseInt(placeHolderString[1]);
         }
 
-        if (seconds >= 60) {
-            minutes += seconds / 60;
-            seconds = seconds % 60;
+        if (seconds >= A_MINUTE) {
+            minutes += seconds / A_MINUTE;
+            seconds = seconds % A_MINUTE;
         }
-        double totalDuration = (double) minutes + (double) seconds / 60.0;
+        double totalDuration = (double) minutes + (double) seconds / (double) A_MINUTE;
         totalDuration = convertToMinutes(totalDuration);
         String durationAsString = String.valueOf(totalDuration);
         return durationAsString;
