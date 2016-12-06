@@ -204,7 +204,7 @@ public class MyTunesController implements Initializable {
         clmPlaylistName.setCellValueFactory(i -> i.getValue().getName());
         clmPlaylistSongsAmount.setCellValueFactory(i -> i.getValue().getSongs());
         clmPlaylistTotalDuration.setCellValueFactory(i -> i.getValue().getDuration());
-//        songModel.loadSavedPlaylists();
+        songModel.loadSavedPlaylists();
         tablePlaylists.setItems(songModel.getPlaylists());
     }
 
@@ -463,6 +463,7 @@ public class MyTunesController implements Initializable {
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK) {
                 songModel.getCurrentPlaylist().remove(songToRemoveFromPlaylist);
+                songModel.savePlaylists();
                 updateCurrentPlaylistTotals();
                 refreshTable();
             }

@@ -317,7 +317,7 @@ public class SongModel {
     /**
      * Save playlists
      */
-    private void savePlaylists() {
+    public void savePlaylists() {
         musicDao.writePlaylists(getPlaylistsAsArrayList());
     }
 
