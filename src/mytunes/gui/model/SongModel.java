@@ -319,11 +319,13 @@ public class SongModel {
      */
     public void addSong(Song parsedSong) {
         boolean exists = false;
+        //Loop through songs and check if new one is there
         for (Song song : songs) {
             if (song.getTitle().get().equals(parsedSong.getTitle().get())) {
                 exists = true;
             }
         }
+        //If another one with the same title isn't there then we add!
         if (exists == false) {
             songs.add(parsedSong);
             saveSongs();
@@ -438,8 +440,12 @@ public class SongModel {
         musicPlayer.setNewTime(time);
     }
 
-    public String getDurationOfPlaylist()
-    {
+    /**
+     * Gets the duration of the playlist
+     *
+     * @return
+     */
+    public String getDurationOfPlaylist() {
         String duration;
         duration = mathManager.totalDuration(getCurrentPlaylistAsArrayList());
         return duration;
