@@ -701,7 +701,6 @@ public class MyTunesController implements Initializable {
         } else {
             selectedView.setSelectionMode(SelectionMode.SINGLE);
             tablePlaylists.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-
         }
     }
 
@@ -709,7 +708,6 @@ public class MyTunesController implements Initializable {
      * Updates the totalSong and totalDuration labels for the songs view.
      */
     public void updateSongTotals() {
-
         lblTotalSongs.setText(songModel.getSongs().size() + "");
         String duration = songModel.getTotalDurationAllSongs();
         duration = duration.replace(".", ":");

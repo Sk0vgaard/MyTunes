@@ -331,6 +331,7 @@ public class SongModel {
             songs.add(parsedSong);
             saveSongs();
         }
+        mtController.updateSongTotals();
     }
 
     /**
