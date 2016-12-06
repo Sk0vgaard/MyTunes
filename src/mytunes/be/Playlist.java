@@ -10,8 +10,11 @@ import java.util.ArrayList;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import mytunes.bll.IDCreator;
+import mytunes.bll.MathManager;
 
 public class Playlist implements Serializable {
+    
+    private MathManager mathManager = MathManager.getInstance();
 
     private int id = 0;
     private String name;
@@ -47,11 +50,13 @@ public class Playlist implements Serializable {
     }
 
     public StringProperty getSongs() {
+        songs = songsInPlaylist.size() + "";
         StringProperty propertySongs = new SimpleStringProperty(songs);
         return propertySongs;
     }
 
     public StringProperty getDuration() {
+        duration = mathManager.totalDuration(songsInPlaylist) + "";
         StringProperty propertyDuration = new SimpleStringProperty(duration);
         return propertyDuration;
     }
