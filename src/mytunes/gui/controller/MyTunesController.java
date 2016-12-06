@@ -35,6 +35,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
@@ -739,5 +741,16 @@ public class MyTunesController implements Initializable {
             ((TableColumn) (tablePlaylists.getColumns().get(i))).setVisible(false);
             ((TableColumn) (tablePlaylists.getColumns().get(i))).setVisible(true);
         }
+    }
+
+    /**
+     * Parse the selected file to the filemanager
+     *
+     * @param event
+     */
+    @FXML
+    private void handleDrag(DragEvent event) {
+        Dragboard db = event.getDragboard();
+        songModel.addSongFromDrag(db.getFiles());
     }
 }

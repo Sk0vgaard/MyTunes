@@ -33,8 +33,6 @@ public class FileManager {
                 new FileChooser.ExtensionFilter("MP3 Files", "*.mp3"));
         try {
             File song = fc.showOpenDialog(null);
-            path = song.toURI().toASCIIString();
-            path = path.replace("\\", "/");
             getMetaData(song);
         } catch (NullPointerException npe) {
             System.out.println("You should select an mp3 file " + npe);
@@ -47,7 +45,7 @@ public class FileManager {
      *
      * @param song
      */
-    private void getMetaData(File song) {
+    public void getMetaData(File song) {
         try {
             MP3File selectedFile = (MP3File) AudioFileIO.read(song);
             MP3AudioHeader header = selectedFile.getMP3AudioHeader();
@@ -56,6 +54,8 @@ public class FileManager {
             selectedSong.setArtist(tag.getFirst(FieldKey.ARTIST));
             selectedSong.setGenre(tag.getFirst(FieldKey.GENRE));
             selectedSong.setDuration(header.getTrackLengthAsString());
+            path = song.toURI().toASCIIString();
+            path = path.replace("\\", "/");
             selectedSong.setFileName(path);
         } catch (CannotReadException ex) {
             Logger.getLogger(FileManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -68,6 +68,15 @@ public class FileManager {
         } catch (InvalidAudioFrameException ex) {
             Logger.getLogger(FileManager.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    /**
+     * Get song
+     *
+     * @return
+     */
+    public Song getSong() {
+        return selectedSong;
     }
 
     public String getPath() {

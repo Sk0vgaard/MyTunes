@@ -24,7 +24,7 @@
                   <TableColumn fx:id="clmPlaylistTotalDuration" prefWidth="63.0" text="Duration" />
               </columns>
             </TableView>
-            <TableView fx:id="tableSongs" layoutX="474.0" layoutY="121.0" onKeyPressed="#handleMultiSelect" onMouseClicked="#handleDoubleClick" prefHeight="398.0" prefWidth="331.0">
+            <TableView fx:id="tableSongs" layoutX="474.0" layoutY="121.0" onDragEntered="#handleDrag" onKeyPressed="#handleMultiSelect" onMouseClicked="#handleDoubleClick" prefHeight="398.0" prefWidth="331.0">
               <columns>
                 <TableColumn fx:id="clmSongTitle" prefWidth="108.0" text="Title" />
                 <TableColumn fx:id="clmSongArtist" prefWidth="90.0" text="Artist" />
