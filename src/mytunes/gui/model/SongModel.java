@@ -409,10 +409,8 @@ public class SongModel {
         this.playlistID = playlistID;
     }
 
-    public void removeSongsFromCurrentPlaylist(ArrayList<Song> songsToDelete) {
-        for (Song song : songsToDelete) {
-            currentPlaylist.remove(song);
-        }
+    public void removeSongsFromCurrentPlaylist(ObservableList<Song> songsToDelete) {
+        currentPlaylist.removeAll(songsToDelete);
     }
 
     /**
