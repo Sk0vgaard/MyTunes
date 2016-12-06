@@ -92,6 +92,10 @@ public class MyTunesController implements Initializable {
     public ProgressBar sliderMusic;
     @FXML
     public Label lblTime;
+    @FXML
+    private Label lblPlaylistDuration;
+    @FXML
+    private Label lblPlaylistSongs;
 
     private final Image play = new Image(getClass().getResourceAsStream("/mytunes/assets/icons/play.png"));
     private final Image pause = new Image(getClass().getResourceAsStream("/mytunes/assets/icons/pause.png"));
@@ -119,6 +123,7 @@ public class MyTunesController implements Initializable {
     public static MyTunesController getInstance() {
         return instance;
     }
+    
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -187,7 +192,8 @@ public class MyTunesController implements Initializable {
         clmSongDuration.setCellValueFactory(i -> i.getValue().getDuration());
         songModel.loadSavedSongs();
         tableSongs.setItems(songModel.getSongs());
-        updateTotals();
+        updateSongTotals();
+        updateCurrentPlaylistTotals();
 
         //Add song to current playlist
         clmCurrentPlaylistTrack.setCellValueFactory(column -> new ReadOnlyObjectWrapper<>(tableCurrentPlaylist.getItems().indexOf(column.getValue())).asString());
@@ -409,7 +415,7 @@ public class MyTunesController implements Initializable {
 
             if (result.get() == ButtonType.OK) {
                 songModel.deleteSong(songsToDelete);
-                updateTotals();
+                updateSongTotals();
             }
         } catch (NullPointerException npe) {
             System.out.println("Wrong delete button");
@@ -434,6 +440,7 @@ public class MyTunesController implements Initializable {
     private void handleSongToPlaylist(MouseEvent event) {
         Song songToAdd = tableSongs.getSelectionModel().getSelectedItem();
         songModel.addSongToPlaylist(songToAdd);
+        updateCurrentPlaylistTotals();
     }
 
     /**
@@ -452,6 +459,7 @@ public class MyTunesController implements Initializable {
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK) {
                 songModel.getCurrentPlaylist().remove(songToRemoveFromPlaylist);
+                updateCurrentPlaylistTotals();
             }
         } catch (NullPointerException npe) {
             System.out.println("Wrong delete buttom");
@@ -651,6 +659,7 @@ public class MyTunesController implements Initializable {
             songModel.setPlaylistID(playlistId);
             ArrayList<Song> list = tablePlaylists.getSelectionModel().getSelectedItem().getSongsInPlaylist();
             songModel.updateCurrentPlaylist(list);
+            updateCurrentPlaylistTotals();
         } catch (Exception e) {
             System.out.println("Selection error " + e);
         }
@@ -672,13 +681,24 @@ public class MyTunesController implements Initializable {
     }
 
     /**
-     * Updates the totalSong and totalDuration labels.
+     * Updates the totalSong and totalDuration labels for the songs view.
      */
-    public void updateTotals() {
+    public void updateSongTotals() {
         lblTotalSongs.setText(songModel.getSongs().size() + "");
         String duration = songModel.getTotalDurationAllSongs();
         duration = duration.replace(".", ":");
         lblTotalDuration.setText(duration);
+    }
+    
+    /**
+     * Updates the totalSong and totalDuration for the currentPlaylist view.
+     */
+    public void updateCurrentPlaylistTotals()
+    {
+        lblPlaylistSongs.setText(songModel.getCurrentPlaylist().size() + "");
+        String duration = songModel.getDurationOfPlaylist();
+        duration = duration.replace(".", ":");
+        lblPlaylistDuration.setText(duration);
     }
 
     @FXML

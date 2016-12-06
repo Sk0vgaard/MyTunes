@@ -141,7 +141,7 @@ public class NewEditSongController implements Initializable {
         } else {
             setSongInfo();
             songModel.addSong(currentSong);
-            mtController.updateTotals();
+            mtController.updateSongTotals();
         }
 
         // get a handle to the stage

@@ -414,4 +414,11 @@ public class SongModel {
     public void setNewTime(Double time) {
         musicPlayer.setNewTime(time);
     }
+
+    public String getDurationOfPlaylist()
+    {
+        String duration;
+        duration = mathManager.totalDuration(getCurrentPlaylistAsArrayList());
+        return duration;
+    }
 }
