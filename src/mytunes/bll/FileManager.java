@@ -7,6 +7,8 @@ package mytunes.bll;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.stage.FileChooser;
@@ -24,6 +26,10 @@ import org.jaudiotagger.tag.TagException;
 public class FileManager {
 
     private String path;
+
+    private final List<File> songsFromDrag = new ArrayList();
+
+    private final String extension = ".mp3";
 
     private final Song selectedSong = new Song("", "", "", "");
 
@@ -79,8 +85,35 @@ public class FileManager {
         return selectedSong;
     }
 
+    /**
+     * Returns the path of the song
+     *
+     * @return
+     */
     public String getPath() {
         return path;
+    }
+
+    /**
+     * Returns mp3 files from parsed list
+     *
+     * @param files
+     * @return
+     */
+    public ArrayList<File> getSongFilesFromDrag(List<File> files) {
+        for (File file : files) {
+            if (file.getName().endsWith(extension)) {
+                songsFromDrag.add(file);
+            }
+            if (file.isDirectory()) {
+                List<File> folderFiles = new ArrayList();
+                for (File listFile : file.listFiles()) {
+                    folderFiles.add(listFile);
+                }
+                getSongFilesFromDrag(folderFiles);
+            }
+        }
+        return (ArrayList) songsFromDrag;
     }
 
 }

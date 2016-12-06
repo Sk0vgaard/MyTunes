@@ -767,7 +767,7 @@ public class MyTunesController implements Initializable {
     @FXML
     private void handleDrag(DragEvent event) {
         Dragboard db = event.getDragboard();
-        songModel.addSongFromDrag(db.getFiles());
+        songModel.addFilesFromDrag(db.getFiles());
     }
 
     /**

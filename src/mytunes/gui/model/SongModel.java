@@ -236,10 +236,11 @@ public class SongModel {
     /**
      * Add song from drag
      *
-     * @param songs
+     * @param files
      */
-    public void addSongFromDrag(List<File> songs) {
-        for (File file : songs) {
+    public void addFilesFromDrag(List<File> files) {
+        ArrayList<File> songsToAdd = fileManager.getSongFilesFromDrag(files);
+        for (File file : songsToAdd) {
             fileManager = new FileManager();
             fileManager.getMetaData(file);
             addSong(fileManager.getSong());
