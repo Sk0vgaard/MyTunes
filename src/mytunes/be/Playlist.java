@@ -5,8 +5,11 @@
  */
 package mytunes.be;
 
+import java.io.FileNotFoundException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import mytunes.bll.IDCreator;
@@ -29,7 +32,13 @@ public class Playlist implements Serializable {
         this.songs = songs;
         this.duration = duration;
         songsInPlaylist = new ArrayList<>();
-        id = IDCreator.createPlaylistId();
+        try
+        {
+            id = IDCreator.createPlaylistId();
+        } catch (FileNotFoundException ex)
+        {
+            System.out.println("Id messed up");
+        }
     }
 
     public void setName(String name) {
