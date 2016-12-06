@@ -59,10 +59,9 @@ public class MathManager implements Serializable {
             minutes += seconds / 60;
             seconds = seconds % 60;
         }
-        double totalDuration = (double) minutes + ((double) seconds / 60.0);
+        double totalDuration = (double) minutes + (double) seconds / 60.0;
         totalDuration = convertToMinutes(totalDuration);
         String durationAsString = String.valueOf(totalDuration);
         return durationAsString;
-
     }
 }

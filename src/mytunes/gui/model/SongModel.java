@@ -395,11 +395,6 @@ public class SongModel {
      */
     public String getTotalDurationAllSongs() {
         String totalduration;
-//        for (Song song : songs) {
-//            //Replace all "," with ".". If not, the program chrashes.
-//            String durationString = song.getDuration().get().replace(",", ".");
-//            totalduration += Double.parseDouble(durationString);
-//        }
         totalduration = mathManager.totalDuration(getSongsAsAraryList());
         return totalduration;
     }
