@@ -16,6 +16,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
@@ -134,20 +136,34 @@ public class NewEditSongController implements Initializable {
      */
     @FXML
     private void handleSaveButton() {
-        if (!currentSong.getTitle().get().equals("")) {
-            setSongInfo();
-            mtController.refreshTable();
-
-        } else {
-            setSongInfo();
-            songModel.addSong(currentSong);
-            mtController.updateTotals();
+        if(txtTitle.getText().isEmpty() 
+                || txtDuration.getText().isEmpty() 
+                || txtFile.getText().isEmpty())
+        {
+            Alert alert = new Alert(AlertType.WARNING);
+            alert.setTitle("Missing information");
+            alert.setHeaderText(null);
+            alert.setContentText("Please fill in all required information to proceed.");
+            alert.showAndWait();
+        }
+        else
+        {
+            if (!currentSong.getTitle().get().equals("")) {
+                setSongInfo();
+                mtController.refreshTable();
+            } else {
+                setSongInfo();
+                songModel.addSong(currentSong);
+                mtController.updateSongTotals();
+            }
+            
+            // get a handle to the stage
+            Stage stage = (Stage) txtTitle.getScene().getWindow();
+            // do what you have to do
+            stage.close();
         }
 
-        // get a handle to the stage
-        Stage stage = (Stage) txtTitle.getScene().getWindow();
-        // do what you have to do
-        stage.close();
+        
     }
 
     private void setSongInfo() {

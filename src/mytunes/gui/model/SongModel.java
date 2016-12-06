@@ -5,9 +5,11 @@
  */
 package mytunes.gui.model;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import mytunes.be.Playlist;
@@ -34,7 +36,7 @@ public class SongModel {
 
     private final MusicPlayer musicPlayer;
 
-    private final FileManager fileManager;
+    private FileManager fileManager;
 
     private final MusicDAO musicDao;
     private final MathManager mathManager;
@@ -232,6 +234,19 @@ public class SongModel {
     }
 
     /**
+     * Add song from drag
+     *
+     * @param songs
+     */
+    public void addSongFromDrag(List<File> songs) {
+        for (File file : songs) {
+            fileManager = new FileManager();
+            fileManager.getMetaData(file);
+            addSong(fileManager.getSong());
+        }
+    }
+
+    /**
      * Calls the playNextSong method from the MyTunesController.
      *
      * @throws IOException
@@ -300,11 +315,19 @@ public class SongModel {
     /**
      * Adds the parsed song
      *
-     * @param song
+     * @param parsedSong
      */
-    public void addSong(Song song) {
-        songs.add(song);
-        saveSongs();
+    public void addSong(Song parsedSong) {
+        boolean exists = false;
+        for (Song song : songs) {
+            if (song.getTitle().get().equals(parsedSong.getTitle().get())) {
+                exists = true;
+            }
+        }
+        if (exists == false) {
+            songs.add(parsedSong);
+            saveSongs();
+        }
     }
 
     /**
@@ -317,7 +340,7 @@ public class SongModel {
     /**
      * Save playlists
      */
-    private void savePlaylists() {
+    public void savePlaylists() {
         musicDao.writePlaylists(getPlaylistsAsArrayList());
     }
 
@@ -395,11 +418,6 @@ public class SongModel {
      */
     public String getTotalDurationAllSongs() {
         String totalduration;
-//        for (Song song : songs) {
-//            //Replace all "," with ".". If not, the program chrashes.
-//            String durationString = song.getDuration().get().replace(",", ".");
-//            totalduration += Double.parseDouble(durationString);
-//        }
         totalduration = mathManager.totalDuration(getSongsAsAraryList());
         return totalduration;
     }
@@ -418,5 +436,12 @@ public class SongModel {
      */
     public void setNewTime(Double time) {
         musicPlayer.setNewTime(time);
+    }
+
+    public String getDurationOfPlaylist()
+    {
+        String duration;
+        duration = mathManager.totalDuration(getCurrentPlaylistAsArrayList());
+        return duration;
     }
 }

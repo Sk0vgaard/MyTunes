@@ -38,6 +38,8 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -97,6 +99,10 @@ public class MyTunesController implements Initializable
     public ProgressBar sliderMusic;
     @FXML
     public Label lblTime;
+    @FXML
+    private Label lblPlaylistDuration;
+    @FXML
+    private Label lblPlaylistSongs;
 
     private final Image play = new Image(getClass().getResourceAsStream("/mytunes/assets/icons/play.png"));
     private final Image pause = new Image(getClass().getResourceAsStream("/mytunes/assets/icons/pause.png"));
@@ -125,6 +131,7 @@ public class MyTunesController implements Initializable
     {
         return instance;
     }
+
     @FXML
     private Pane anchorPaneColor;
     @FXML
@@ -135,6 +142,7 @@ public class MyTunesController implements Initializable
     private RadioButton radioBlue;
     @FXML
     private ToggleGroup themeGroup;
+
 
     @Override
     public void initialize(URL url, ResourceBundle rb)
@@ -211,7 +219,8 @@ public class MyTunesController implements Initializable
         clmSongDuration.setCellValueFactory(i -> i.getValue().getDuration());
         songModel.loadSavedSongs();
         tableSongs.setItems(songModel.getSongs());
-        updateTotals();
+        updateSongTotals();
+        updateCurrentPlaylistTotals();
 
         //Add song to current playlist
         clmCurrentPlaylistTrack.setCellValueFactory(column -> new ReadOnlyObjectWrapper<>(tableCurrentPlaylist.getItems().indexOf(column.getValue())).asString());
@@ -461,7 +470,7 @@ public class MyTunesController implements Initializable
             if (result.get() == ButtonType.OK)
             {
                 songModel.deleteSong(songsToDelete);
-                updateTotals();
+                updateSongTotals();
             }
         } catch (NullPointerException npe)
         {
@@ -485,10 +494,17 @@ public class MyTunesController implements Initializable
      * @param event
      */
     @FXML
-    private void handleSongToPlaylist(MouseEvent event)
-    {
-        Song songToAdd = tableSongs.getSelectionModel().getSelectedItem();
-        songModel.addSongToPlaylist(songToAdd);
+
+
+    private void handleSongToPlaylist(MouseEvent event) {        
+        if(tablePlaylists.getSelectionModel().getSelectedItem() != null && tableSongs.getSelectionModel().getSelectedItem() != null)
+        {
+            Song songToAdd = tableSongs.getSelectionModel().getSelectedItem();
+            songModel.addSongToPlaylist(songToAdd);
+            updateCurrentPlaylistTotals();
+            refreshTable();
+        }        
+
     }
 
     /**
@@ -510,6 +526,9 @@ public class MyTunesController implements Initializable
             if (result.get() == ButtonType.OK)
             {
                 songModel.getCurrentPlaylist().remove(songToRemoveFromPlaylist);
+                songModel.savePlaylists();
+                updateCurrentPlaylistTotals();
+                refreshTable();
             }
         } catch (NullPointerException npe)
         {
@@ -738,8 +757,10 @@ public class MyTunesController implements Initializable
             songModel.setPlaylistID(playlistId);
             ArrayList<Song> list = tablePlaylists.getSelectionModel().getSelectedItem().getSongsInPlaylist();
             songModel.updateCurrentPlaylist(list);
-        } catch (Exception e)
-        {
+
+            updateCurrentPlaylistTotals();
+        } catch (Exception e) {
+
             System.out.println("Selection error " + e);
         }
     }
@@ -763,14 +784,26 @@ public class MyTunesController implements Initializable
     }
 
     /**
-     * Updates the totalSong and totalDuration labels.
+     * Updates the totalSong and totalDuration labels for the songs view.
      */
-    public void updateTotals()
-    {
+
+    public void updateSongTotals() {
+
         lblTotalSongs.setText(songModel.getSongs().size() + "");
         String duration = songModel.getTotalDurationAllSongs();
         duration = duration.replace(".", ":");
         lblTotalDuration.setText(duration);
+    }
+    
+    /**
+     * Updates the totalSong and totalDuration for the currentPlaylist view.
+     */
+    public void updateCurrentPlaylistTotals()
+    {
+        lblPlaylistSongs.setText(songModel.getCurrentPlaylist().size() + "");
+        String duration = songModel.getDurationOfPlaylist();
+        duration = duration.replace(".", ":");
+        lblPlaylistDuration.setText(duration);
     }
 
     @FXML
@@ -805,6 +838,22 @@ public class MyTunesController implements Initializable
             ((TableColumn) (tableCurrentPlaylist.getColumns().get(i))).setVisible(false);
             ((TableColumn) (tableCurrentPlaylist.getColumns().get(i))).setVisible(true);
         }
+        for(int i = 0; i < tablePlaylists.getColumns().size(); i++)
+        {
+            ((TableColumn) (tablePlaylists.getColumns().get(i))).setVisible(false);
+            ((TableColumn) (tablePlaylists.getColumns().get(i))).setVisible(true);
+        }
+    }
+
+    /**
+     * Parse the selected file to the filemanager
+     *
+     * @param event
+     */
+    @FXML
+    private void handleDrag(DragEvent event) {
+        Dragboard db = event.getDragboard();
+        songModel.addSongFromDrag(db.getFiles());
     }
 
     @FXML

@@ -26,7 +26,7 @@
                   <TableColumn fx:id="clmPlaylistTotalDuration" prefWidth="63.0" text="Duration" />
               </columns>
             </TableView>
-            <TableView fx:id="tableSongs" layoutX="474.0" layoutY="121.0" onKeyPressed="#handleMultiSelect" onMouseClicked="#handleDoubleClick" prefHeight="398.0" prefWidth="331.0">
+            <TableView fx:id="tableSongs" layoutX="474.0" layoutY="121.0" onDragEntered="#handleDrag" onKeyPressed="#handleMultiSelect" onMouseClicked="#handleDoubleClick" prefHeight="398.0" prefWidth="331.0">
               <columns>
                 <TableColumn fx:id="clmSongTitle" prefWidth="108.0" text="Title" />
                 <TableColumn fx:id="clmSongArtist" prefWidth="90.0" text="Artist" />
@@ -41,6 +41,7 @@
             </Label>
             <TextField fx:id="txtSearch" layoutX="521.0" layoutY="66.0" prefHeight="25.0" prefWidth="142.0" />
             <Slider fx:id="sliderVolume" layoutX="40.0" layoutY="74.0" onDragDetected="#handleMusicVolume" onMouseClicked="#handleMusicVolume" value="100.0" />
+
             <Label layoutX="19.0" layoutY="103.0" text="Playlists" />
             <Label layoutX="217.0" layoutY="103.0" text="Songs in playlist" />
             <TableView fx:id="tableCurrentPlaylist" layoutX="217.0" layoutY="121.0" onKeyPressed="#handleMultiSelect" onMouseClicked="#handleDoubleClick" prefHeight="398.0" prefWidth="200.0" styleClass="#39add1">
@@ -168,6 +169,7 @@
                   <Label fx:id="lblTotalSongs" text="&lt;error&gt;" />
                </children>
             </HBox>
+
             <Label layoutX="699.0" layoutY="8.0" text="Theme:" />
             <RadioButton fx:id="radioDefault" layoutX="749.0" layoutY="8.0" mnemonicParsing="false" onMouseClicked="#switchToDefault" text="Default">
                <toggleGroup>
@@ -176,6 +178,33 @@
             </RadioButton>
             <RadioButton fx:id="radioPink" layoutX="749.0" layoutY="49.0" mnemonicParsing="false" onMouseClicked="#switchToPink" text="Pink" toggleGroup="$themeGroup" />
             <RadioButton fx:id="radioBlue" layoutX="749.0" layoutY="28.0" mnemonicParsing="false" onMouseClicked="#switchToBlue" text="Blue" toggleGroup="$themeGroup" />
+
+            <HBox layoutX="312.0" layoutY="101.0" prefHeight="25.0" prefWidth="124.0">
+               <children>
+                  <Label prefHeight="21.0" prefWidth="61.0" text="Duration: ">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lblPlaylistDuration" text="&lt;error&gt;" />
+               </children>
+            </HBox>
+            <HBox layoutX="217.0" layoutY="103.0" prefHeight="21.0" prefWidth="108.0">
+               <children>
+                  <Label text="Songs: ">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lblPlaylistSongs" text="&lt;error&gt;" />
+               </children>
+            </HBox>
+            <Label layoutX="19.0" layoutY="105.0" text="Playlist">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+
          </children>
       </Pane>
    </children>
