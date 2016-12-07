@@ -301,12 +301,22 @@ public class MyTunesController implements Initializable {
         if (btnPlay.getImage() == play) {
             if (selectedSong != null) {
                 playSong(selectedSong);
+
             }
             //If user clicks the pause button we pause the MusicPlayer
         } else {
             songModel.pausePlaying();
             btnPlay.setImage(play);
             lblIsPlaying.setText(songModel.getCurrentSongPlaying().getTitle().get() + IS_PAUSED);
+            checkVolume();
+        }
+    }
+
+    private void checkVolume() {
+        if (speaker.getImage().equals(mute)) {
+            songModel.switchVolume(0.0);
+        } else {
+            songModel.switchVolume(sliderVolume.getValue() / 100.0);
         }
     }
 
@@ -319,6 +329,7 @@ public class MyTunesController implements Initializable {
             songModel.stopPlaying();
             selectedSong = selectedView.getSelectedItem();
             playSong(selectedSong);
+            checkVolume();
         }
     }
 
@@ -466,18 +477,23 @@ public class MyTunesController implements Initializable {
     }
 
     /**
-     * Adds or a song to the current playlist
+     * Adds a song (or more) to the current playlist
      *
      * @param event
      */
     @FXML
 
     private void handleSongToPlaylist(MouseEvent event) {
-        if (tablePlaylists.getSelectionModel().getSelectedItem() != null && tableSongs.getSelectionModel().getSelectedItem() != null) {
-            Song songToAdd = tableSongs.getSelectionModel().getSelectedItem();
-            songModel.addSongToPlaylist(songToAdd);
-            updateInfo();
+        ObservableList<Song> songsToAddToPlaylist = tableSongs.getSelectionModel().getSelectedItems();
+        for (int i = 0; i < songsToAddToPlaylist.size(); i++) {
+            songModel.addSongToPlaylist(songsToAddToPlaylist.get(i));
         }
+        songModel.savePlaylists();
+//        if (tablePlaylists.getSelectionModel().getSelectedItem() != null && tableSongs.getSelectionModel().getSelectedItem() != null) {
+//            Song songToAdd = tableSongs.getSelectionModel().getSelectedItem();
+//            songModel.addSongToPlaylist(songToAdd);
+//            updateInfo();
+//        }
     }
 
     /**
@@ -488,7 +504,6 @@ public class MyTunesController implements Initializable {
     @FXML
     private void handleRemoveSongFromPlaylistButton(MouseEvent event) {
         try {
-            Song songToRemoveFromPlaylist = tableCurrentPlaylist.getSelectionModel().getSelectedItem();
             int idPlaylist = tablePlaylists.getSelectionModel().getSelectedItem().getId();
             ObservableList<Song> songsToRemoveFromPlaylist = tableCurrentPlaylist.getSelectionModel().getSelectedItems();
             Alert alert;
@@ -501,11 +516,8 @@ public class MyTunesController implements Initializable {
 
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK) {
-                songModel.deleteASongFromPlaylist(songToRemoveFromPlaylist, idPlaylist);
+                songModel.deleteFromPlaylist(idPlaylist, songsToRemoveFromPlaylist);
                 songModel.savePlaylists();
-                updateCurrentPlaylistTotals();
-                refreshTable();
-                songModel.removeSongsFromCurrentPlaylist(songsToRemoveFromPlaylist);
                 updateInfo();
             }
         } catch (NullPointerException npe) {
@@ -678,9 +690,9 @@ public class MyTunesController implements Initializable {
             sliderVolume.setValue(0);
             speaker.setImage(mute);
         } else {
-            songModel.switchVolume(lastVolume);
             sliderVolume.setValue(lastVolume);
             speaker.setImage(normal);
+            checkVolume();
         }
     }
 

@@ -265,22 +265,6 @@ public class SongModel {
     }
 
     /**
-     * Mute
-     */
-    public void mute() {
-        musicPlayer.setVolume(0);
-    }
-
-    /**
-     * Unmute
-     *
-     * @param lastValue
-     */
-    public void unmute(double lastValue) {
-        musicPlayer.setVolume(lastValue);
-    }
-
-    /**
      * Shuffle the current playlist
      */
     public void shuffleCurrentPlaylist() {
@@ -409,21 +393,29 @@ public class SongModel {
     }
 
     /**
+     * Deletes parsed song from selected playlist
+     *
+     * @param idPlaylist
+     * @param songsToRemoveFromPlaylist
+     */
+    public void deleteFromPlaylist(int idPlaylist, ObservableList<Song> songsToRemoveFromPlaylist) {
+        for (Playlist playlist : playlists) {
+            if (playlist.getId() == idPlaylist) {
+                playlist.getSongsInPlaylist().removeAll(songsToRemoveFromPlaylist);
+            }
+        }
+        currentPlaylist.removeAll(songsToRemoveFromPlaylist);
+        mtController.updateInfo();
+        savePlaylists();
+    }
+
+    /**
      * Sets the current playlist id
      *
      * @param playlistID
      */
     public void setPlaylistID(int playlistID) {
         this.playlistID = playlistID;
-    }
-
-    /**
-     * Remove parsed song from playlist
-     *
-     * @param songsToDelete
-     */
-    public void removeSongsFromCurrentPlaylist(ObservableList<Song> songsToDelete) {
-        currentPlaylist.removeAll(songsToDelete);
     }
 
     /**
@@ -462,22 +454,6 @@ public class SongModel {
         String duration;
         duration = mathManager.totalDuration(getCurrentPlaylistAsArrayList());
         return duration;
-    }
-
-    /**
-     * Removes the song from the currentPlaylistView and from the actual
-     * playlist.
-     *
-     * @param song
-     * @param id
-     */
-    public void deleteASongFromPlaylist(Song song, int id) {
-        currentPlaylist.remove(song);
-        for (int i = 0; i < playlists.size(); i++) {
-            if (playlists.get(i).getId() == id) {
-                playlists.get(i).removeSong(song);
-            }
-        }
     }
 
     /**
