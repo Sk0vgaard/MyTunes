@@ -12,7 +12,6 @@ import java.util.Collections;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import mytunes.be.Playlist;
 import mytunes.be.Song;
 import mytunes.bll.FileManager;
 import mytunes.bll.MathManager;
@@ -24,13 +23,9 @@ public class SongModel {
 
     private static SongModel instance;
 
-    private int playlistID;
-
     private final MyTunesController mtController;
 
     private final ObservableList<Song> songs;
-    private final ObservableList<Song> currentPlaylist;
-    private final ObservableList<Playlist> playlists;
 
     private final ArrayList<Song> savedSongs;
 
@@ -57,8 +52,6 @@ public class SongModel {
 
     private SongModel() {
         songs = FXCollections.observableArrayList();
-        currentPlaylist = FXCollections.observableArrayList();
-        playlists = FXCollections.observableArrayList();
         musicPlayer = MusicPlayer.getInstance();
         musicDao = MusicDAO.getInstance();
         mathManager = MathManager.getInstance();
@@ -77,35 +70,6 @@ public class SongModel {
     }
 
     /**
-     * Returns the currentPlaylist.
-     *
-     * @return
-     */
-    public ObservableList<Song> getCurrentPlaylist() {
-        return currentPlaylist;
-    }
-
-    /**
-     * Updates the currentPlaylist with the given arrayList.
-     *
-     * @param playlist
-     */
-    public void updateCurrentPlaylist(ArrayList<Song> playlist) {
-        currentPlaylist.clear();
-        currentPlaylist.addAll(playlist);
-    }
-
-    /**
-     * Returns the songs in the observableList as ArrayList.
-     *
-     * @return
-     */
-    public ArrayList<Song> getCurrentPlaylistAsArrayList() {
-        ArrayList<Song> playlistAsArrayList = new ArrayList<>(currentPlaylist);
-        return playlistAsArrayList;
-    }
-
-    /**
      * Returns all the songs in an ArrayList.
      *
      * @return
@@ -113,20 +77,6 @@ public class SongModel {
     public ArrayList<Song> getSongsAsAraryList() {
         ArrayList<Song> songsAsArrayList = new ArrayList<>(songs);
         return songsAsArrayList;
-    }
-
-    /**
-     * Returns playlists in the Observable list
-     *
-     * @return
-     */
-    public ArrayList<Playlist> getPlaylistsAsArrayList() {
-        ArrayList<Playlist> playlistsAsArrayList = new ArrayList<>(playlists);
-        return playlistsAsArrayList;
-    }
-
-    public ObservableList<Playlist> getPlaylists() {
-        return playlists;
     }
 
     /**
@@ -265,42 +215,10 @@ public class SongModel {
     }
 
     /**
-     * Shuffle the current playlist
-     */
-    public void shuffleCurrentPlaylist() {
-        Collections.shuffle(currentPlaylist);
-    }
-
-    /**
      * Shuffles all the songs
      */
     public void shuffleSongs() {
         Collections.shuffle(songs);
-    }
-
-    /**
-     * Add song to playlist
-     *
-     * @param song
-     */
-    public void addSongToPlaylist(Song song) {
-        currentPlaylist.add(song);
-        for (Playlist playlist : playlists) {
-            if (playlist.getId() == playlistID) {
-                playlist.addSong(song);
-            }
-        }
-        savePlaylists();
-    }
-
-    /**
-     * Add song to songs
-     *
-     * @param playlist
-     */
-    public void addPlaylist(Playlist playlist) {
-        playlists.add(playlist);
-        savePlaylists();
     }
 
     /**
@@ -332,13 +250,6 @@ public class SongModel {
     }
 
     /**
-     * Save playlists
-     */
-    public void savePlaylists() {
-        musicDao.writePlaylists(getPlaylistsAsArrayList());
-    }
-
-    /**
      * Load saved songs
      */
     public void loadSavedSongs() {
@@ -354,22 +265,6 @@ public class SongModel {
     }
 
     /**
-     * Load saved playlists
-     *
-     */
-    public void loadSavedPlaylists() {
-        if (musicDao.isPlaylistsThere()) {
-            ArrayList<Playlist> playlistsFromFile = musicDao.getPlaylistsFromFile();
-            if (!playlistsFromFile.isEmpty()) {
-                playlists.clear();
-                playlists.addAll(playlistsFromFile);
-            }
-        } else {
-            System.out.println("Sheit playlist.data isn't there!");
-        }
-    }
-
-    /**
      * Removes song
      *
      * @param songsToDelete
@@ -378,44 +273,6 @@ public class SongModel {
         songs.removeAll(songsToDelete);
         saveSongs();
 
-    }
-
-    /**
-     * Removes playlist
-     *
-     * @param playlistsToDelete
-     */
-    public void deletePlaylist(ObservableList<Playlist> playlistsToDelete) {
-        playlists.removeAll(playlistsToDelete);
-        currentPlaylist.clear();
-        mtController.updateInfo();
-        savePlaylists();
-    }
-
-    /**
-     * Deletes parsed song from selected playlist
-     *
-     * @param idPlaylist
-     * @param songsToRemoveFromPlaylist
-     */
-    public void deleteFromPlaylist(int idPlaylist, ObservableList<Song> songsToRemoveFromPlaylist) {
-        for (Playlist playlist : playlists) {
-            if (playlist.getId() == idPlaylist) {
-                playlist.getSongsInPlaylist().removeAll(songsToRemoveFromPlaylist);
-            }
-        }
-        currentPlaylist.removeAll(songsToRemoveFromPlaylist);
-        mtController.updateInfo();
-        savePlaylists();
-    }
-
-    /**
-     * Sets the current playlist id
-     *
-     * @param playlistID
-     */
-    public void setPlaylistID(int playlistID) {
-        this.playlistID = playlistID;
     }
 
     /**
@@ -443,33 +300,5 @@ public class SongModel {
      */
     public void setNewTime(Double time) {
         musicPlayer.setNewTime(time);
-    }
-
-    /**
-     * Gets the duration of the playlist
-     *
-     * @return
-     */
-    public String getDurationOfPlaylist() {
-        String duration;
-        duration = mathManager.totalDuration(getCurrentPlaylistAsArrayList());
-        return duration;
-    }
-
-    /**
-     * Gets the current playlist as a String
-     *
-     * @return
-     */
-    public String getCurrentPlaylistAsString() {
-        String currentPlaylistAsString = "";
-        ArrayList<String> artists = new ArrayList<>();
-        for (Song song : this.currentPlaylist) {
-            if (!artists.contains(song.getArtist().get())) {
-                artists.add(song.getArtist().get());
-                currentPlaylistAsString += song.getArtist().get() + ". ";
-            }
-        }
-        return currentPlaylistAsString;
     }
 }

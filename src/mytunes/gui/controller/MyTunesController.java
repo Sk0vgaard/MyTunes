@@ -53,6 +53,7 @@ import javafx.stage.Stage;
 import mytunes.be.Playlist;
 import mytunes.be.Song;
 import mytunes.bll.MathManager;
+import mytunes.gui.model.PlaylistModel;
 import mytunes.gui.model.SongModel;
 
 /**
@@ -107,6 +108,16 @@ public class MyTunesController implements Initializable {
     private Label lblPlaylistDuration;
     @FXML
     private Label lblPlaylistSongs;
+    @FXML
+    private Pane anchorPaneColor;
+    @FXML
+    private RadioButton radioDefault;
+    @FXML
+    private RadioButton radioPink;
+    @FXML
+    private RadioButton radioBlue;
+    @FXML
+    private ToggleGroup themeGroup;
 
     private final Image play = new Image(getClass().getResourceAsStream("/mytunes/assets/icons/play.png"));
     private final Image pause = new Image(getClass().getResourceAsStream("/mytunes/assets/icons/pause.png"));
@@ -120,6 +131,7 @@ public class MyTunesController implements Initializable {
     private double lastVolume;
 
     private SongModel songModel;
+    private PlaylistModel playlistModel;
     private MathManager mathManager;
 
     private static final String IDLE_TEXT = "Enjoy your music!";
@@ -135,23 +147,13 @@ public class MyTunesController implements Initializable {
         return instance;
     }
 
-    @FXML
-    private Pane anchorPaneColor;
-    @FXML
-    private RadioButton radioDefault;
-    @FXML
-    private RadioButton radioPink;
-    @FXML
-    private RadioButton radioBlue;
-    @FXML
-    private ToggleGroup themeGroup;
-
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
         instance = this;
 
         songModel = SongModel.getInstance();
+        playlistModel = PlaylistModel.getInstance();
         mathManager = MathManager.getInstance();
 
         btnPlay.setImage(play);
@@ -219,14 +221,14 @@ public class MyTunesController implements Initializable {
         //Add song to current playlist
         clmCurrentPlaylistTrack.setCellValueFactory(column -> new ReadOnlyObjectWrapper<>(tableCurrentPlaylist.getItems().indexOf(column.getValue())).asString());
         clmCurrentPlaylistTitle.setCellValueFactory(i -> i.getValue().getTitle());
-        tableCurrentPlaylist.setItems(songModel.getCurrentPlaylist());
+        tableCurrentPlaylist.setItems(playlistModel.getCurrentPlaylist());
 
         //add playlists from the model and show them in the tablePlaylists
         clmPlaylistName.setCellValueFactory(i -> i.getValue().getName());
         clmPlaylistSongsAmount.setCellValueFactory(i -> i.getValue().getSongs());
         clmPlaylistTotalDuration.setCellValueFactory(i -> i.getValue().getDuration());
-        songModel.loadSavedPlaylists();
-        tablePlaylists.setItems(songModel.getPlaylists());
+        playlistModel.loadSavedPlaylists();
+        tablePlaylists.setItems(playlistModel.getPlaylists());
     }
 
     /**
@@ -486,9 +488,9 @@ public class MyTunesController implements Initializable {
     private void handleSongToPlaylist(MouseEvent event) {
         ObservableList<Song> songsToAddToPlaylist = tableSongs.getSelectionModel().getSelectedItems();
         for (int i = 0; i < songsToAddToPlaylist.size(); i++) {
-            songModel.addSongToPlaylist(songsToAddToPlaylist.get(i));
+            playlistModel.addSongToPlaylist(songsToAddToPlaylist.get(i));
         }
-        songModel.savePlaylists();
+        playlistModel.savePlaylists();
 //        if (tablePlaylists.getSelectionModel().getSelectedItem() != null && tableSongs.getSelectionModel().getSelectedItem() != null) {
 //            Song songToAdd = tableSongs.getSelectionModel().getSelectedItem();
 //            songModel.addSongToPlaylist(songToAdd);
@@ -516,8 +518,8 @@ public class MyTunesController implements Initializable {
 
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK) {
-                songModel.deleteFromPlaylist(idPlaylist, songsToRemoveFromPlaylist);
-                songModel.savePlaylists();
+                playlistModel.deleteFromPlaylist(idPlaylist, songsToRemoveFromPlaylist);
+                playlistModel.savePlaylists();
                 updateInfo();
             }
         } catch (NullPointerException npe) {
@@ -617,7 +619,7 @@ public class MyTunesController implements Initializable {
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
-            songModel.deletePlaylist(playlistsToDelete);
+            playlistModel.deletePlaylist(playlistsToDelete);
         }
     }
 
@@ -629,10 +631,10 @@ public class MyTunesController implements Initializable {
     @FXML
     private void handleMoveSongUpButton(MouseEvent event) {
         int selectedIndex = tableCurrentPlaylist.getSelectionModel().getSelectedIndex();
-        ArrayList<Song> currentPlaylist = songModel.getCurrentPlaylistAsArrayList();
+        ArrayList<Song> currentPlaylist = playlistModel.getCurrentPlaylistAsArrayList();
         if (selectedIndex - 1 >= 0) {
             Collections.swap(currentPlaylist, selectedIndex, selectedIndex - 1);
-            songModel.updateCurrentPlaylist(currentPlaylist);
+            playlistModel.updateCurrentPlaylist(currentPlaylist);
             tableCurrentPlaylist.getSelectionModel().select(selectedIndex - 1);
         }
     }
@@ -645,10 +647,10 @@ public class MyTunesController implements Initializable {
     @FXML
     private void handleMoveSongDownButton(MouseEvent event) {
         int selectedIndex = tableCurrentPlaylist.getSelectionModel().getSelectedIndex();
-        ArrayList<Song> currentPlaylist = songModel.getCurrentPlaylistAsArrayList();
+        ArrayList<Song> currentPlaylist = playlistModel.getCurrentPlaylistAsArrayList();
         if (selectedIndex + 1 < currentPlaylist.size() && selectedView == tableCurrentPlaylist.getSelectionModel()) {
             Collections.swap(currentPlaylist, selectedIndex, selectedIndex + 1);
-            songModel.updateCurrentPlaylist(currentPlaylist);
+            playlistModel.updateCurrentPlaylist(currentPlaylist);
             tableCurrentPlaylist.getSelectionModel().select(selectedIndex + 1);
         }
     }
@@ -703,7 +705,7 @@ public class MyTunesController implements Initializable {
      */
     @FXML
     private void handleShufflePlaylist(MouseEvent event) {
-        songModel.shuffleCurrentPlaylist();
+        playlistModel.shuffleCurrentPlaylist();
     }
 
     /**
@@ -723,9 +725,9 @@ public class MyTunesController implements Initializable {
     private void handleSelectPlaylist(MouseEvent event) throws NullPointerException {
         try {
             int playlistId = tablePlaylists.getSelectionModel().getSelectedItem().getId();
-            songModel.setPlaylistID(playlistId);
+            playlistModel.setPlaylistID(playlistId);
             ArrayList<Song> list = tablePlaylists.getSelectionModel().getSelectedItem().getSongsInPlaylist();
-            songModel.updateCurrentPlaylist(list);
+            playlistModel.updateCurrentPlaylist(list);
 
             updateCurrentPlaylistTotals();
         } catch (Exception e) {
@@ -762,8 +764,8 @@ public class MyTunesController implements Initializable {
      * Updates the totalSong and totalDuration for the currentPlaylist view.
      */
     public void updateCurrentPlaylistTotals() {
-        lblPlaylistSongs.setText(songModel.getCurrentPlaylist().size() + "");
-        String duration = songModel.getDurationOfPlaylist();
+        lblPlaylistSongs.setText(playlistModel.getCurrentPlaylist().size() + "");
+        String duration = playlistModel.getDurationOfPlaylist();
         duration = duration.replace(".", ":");
         lblPlaylistDuration.setText(duration);
     }
@@ -879,7 +881,7 @@ public class MyTunesController implements Initializable {
     @FXML
     private void handleTwitter(MouseEvent event) throws IOException, URISyntaxException {
         System.out.println("Tweeting!");
-        String playlist = songModel.getCurrentPlaylistAsString();
+        String playlist = playlistModel.getCurrentPlaylistAsString();
         String tweetText = "I listen to these artists: " + playlist;
         String encodedURL = URLEncoder.encode(tweetText, "UTF-8");
         String finalURL = "http://twitter.com/home?status=" + encodedURL;

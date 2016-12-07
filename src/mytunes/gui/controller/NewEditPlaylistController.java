@@ -14,6 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import mytunes.be.Playlist;
+import mytunes.gui.model.PlaylistModel;
 import mytunes.gui.model.SongModel;
 
 /**
@@ -33,6 +34,7 @@ public class NewEditPlaylistController implements Initializable {
     private Playlist currentPlaylist = new Playlist("", "", "");
 
     private final SongModel songModel = SongModel.getInstance();
+    private final PlaylistModel playlistModel = PlaylistModel.getInstance();
 
     /**
      * Initializes the controller class.
@@ -72,7 +74,7 @@ public class NewEditPlaylistController implements Initializable {
             currentPlaylist.setName(txtName.getText());
         } else {
             currentPlaylist.setName(txtName.getText());
-            songModel.addPlaylist(currentPlaylist);
+            playlistModel.addPlaylist(currentPlaylist);
         }
 
         // get a handle to the stage
