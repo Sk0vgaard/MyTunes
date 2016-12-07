@@ -101,13 +101,21 @@ public class PlaylistModel {
     /**
      * Add song to playlist
      *
-     * @param song
+     * @param newSong
      */
-    public void addSongToPlaylist(Song song) {
-        currentPlaylist.add(song);
-        for (Playlist playlist : playlists) {
-            if (playlist.getId() == playlistID) {
-                playlist.addSong(song);
+    public void addSongToPlaylist(Song newSong) {
+        boolean hasSong = false;
+        for (Song song : currentPlaylist) {
+            if (song.getId() == newSong.getId()) {
+                hasSong = true;
+            }
+        }
+        if (!hasSong) {
+            currentPlaylist.add(newSong);
+            for (Playlist playlist : playlists) {
+                if (playlist.getId() == playlistID) {
+                    playlist.addSong(newSong);
+                }
             }
         }
         savePlaylists();

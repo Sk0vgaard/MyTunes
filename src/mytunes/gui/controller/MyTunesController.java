@@ -95,9 +95,9 @@ public class MyTunesController implements Initializable {
     @FXML
     private Label lblTotalDuration;
     @FXML
-    public ProgressBar sliderMusic;
+    private ProgressBar sliderMusic;
     @FXML
-    public Label lblTime;
+    private Label lblTime;
     @FXML
     private Label lblPlaylistDuration;
     @FXML
@@ -113,6 +113,9 @@ public class MyTunesController implements Initializable {
     private final Image pause = new Image(getClass().getResourceAsStream("/mytunes/assets/icons/pause.png"));
     private final Image normal = new Image(getClass().getResourceAsStream("/mytunes/assets/icons/speaker.png"));
     private final Image mute = new Image(getClass().getResourceAsStream("/mytunes/assets/icons/muted.png"));
+    private static final String IDLE_TEXT = "Enjoy your music!";
+    private static final String IS_PLAYING = " is playing";
+    private static final String IS_PAUSED = " is paused";
 
     private Song selectedSong;
 
@@ -122,10 +125,6 @@ public class MyTunesController implements Initializable {
 
     private SongModel songModel;
     private PlaylistModel playlistModel;
-
-    private static final String IDLE_TEXT = "Enjoy your music!";
-    private static final String IS_PLAYING = " is playing";
-    private static final String IS_PAUSED = " is paused";
 
     private TableView.TableViewSelectionModel<Song> selectedView;
     private TableView.TableViewSelectionModel<Song> playingView;
@@ -217,6 +216,28 @@ public class MyTunesController implements Initializable {
         clmPlaylistTotalDuration.setCellValueFactory(i -> i.getValue().getDuration());
         playlistModel.loadSavedPlaylists();
         tablePlaylists.setItems(playlistModel.getPlaylists());
+        if (tablePlaylists.getItems().size() > 0) {
+            tablePlaylists.getSelectionModel().selectFirst();
+            handleSelectPlaylist(null);
+        }
+    }
+
+    /**
+     * Gets the music progress bar
+     *
+     * @return
+     */
+    public ProgressBar getMusicSlider() {
+        return sliderMusic;
+    }
+
+    /**
+     * Gets the label music time
+     *
+     * @return
+     */
+    public Label getTimeLabel() {
+        return lblTime;
     }
 
     /**
@@ -773,6 +794,11 @@ public class MyTunesController implements Initializable {
         lblPlaylistDuration.setText(durationString);
     }
 
+    /**
+     * Gets the coordinate of the mouseclick
+     *
+     * @param event
+     */
     @FXML
     private void handleSeek(MouseEvent event) {
         if (songModel.isMusicPlayerPlaying()) {

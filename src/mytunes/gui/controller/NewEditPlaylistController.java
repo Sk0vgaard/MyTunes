@@ -10,12 +10,10 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import mytunes.be.Playlist;
 import mytunes.gui.model.PlaylistModel;
-import mytunes.gui.model.SongModel;
 
 /**
  * FXML Controller class
@@ -25,15 +23,11 @@ import mytunes.gui.model.SongModel;
 public class NewEditPlaylistController implements Initializable {
 
     @FXML
-    private Button btnCancel;
-    @FXML
-    private Button btnSave;
-    @FXML
     private TextField txtName;
 
-    private Playlist currentPlaylist = new Playlist("", "", "");
+    private final Stage stage = (Stage) txtName.getScene().getWindow();
 
-    private final SongModel songModel = SongModel.getInstance();
+    private Playlist currentPlaylist = new Playlist("", "", "");
     private final PlaylistModel playlistModel = PlaylistModel.getInstance();
 
     /**
@@ -47,23 +41,34 @@ public class NewEditPlaylistController implements Initializable {
         // TODO
     }
 
+    /**
+     *
+     * @return txtName
+     */
     public TextField getTxtName() {
         return txtName;
     }
 
+    /**
+     * Sets txtName
+     *
+     * @param txtName
+     */
     public void setTxtName(String txtName) {
         this.txtName.setText(txtName);
-
     }
 
+    /**
+     * Sets currentPlaylist
+     *
+     * @param currentPlaylist
+     */
     public void setCurrentPlaylist(Playlist currentPlaylist) {
         this.currentPlaylist = currentPlaylist;
     }
 
     @FXML
-    private void handleCalcelButton(ActionEvent event) {
-        // get a handle to the stage
-        Stage stage = (Stage) txtName.getScene().getWindow();
+    private void handleCancelButton(ActionEvent event) {
         // do what you have to do
         stage.close();
     }
@@ -76,9 +81,6 @@ public class NewEditPlaylistController implements Initializable {
             currentPlaylist.setName(txtName.getText());
             playlistModel.addPlaylist(currentPlaylist);
         }
-
-        // get a handle to the stage
-        Stage stage = (Stage) txtName.getScene().getWindow();
         // do what you have to do
         stage.close();
     }

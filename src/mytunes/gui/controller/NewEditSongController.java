@@ -18,7 +18,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Modality;
@@ -41,23 +40,15 @@ public class NewEditSongController implements Initializable {
     @FXML
     private ComboBox<String> comboGenre;
     @FXML
-    private Button btnMore;
-    @FXML
     private TextField txtDuration;
     @FXML
     private TextField txtFile;
-    @FXML
-    private Button btnChoose;
-    @FXML
-    private Button btnSave;
-    @FXML
-    private Button btnCancel;
 
     private Stage primStage;
 
     private MyTunesController mtController;
 
-    private static ObservableList<String> genreList = FXCollections.observableArrayList(
+    private static final ObservableList<String> genreList = FXCollections.observableArrayList(
             "Rock",
             "POP",
             "Jazz",
