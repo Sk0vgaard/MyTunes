@@ -263,7 +263,7 @@ public class SongModel {
     public void switchVolume(double value) {
         musicPlayer.setVolume(value);
     }
-    
+
     /**
      * Shuffle the current playlist
      */
@@ -393,6 +393,23 @@ public class SongModel {
     }
 
     /**
+     * Deletes parsed song from selected playlist
+     *
+     * @param idPlaylist
+     * @param songsToRemoveFromPlaylist
+     */
+    public void deleteFromPlaylist(int idPlaylist, ObservableList<Song> songsToRemoveFromPlaylist) {
+        for (Playlist playlist : playlists) {
+            if (playlist.getId() == idPlaylist) {
+                playlist.getSongsInPlaylist().removeAll(songsToRemoveFromPlaylist);
+            }
+        }
+        currentPlaylist.removeAll(songsToRemoveFromPlaylist);
+        mtController.updateInfo();
+        savePlaylists();
+    }
+
+    /**
      * Sets the current playlist id
      *
      * @param playlistID
@@ -438,21 +455,21 @@ public class SongModel {
         duration = mathManager.totalDuration(getCurrentPlaylistAsArrayList());
         return duration;
     }
-    
+
     /**
-     * Removes the song from the currentPlaylistView and from the actual playlist.
-     * @param song
-     * @param id 
+     * Gets the current playlist as a String
+     *
+     * @return
      */
-    public void deleteASongFromPlaylist(Song song, int id)
-    {        
-        currentPlaylist.remove(song);
-        for(int i = 0; i < playlists.size(); i++)
-        {
-            if(playlists.get(i).getId() == id)
-            {
-                playlists.get(i).removeSong(song);
+    public String getCurrentPlaylistAsString() {
+        String currentPlaylistAsString = "";
+        ArrayList<String> artists = new ArrayList<>();
+        for (Song song : this.currentPlaylist) {
+            if (!artists.contains(song.getArtist().get())) {
+                artists.add(song.getArtist().get());
+                currentPlaylistAsString += song.getArtist().get() + ". ";
             }
         }
+        return currentPlaylistAsString;
     }
 }
