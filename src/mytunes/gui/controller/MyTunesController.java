@@ -484,6 +484,8 @@ public class MyTunesController implements Initializable {
     @FXML
     private void handleRemoveSongFromPlaylistButton(MouseEvent event) {
         try {
+            Song songToRemoveFromPlaylist = tableCurrentPlaylist.getSelectionModel().getSelectedItem();
+            int idPlaylist = tablePlaylists.getSelectionModel().getSelectedItem().getId();
             ObservableList<Song> songsToRemoveFromPlaylist = tableCurrentPlaylist.getSelectionModel().getSelectedItems();
             Alert alert;
             //Show popup window and await user confirmation. If user clicks "OK" then we remove the song
@@ -495,6 +497,10 @@ public class MyTunesController implements Initializable {
 
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK) {
+                songModel.deleteASongFromPlaylist(songToRemoveFromPlaylist, idPlaylist);
+                songModel.savePlaylists();
+                updateCurrentPlaylistTotals();
+                refreshTable();
                 songModel.removeSongsFromCurrentPlaylist(songsToRemoveFromPlaylist);
                 updateInfo();
             }

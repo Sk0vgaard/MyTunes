@@ -463,4 +463,21 @@ public class SongModel {
         duration = mathManager.totalDuration(getCurrentPlaylistAsArrayList());
         return duration;
     }
+    
+    /**
+     * Removes the song from the currentPlaylistView and from the actual playlist.
+     * @param song
+     * @param id 
+     */
+    public void deleteASongFromPlaylist(Song song, int id)
+    {        
+        currentPlaylist.remove(song);
+        for(int i = 0; i < playlists.size(); i++)
+        {
+            if(playlists.get(i).getId() == id)
+            {
+                playlists.get(i).removeSong(song);
+            }
+        }
+    }
 }
