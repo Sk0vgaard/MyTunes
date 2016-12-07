@@ -73,9 +73,22 @@ public class Playlist implements Serializable {
     public ArrayList<Song> getSongsInPlaylist() {
         return songsInPlaylist;
     }
-
+    
+    /**
+     * Add a song to the playlist.
+     * @param song 
+     */
     public void addSong(Song song) {
         songsInPlaylist.add(song);
+    }
+    
+    /**
+     * Removes a song from the playlist.
+     * @param song 
+     */
+    public void removeSong(Song song)
+    {
+        songsInPlaylist.remove(song);
     }
 
     /**

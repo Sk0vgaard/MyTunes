@@ -381,11 +381,13 @@ public class SongModel {
     public void setPlaylistID(int playlistID) {
         this.playlistID = playlistID;
     }
-
+    
+    /**
+     * Gets an array of songs and remove them from the current playList.
+     * @param songsToDelete 
+     */
     public void removeSongsFromCurrentPlaylist(ArrayList<Song> songsToDelete) {
-        for (Song song : songsToDelete) {
-            currentPlaylist.remove(song);
-        }
+        currentPlaylist.removeAll(songsToDelete);
     }
 
     /**
@@ -414,11 +416,32 @@ public class SongModel {
     public void setNewTime(Double time) {
         musicPlayer.setNewTime(time);
     }
-
+    
+    /**
+     * Gets the total duration of all songs in all playLists.
+     * @return 
+     */
     public String getDurationOfPlaylist()
     {
         String duration;
         duration = mathManager.totalDuration(getCurrentPlaylistAsArrayList());
         return duration;
+    }
+    
+    /**
+     * Removes the song from the currentPlaylistView and from the actual playlist.
+     * @param song
+     * @param id 
+     */
+    public void deleteASongFromPlaylist(Song song, int id)
+    {        
+        currentPlaylist.remove(song);
+        for(int i = 0; i < playlists.size(); i++)
+        {
+            if(playlists.get(i).getId() == id)
+            {
+                playlists.get(i).removeSong(song);
+            }
+        }
     }
 }

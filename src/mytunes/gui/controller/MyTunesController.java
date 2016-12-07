@@ -456,13 +456,14 @@ public class MyTunesController implements Initializable {
     private void handleRemoveSongFromPlaylistButton(MouseEvent event) {
         try {
             Song songToRemoveFromPlaylist = tableCurrentPlaylist.getSelectionModel().getSelectedItem();
+            int idPlaylist = tablePlaylists.getSelectionModel().getSelectedItem().getId();
 
             //Show popup window and await user confirmation. If user clicks "OK" then we remove the song
             Alert alert = songRemoveDialog(songToRemoveFromPlaylist);
 
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK) {
-                songModel.getCurrentPlaylist().remove(songToRemoveFromPlaylist);
+                songModel.deleteASongFromPlaylist(songToRemoveFromPlaylist, idPlaylist);
                 songModel.savePlaylists();
                 updateCurrentPlaylistTotals();
                 refreshTable();
