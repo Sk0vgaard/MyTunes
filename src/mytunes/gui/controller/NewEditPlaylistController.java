@@ -25,7 +25,7 @@ public class NewEditPlaylistController implements Initializable {
     @FXML
     private TextField txtName;
 
-    private final Stage stage = (Stage) txtName.getScene().getWindow();
+    private Stage stage;
 
     private Playlist currentPlaylist = new Playlist("", "", "");
     private final PlaylistModel playlistModel = PlaylistModel.getInstance();
@@ -38,7 +38,6 @@ public class NewEditPlaylistController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
     }
 
     /**
@@ -69,6 +68,8 @@ public class NewEditPlaylistController implements Initializable {
 
     @FXML
     private void handleCancelButton(ActionEvent event) {
+
+        stage = (Stage) txtName.getScene().getWindow();
         // do what you have to do
         stage.close();
     }
@@ -81,6 +82,7 @@ public class NewEditPlaylistController implements Initializable {
             currentPlaylist.setName(txtName.getText());
             playlistModel.addPlaylist(currentPlaylist);
         }
+        stage = (Stage) txtName.getScene().getWindow();
         // do what you have to do
         stage.close();
     }

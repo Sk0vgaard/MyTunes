@@ -23,7 +23,7 @@ public class MoreGenreViewController implements Initializable {
     @FXML
     private TextField txtNewGenre;
 
-    private final Stage stage = (Stage) txtNewGenre.getScene().getWindow();
+    private Stage stage;
 
     /**
      * Initializes the controller class.
@@ -35,6 +35,7 @@ public class MoreGenreViewController implements Initializable {
 
     @FXML
     private void btnHandleCancel(ActionEvent event) {
+        stage = (Stage) txtNewGenre.getScene().getWindow();
         // do what you have to do
         stage.close();
     }
@@ -42,7 +43,7 @@ public class MoreGenreViewController implements Initializable {
     @FXML
     private void btnHandleOk(ActionEvent event) {
         NewEditSongController.getGenreList().add(txtNewGenre.getText());
-
+        stage = (Stage) txtNewGenre.getScene().getWindow();
         // do what you have to do
         stage.close();
     }
