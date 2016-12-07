@@ -204,7 +204,8 @@ public class SongModel {
         savedSongs.addAll(songs);
         songs.clear();
         for (Song savedSong : savedSongs) {
-            if (savedSong.getTitle().get().toLowerCase().contains(searchString)) {
+            if (savedSong.getTitle().get().toLowerCase().contains(searchString)
+                    || savedSong.getGenre().get().toLowerCase().contains(searchString)) {
                 songsFromSearch.add(savedSong);
             }
         }
@@ -284,6 +285,13 @@ public class SongModel {
      */
     public void shuffleCurrentPlaylist() {
         Collections.shuffle(currentPlaylist);
+    }
+
+    /**
+     * Shuffles all the songs
+     */
+    public void shuffleSongs() {
+        Collections.shuffle(songs);
     }
 
     /**

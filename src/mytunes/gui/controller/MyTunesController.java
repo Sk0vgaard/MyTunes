@@ -40,6 +40,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -309,11 +310,9 @@ public class MyTunesController implements Initializable {
      * Play a song on a double click
      */
     @FXML
-
     private void handleDoubleClick(MouseEvent event) {
         if (event.getClickCount() == 2) {
             songModel.stopPlaying();
-
             selectedSong = selectedView.getSelectedItem();
             playSong(selectedSong);
         }
@@ -348,9 +347,23 @@ public class MyTunesController implements Initializable {
      */
     @FXML
     private void handleSearch() {
-        String search = txtSearch.getText();
-        if (!search.equals("")) {
-            songModel.searchSong(search);
+        if (txtSearch.getText().equals("")) {
+            handleClearSearch();
+        } else {
+            String search = txtSearch.getText();
+            if (!search.equals("")) {
+                songModel.searchSong(search);
+            }
+        }
+    }
+
+    /**
+     * Searches for songs on enter
+     */
+    @FXML
+    private void handleEnterSearch(KeyEvent event) {
+        if (event.getCode().equals(KeyCode.ENTER)) {
+            handleSearch();
         }
     }
 
@@ -668,8 +681,16 @@ public class MyTunesController implements Initializable {
      * @param event
      */
     @FXML
-    private void handleShuffle(MouseEvent event) {
+    private void handleShufflePlaylist(MouseEvent event) {
         songModel.shuffleCurrentPlaylist();
+    }
+
+    /**
+     * Shuffles all the songs
+     */
+    @FXML
+    private void handleShuffleSongs(MouseEvent event) {
+        songModel.shuffleSongs();
     }
 
     /**

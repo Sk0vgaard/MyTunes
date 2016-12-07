@@ -39,7 +39,7 @@
                         <Font size="18.0" />
                     </font>
                 </Label>
-                <TextField fx:id="txtSearch" layoutX="569.0" layoutY="14.0" prefHeight="25.0" prefWidth="142.0" />
+                <TextField fx:id="txtSearch" layoutX="569.0" layoutY="14.0" onKeyPressed="#handleEnterSearch" prefHeight="25.0" prefWidth="142.0" />
                 <Slider fx:id="sliderVolume" layoutX="40.0" layoutY="74.0" onDragDetected="#handleMusicVolume" onMouseClicked="#handleMusicVolume" value="100.0" />
 
                 <TableView fx:id="tableCurrentPlaylist" layoutX="217.0" layoutY="121.0" onKeyPressed="#handleMultiSelect" onMouseClicked="#handleDoubleClick" prefHeight="398.0" prefWidth="200.0">
@@ -104,12 +104,12 @@
                         <Image url="@../../assets/icons/add.png" />
                     </image>
                 </ImageView>
-                <ImageView id="deleteSong" fitHeight="25.0" fitWidth="27.0" layoutX="721.0" layoutY="526.0" onMouseClicked="#handleSongDeleteButton" pickOnBounds="true" preserveRatio="true">
+                <ImageView id="deleteSong" fitHeight="25.0" fitWidth="27.0" layoutX="762.0" layoutY="526.0" onMouseClicked="#handleSongDeleteButton" pickOnBounds="true" preserveRatio="true">
                     <image>
                         <Image url="@../../assets/icons/trash.png" />
                     </image>
                 </ImageView>
-                <ImageView id="editSong" fitHeight="27.0" fitWidth="27.0" layoutX="613.0" layoutY="528.0" onMouseClicked="#handleSongTableButton" pickOnBounds="true" preserveRatio="true">
+                <ImageView id="editSong" fitHeight="27.0" fitWidth="27.0" layoutX="684.0" layoutY="525.0" onMouseClicked="#handleSongTableButton" pickOnBounds="true" preserveRatio="true">
                     <image>
                         <Image url="@../../assets/icons/edit.png" />
                     </image>
@@ -139,7 +139,7 @@
                         <Image url="@../../assets/icons/speaker.png" />
                     </image>
                 </ImageView>
-                <ImageView id="moveSongDown" fitHeight="27.0" fitWidth="40.0" layoutX="319.0" layoutY="528.0" onMouseClicked="#handleShuffle" pickOnBounds="true" preserveRatio="true">
+                <ImageView id="moveSongDown" fitHeight="27.0" fitWidth="40.0" layoutX="319.0" layoutY="528.0" onMouseClicked="#handleShufflePlaylist" pickOnBounds="true" preserveRatio="true">
                     <image>
                         <Image url="@../../assets/icons/shuffle.png" />
                     </image>
@@ -209,6 +209,11 @@
                       <Label layoutX="18.0" layoutY="7.0" text="Theme:" />
                </children>
             </AnchorPane>
+            <ImageView id="moveSongDown" fitHeight="27.0" fitWidth="40.0" layoutX="577.0" layoutY="525.0" onMouseClicked="#handleShuffleSongs" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../assets/icons/shuffle.png" />
+               </image>
+            </ImageView>
 
             </children>
         </Pane>
