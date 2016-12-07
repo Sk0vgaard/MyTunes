@@ -118,6 +118,8 @@ public class MyTunesController implements Initializable {
     private RadioButton radioBlue;
     @FXML
     private ToggleGroup themeGroup;
+    @FXML
+    private ImageView btnAddPlaylist;
 
     private final Image play = new Image(getClass().getResourceAsStream("/mytunes/assets/icons/play.png"));
     private final Image pause = new Image(getClass().getResourceAsStream("/mytunes/assets/icons/pause.png"));
@@ -484,18 +486,25 @@ public class MyTunesController implements Initializable {
      * @param event
      */
     @FXML
-
-    private void handleSongToPlaylist(MouseEvent event) {
-        ObservableList<Song> songsToAddToPlaylist = tableSongs.getSelectionModel().getSelectedItems();
-        for (int i = 0; i < songsToAddToPlaylist.size(); i++) {
-            playlistModel.addSongToPlaylist(songsToAddToPlaylist.get(i));
+    private void handleSongToPlaylist(MouseEvent event) throws IOException {
+        if (tablePlaylists.getSelectionModel().getSelectedItem() != null && tableSongs.getSelectionModel().getSelectedItem() != null) {
+            ObservableList<Song> songsToAddToPlaylist = tableSongs.getSelectionModel().getSelectedItems();
+            for (int i = 0; i < songsToAddToPlaylist.size(); i++) {
+                playlistModel.addSongToPlaylist(songsToAddToPlaylist.get(i));
+            }
+            playlistModel.savePlaylists();
+            updateInfo();
+        } //If there is no playlist created, pop a dialog and create a new playlist.
+        else if (tablePlaylists.getSelectionModel().isEmpty()) {
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("No existing playlists!");
+            alert.setHeaderText("There is no playlist to add to.");
+            alert.setContentText("Create a new playlist to continue.");
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK) {
+                btnAddPlaylist.fireEvent(event);
+            }
         }
-        playlistModel.savePlaylists();
-//        if (tablePlaylists.getSelectionModel().getSelectedItem() != null && tableSongs.getSelectionModel().getSelectedItem() != null) {
-//            Song songToAdd = tableSongs.getSelectionModel().getSelectedItem();
-//            songModel.addSongToPlaylist(songToAdd);
-//            updateInfo();
-//        }
     }
 
     /**
@@ -591,7 +600,8 @@ public class MyTunesController implements Initializable {
 
         //If user wants to add a new playlist just load the empty modal
         if (selectedImage.getId().equals("createPlaylist")) {
-            editStage.show();
+            editStage.showAndWait();
+            tablePlaylists.getSelectionModel().selectLast();
             //If user wants to edit a song load up modal with info
         } else if (selectedImage.getId().equals("editPlaylist")) {
             Playlist playlistToEdit = tablePlaylists.getSelectionModel().getSelectedItem();
