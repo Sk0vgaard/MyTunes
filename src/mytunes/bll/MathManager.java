@@ -50,12 +50,22 @@ public class MathManager implements Serializable {
      * @return
      */
     public String totalDuration(ArrayList<Song> list) {
+        int hours = 0;
         int minutes = 0;
         int seconds = 0;
         for (Song song : list) {
             String[] placeHolderString = song.getDuration().get().split(":");
-            minutes += Integer.parseInt(placeHolderString[0]);
-            seconds += Integer.parseInt(placeHolderString[1]);
+            if(placeHolderString.length >2)
+            {
+                hours += Integer.parseInt(placeHolderString[0]);
+                minutes += Integer.parseInt(placeHolderString[1]);
+                seconds += Integer.parseInt(placeHolderString[2]);
+            }
+            else
+            {
+                minutes += Integer.parseInt(placeHolderString[0]);
+                seconds += Integer.parseInt(placeHolderString[1]);
+            }
         }
 
         if (seconds >= A_MINUTE) {
@@ -67,11 +77,10 @@ public class MathManager implements Serializable {
         totalDuration = convertToMinutes(totalDuration);
         String stringDuration = String.format("%.2f", totalDuration);
         
-        if(totalDuration >= A_MINUTE)
+        if(hours > 0)
         {
-            double placeHolder = totalDuration / A_MINUTE;
-            int place2Holder = (int) placeHolder;
-            stringDuration = place2Holder + "," + stringDuration;
+            
+            stringDuration = hours + "," + stringDuration;
         }
         
         return stringDuration;
