@@ -402,15 +402,6 @@ public class SongModel {
     }
 
     /**
-     * Remove parsed song from playlist
-     *
-     * @param songsToDelete
-     */
-    public void removeSongsFromCurrentPlaylist(ObservableList<Song> songsToDelete) {
-        currentPlaylist.removeAll(songsToDelete);
-    }
-
-    /**
      * Gets the total duration of all songs as double.
      *
      * @return

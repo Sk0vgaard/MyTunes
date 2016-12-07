@@ -497,7 +497,6 @@ public class MyTunesController implements Initializable {
     @FXML
     private void handleRemoveSongFromPlaylistButton(MouseEvent event) {
         try {
-            Song songToRemoveFromPlaylist = tableCurrentPlaylist.getSelectionModel().getSelectedItem();
             int idPlaylist = tablePlaylists.getSelectionModel().getSelectedItem().getId();
             ObservableList<Song> songsToRemoveFromPlaylist = tableCurrentPlaylist.getSelectionModel().getSelectedItems();
             Alert alert;
@@ -510,11 +509,11 @@ public class MyTunesController implements Initializable {
 
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK) {
-                songModel.deleteASongFromPlaylist(songToRemoveFromPlaylist, idPlaylist);
+                for(int i = 0; i < songsToRemoveFromPlaylist.size(); i++)
+                {
+                    songModel.deleteASongFromPlaylist(songsToRemoveFromPlaylist.get(i), idPlaylist);
+                }
                 songModel.savePlaylists();
-                updateCurrentPlaylistTotals();
-                refreshTable();
-                songModel.removeSongsFromCurrentPlaylist(songsToRemoveFromPlaylist);
                 updateInfo();
             }
         } catch (NullPointerException npe) {
@@ -865,5 +864,4 @@ public class MyTunesController implements Initializable {
         updateSongTotals();
         refreshTable();
     }
-
 }
