@@ -32,7 +32,6 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
-import javafx.scene.control.RadioButton;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TableColumn;
@@ -52,14 +51,9 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import mytunes.be.Playlist;
 import mytunes.be.Song;
-import mytunes.bll.MathManager;
 import mytunes.gui.model.PlaylistModel;
 import mytunes.gui.model.SongModel;
 
-/**
- *
- * @author gta1
- */
 public class MyTunesController implements Initializable {
 
     @FXML
@@ -111,15 +105,9 @@ public class MyTunesController implements Initializable {
     @FXML
     private Pane anchorPaneColor;
     @FXML
-    private RadioButton radioDefault;
-    @FXML
-    private RadioButton radioPink;
-    @FXML
-    private RadioButton radioBlue;
+    private ImageView btnAddPlaylist;
     @FXML
     private ToggleGroup themeGroup;
-    @FXML
-    private ImageView btnAddPlaylist;
 
     private final Image play = new Image(getClass().getResourceAsStream("/mytunes/assets/icons/play.png"));
     private final Image pause = new Image(getClass().getResourceAsStream("/mytunes/assets/icons/pause.png"));
@@ -134,7 +122,6 @@ public class MyTunesController implements Initializable {
 
     private SongModel songModel;
     private PlaylistModel playlistModel;
-    private MathManager mathManager;
 
     private static final String IDLE_TEXT = "Enjoy your music!";
     private static final String IS_PLAYING = " is playing";
@@ -156,7 +143,6 @@ public class MyTunesController implements Initializable {
 
         songModel = SongModel.getInstance();
         playlistModel = PlaylistModel.getInstance();
-        mathManager = MathManager.getInstance();
 
         btnPlay.setImage(play);
 

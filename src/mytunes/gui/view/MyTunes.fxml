@@ -199,13 +199,13 @@
                 </Label>
             <AnchorPane layoutX="634.0" layoutY="2.0" prefHeight="49.0" prefWidth="174.0">
                <children>
-                      <RadioButton fx:id="radioDefault" layoutX="8.0" layoutY="26.0" mnemonicParsing="false" onMouseClicked="#switchToDefault" selected="true" text="Default">
+                      <RadioButton layoutX="8.0" layoutY="26.0" mnemonicParsing="false" onMouseClicked="#switchToDefault" selected="true" text="Default">
                      <toggleGroup>
                               <ToggleGroup fx:id="themeGroup" />
                      </toggleGroup>
                       </RadioButton>
-                      <RadioButton fx:id="radioBlue" layoutX="83.0" layoutY="26.0" mnemonicParsing="false" onMouseClicked="#switchToBlue" text="Blue" toggleGroup="$themeGroup" />
-                      <RadioButton fx:id="radioPink" layoutX="130.0" layoutY="26.0" mnemonicParsing="false" onMouseClicked="#switchToPink" text="Pink" toggleGroup="$themeGroup" />
+                      <RadioButton layoutX="83.0" layoutY="26.0" mnemonicParsing="false" onMouseClicked="#switchToBlue" text="Blue" toggleGroup="$themeGroup" />
+                      <RadioButton layoutX="130.0" layoutY="26.0" mnemonicParsing="false" onMouseClicked="#switchToPink" text="Pink" toggleGroup="$themeGroup" />
       
                             <Label layoutX="8.0" layoutY="6.0" text="Theme:" />
                </children>
