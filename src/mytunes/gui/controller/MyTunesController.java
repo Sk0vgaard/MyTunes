@@ -399,15 +399,20 @@ public class MyTunesController implements Initializable {
         songModel.stopPlaying();
         Song currentSong = songModel.getCurrentSongPlaying();
         playingView.select(currentSong);
-        if (goForward) {
-            playingView.selectNext();
+        if (tableCurrentPlaylist.getSelectionModel().getFocusedIndex() == playlistModel.getCurrentPlaylist().size()) {
+            if (goForward) {
+                playingView.selectNext();
+            } else {
+                playingView.selectPrevious();
+            }
         } else {
-            playingView.selectPrevious();
+            playingView.selectFirst();
         }
+        
         Song nextSong = selectedView.getSelectedItem();
         return nextSong;
     }
-
+    
     /**
      * Finds which view the current played song is from. Then plays the next
      * song in that view.
