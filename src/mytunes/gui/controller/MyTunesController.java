@@ -478,16 +478,19 @@ public class MyTunesController implements Initializable {
     }
 
     /**
-     * Adds or a song to the current playlist
+     * Adds a song (or more) to the current playlist
      *
      * @param event
      */
     @FXML
-
     private void handleSongToPlaylist(MouseEvent event) throws IOException {
         if (tablePlaylists.getSelectionModel().getSelectedItem() != null && tableSongs.getSelectionModel().getSelectedItem() != null) {
-            Song songToAdd = tableSongs.getSelectionModel().getSelectedItem();
-            songModel.addSongToPlaylist(songToAdd);
+            ObservableList<Song> songsToAddToPlaylist = tableSongs.getSelectionModel().getSelectedItems();
+                for(int i = 0; i < songsToAddToPlaylist.size(); i++)
+                {
+                    songModel.addSongToPlaylist(songsToAddToPlaylist.get(i));
+                }
+                songModel.savePlaylists();
             updateInfo();
         }
         //If there is no playlist created, pop a dialog and create a new playlist.
