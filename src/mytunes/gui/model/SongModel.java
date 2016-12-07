@@ -463,21 +463,37 @@ public class SongModel {
         duration = mathManager.totalDuration(getCurrentPlaylistAsArrayList());
         return duration;
     }
-    
+
     /**
-     * Removes the song from the currentPlaylistView and from the actual playlist.
+     * Removes the song from the currentPlaylistView and from the actual
+     * playlist.
+     *
      * @param song
-     * @param id 
+     * @param id
      */
-    public void deleteASongFromPlaylist(Song song, int id)
-    {        
+    public void deleteASongFromPlaylist(Song song, int id) {
         currentPlaylist.remove(song);
-        for(int i = 0; i < playlists.size(); i++)
-        {
-            if(playlists.get(i).getId() == id)
-            {
+        for (int i = 0; i < playlists.size(); i++) {
+            if (playlists.get(i).getId() == id) {
                 playlists.get(i).removeSong(song);
             }
         }
+    }
+
+    /**
+     * Gets the current playlist as a String
+     *
+     * @return
+     */
+    public String getCurrentPlaylistAsString() {
+        String currentPlaylistAsString = "";
+        ArrayList<String> artists = new ArrayList<>();
+        for (Song song : this.currentPlaylist) {
+            if (!artists.contains(song.getArtist().get())) {
+                artists.add(song.getArtist().get());
+                currentPlaylistAsString += song.getArtist().get() + ". ";
+            }
+        }
+        return currentPlaylistAsString;
     }
 }

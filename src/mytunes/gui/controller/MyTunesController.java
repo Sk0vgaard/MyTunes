@@ -5,8 +5,12 @@
  */
 package mytunes.gui.controller;
 
+import java.awt.Desktop;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Optional;
@@ -853,4 +857,26 @@ public class MyTunesController implements Initializable {
         refreshTable();
     }
 
+    /**
+     * Posts current playlist to Twitter
+     *
+     * @param event
+     * @throws IOException
+     * @throws URISyntaxException
+     */
+    @FXML
+    private void handleTwitter(MouseEvent event) throws IOException, URISyntaxException {
+        System.out.println("Tweeting!");
+        String playlist = songModel.getCurrentPlaylistAsString();
+        String tweetText = "I listen to these artists: " + playlist;
+        String encodedURL = URLEncoder.encode(tweetText, "UTF-8");
+        String finalURL = "http://twitter.com/home?status=" + encodedURL;
+
+        Desktop desktop = Desktop.getDesktop();
+        try {
+            desktop.browse(new URI(finalURL));
+        } catch (URISyntaxException ex) {
+            System.out.println("W00T? " + ex);
+        }
+    }
 }

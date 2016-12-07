@@ -215,6 +215,11 @@
                   <Image url="@../../assets/icons/shuffle.png" />
                </image>
             </ImageView>
+            <ImageView id="remove" fitHeight="25.0" fitWidth="27.0" layoutX="431.0" layoutY="189.0" onMouseClicked="#handleTwitter" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../assets/icons/twitter.png" />
+               </image>
+            </ImageView>
 
             </children>
         </Pane>
