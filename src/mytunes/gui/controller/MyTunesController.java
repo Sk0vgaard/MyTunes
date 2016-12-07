@@ -474,7 +474,6 @@ public class MyTunesController implements Initializable {
             songModel.addSongToPlaylist(songToAdd);
             updateInfo();
         }
-
     }
 
     /**
