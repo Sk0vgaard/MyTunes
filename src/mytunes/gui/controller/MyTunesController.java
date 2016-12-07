@@ -297,12 +297,24 @@ public class MyTunesController implements Initializable {
         if (btnPlay.getImage() == play) {
             if (selectedSong != null) {
                 playSong(selectedSong);
+                
             }
             //If user clicks the pause button we pause the MusicPlayer
         } else {
             songModel.pausePlaying();
             btnPlay.setImage(play);
             lblIsPlaying.setText(songModel.getCurrentSongPlaying().getTitle().get() + IS_PAUSED);
+            checkVolume();
+        }
+    }
+    
+    private void checkVolume()
+    {
+        if (speaker.getImage().equals(mute))
+        {
+            songModel.switchVolume(0.0);
+        } else {
+            songModel.switchVolume(sliderVolume.getValue() / 100.0);
         }
     }
 
@@ -315,6 +327,7 @@ public class MyTunesController implements Initializable {
             songModel.stopPlaying();
             selectedSong = selectedView.getSelectedItem();
             playSong(selectedSong);
+            checkVolume();
         }
     }
 
@@ -674,9 +687,9 @@ public class MyTunesController implements Initializable {
             sliderVolume.setValue(0);
             speaker.setImage(mute);
         } else {
-            songModel.switchVolume(lastVolume);
             sliderVolume.setValue(lastVolume);
             speaker.setImage(normal);
+            checkVolume();
         }
     }
 
