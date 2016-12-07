@@ -197,8 +197,8 @@ public class PlaylistModel {
      *
      * @return
      */
-    public double getDurationOfPlaylist() {
-        double duration;
+    public String getDurationOfPlaylist() {
+        String duration;
         duration = mathManager.totalDuration(getCurrentPlaylistAsArrayList());
         return duration;
     }

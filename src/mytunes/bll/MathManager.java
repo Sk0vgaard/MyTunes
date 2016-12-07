@@ -5,6 +5,7 @@
  */
 package mytunes.bll;
 
+import com.sun.deploy.ui.UIFactory;
 import java.io.Serializable;
 import java.util.ArrayList;
 import mytunes.be.Song;
@@ -48,7 +49,7 @@ public class MathManager implements Serializable {
      * @param list
      * @return
      */
-    public double totalDuration(ArrayList<Song> list) {
+    public String totalDuration(ArrayList<Song> list) {
         int minutes = 0;
         int seconds = 0;
         for (Song song : list) {
@@ -64,6 +65,15 @@ public class MathManager implements Serializable {
                 
         double totalDuration = (double) minutes + (double) seconds / (double) A_MINUTE;
         totalDuration = convertToMinutes(totalDuration);
-        return totalDuration;
+        String stringDuration = String.format("%.2f", totalDuration);
+        
+        if(totalDuration >= A_MINUTE)
+        {
+            double placeHolder = totalDuration / A_MINUTE;
+            int place2Holder = (int) placeHolder;
+            stringDuration = place2Holder + "," + stringDuration;
+        }
+        
+        return stringDuration;
     }
 }

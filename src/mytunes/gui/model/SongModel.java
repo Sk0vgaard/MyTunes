@@ -280,8 +280,8 @@ public class SongModel {
      *
      * @return
      */
-    public double getTotalDurationAllSongs() {
-        double totalduration;
+    public String getTotalDurationAllSongs() {
+        String totalduration;
         totalduration = mathManager.totalDuration(getSongsAsAraryList());
         return totalduration;
     }
