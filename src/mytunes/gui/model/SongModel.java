@@ -5,9 +5,11 @@
  */
 package mytunes.gui.model;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import mytunes.be.Playlist;
@@ -34,7 +36,7 @@ public class SongModel {
 
     private final MusicPlayer musicPlayer;
 
-    private final FileManager fileManager;
+    private FileManager fileManager;
 
     private final MusicDAO musicDao;
     private final MathManager mathManager;
@@ -90,9 +92,7 @@ public class SongModel {
      */
     public void updateCurrentPlaylist(ArrayList<Song> playlist) {
         currentPlaylist.clear();
-        for (Song song : playlist) {
-            currentPlaylist.add(song);
-        }
+        currentPlaylist.addAll(playlist);
     }
 
     /**
@@ -232,6 +232,20 @@ public class SongModel {
     }
 
     /**
+     * Add song from drag
+     *
+     * @param files
+     */
+    public void addFilesFromDrag(List<File> files) {
+        ArrayList<File> songsToAdd = fileManager.getSongFilesFromDrag(files);
+        for (File file : songsToAdd) {
+            fileManager = new FileManager();
+            fileManager.getMetaData(file);
+            addSong(fileManager.getSong());
+        }
+    }
+
+    /**
      * Calls the playNextSong method from the MyTunesController.
      *
      * @throws IOException
@@ -300,11 +314,22 @@ public class SongModel {
     /**
      * Adds the parsed song
      *
-     * @param song
+     * @param parsedSong
      */
-    public void addSong(Song song) {
-        songs.add(song);
-        saveSongs();
+    public void addSong(Song parsedSong) {
+        boolean exists = false;
+        //Loop through songs and check if new one is there
+        for (Song song : songs) {
+            if (song.getTitle().get().equals(parsedSong.getTitle().get())) {
+                exists = true;
+            }
+        }
+        //If another one with the same title isn't there then we add!
+        if (exists == false) {
+            songs.add(parsedSong);
+            saveSongs();
+        }
+        mtController.updateInfo();
     }
 
     /**
@@ -370,6 +395,8 @@ public class SongModel {
      */
     public void deletePlaylist(ObservableList<Playlist> playlistsToDelete) {
         playlists.removeAll(playlistsToDelete);
+        currentPlaylist.clear();
+        mtController.updateInfo();
         savePlaylists();
     }
 
@@ -381,12 +408,13 @@ public class SongModel {
     public void setPlaylistID(int playlistID) {
         this.playlistID = playlistID;
     }
-    
+
     /**
-     * Gets an array of songs and remove them from the current playList.
-     * @param songsToDelete 
+     * Remove parsed song from playlist
+     *
+     * @param songsToDelete
      */
-    public void removeSongsFromCurrentPlaylist(ArrayList<Song> songsToDelete) {
+    public void removeSongsFromCurrentPlaylist(ObservableList<Song> songsToDelete) {
         currentPlaylist.removeAll(songsToDelete);
     }
 
@@ -416,13 +444,13 @@ public class SongModel {
     public void setNewTime(Double time) {
         musicPlayer.setNewTime(time);
     }
-    
+
     /**
-     * Gets the total duration of all songs in all playLists.
-     * @return 
+     * Gets the duration of the playlist
+     *
+     * @return
      */
-    public String getDurationOfPlaylist()
-    {
+    public String getDurationOfPlaylist() {
         String duration;
         duration = mathManager.totalDuration(getCurrentPlaylistAsArrayList());
         return duration;

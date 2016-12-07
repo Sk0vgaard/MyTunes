@@ -28,15 +28,21 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import mytunes.be.Playlist;
@@ -123,7 +129,17 @@ public class MyTunesController implements Initializable {
     public static MyTunesController getInstance() {
         return instance;
     }
-    
+
+    @FXML
+    private Pane anchorPaneColor;
+    @FXML
+    private RadioButton radioDefault;
+    @FXML
+    private RadioButton radioPink;
+    @FXML
+    private RadioButton radioBlue;
+    @FXML
+    private ToggleGroup themeGroup;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -257,6 +273,7 @@ public class MyTunesController implements Initializable {
         songController.setTxtArtist(songToEdit.getArtist().get());
         songController.setTxtDuration(songToEdit.getDuration().get());
         songController.setComboGenre(songToEdit.getGenre().get());
+        songController.setPath(songToEdit.getFileName().get());
         songController.setCurrentSong(songToEdit);
     }
 
@@ -437,14 +454,14 @@ public class MyTunesController implements Initializable {
      * @param event
      */
     @FXML
-    private void handleSongToPlaylist(MouseEvent event) {        
-        if(tablePlaylists.getSelectionModel().getSelectedItem() != null && tableSongs.getSelectionModel().getSelectedItem() != null)
-        {
+
+    private void handleSongToPlaylist(MouseEvent event) {
+        if (tablePlaylists.getSelectionModel().getSelectedItem() != null && tableSongs.getSelectionModel().getSelectedItem() != null) {
             Song songToAdd = tableSongs.getSelectionModel().getSelectedItem();
             songModel.addSongToPlaylist(songToAdd);
-            updateCurrentPlaylistTotals();
-            refreshTable();
-        }        
+            updateInfo();
+        }
+
     }
 
     /**
@@ -457,9 +474,14 @@ public class MyTunesController implements Initializable {
         try {
             Song songToRemoveFromPlaylist = tableCurrentPlaylist.getSelectionModel().getSelectedItem();
             int idPlaylist = tablePlaylists.getSelectionModel().getSelectedItem().getId();
-
+            ObservableList<Song> songsToRemoveFromPlaylist = tableCurrentPlaylist.getSelectionModel().getSelectedItems();
+            Alert alert;
             //Show popup window and await user confirmation. If user clicks "OK" then we remove the song
-            Alert alert = songRemoveDialog(songToRemoveFromPlaylist);
+            if (songsToRemoveFromPlaylist.size() > 1) {
+                alert = removeManyItems();
+            } else {
+                alert = songRemoveDialog(songsToRemoveFromPlaylist.get(0));
+            }
 
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK) {
@@ -467,6 +489,8 @@ public class MyTunesController implements Initializable {
                 songModel.savePlaylists();
                 updateCurrentPlaylistTotals();
                 refreshTable();
+                songModel.removeSongsFromCurrentPlaylist(songsToRemoveFromPlaylist);
+                updateInfo();
             }
         } catch (NullPointerException npe) {
             System.out.println("Wrong delete buttom");
@@ -666,8 +690,10 @@ public class MyTunesController implements Initializable {
             songModel.setPlaylistID(playlistId);
             ArrayList<Song> list = tablePlaylists.getSelectionModel().getSelectedItem().getSongsInPlaylist();
             songModel.updateCurrentPlaylist(list);
+
             updateCurrentPlaylistTotals();
         } catch (Exception e) {
+
             System.out.println("Selection error " + e);
         }
     }
@@ -683,7 +709,6 @@ public class MyTunesController implements Initializable {
         } else {
             selectedView.setSelectionMode(SelectionMode.SINGLE);
             tablePlaylists.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-
         }
     }
 
@@ -696,12 +721,11 @@ public class MyTunesController implements Initializable {
         duration = duration.replace(".", ":");
         lblTotalDuration.setText(duration);
     }
-    
+
     /**
      * Updates the totalSong and totalDuration for the currentPlaylist view.
      */
-    public void updateCurrentPlaylistTotals()
-    {
+    public void updateCurrentPlaylistTotals() {
         lblPlaylistSongs.setText(songModel.getCurrentPlaylist().size() + "");
         String duration = songModel.getDurationOfPlaylist();
         duration = duration.replace(".", ":");
@@ -735,10 +759,78 @@ public class MyTunesController implements Initializable {
             ((TableColumn) (tableCurrentPlaylist.getColumns().get(i))).setVisible(false);
             ((TableColumn) (tableCurrentPlaylist.getColumns().get(i))).setVisible(true);
         }
-        for(int i = 0; i < tablePlaylists.getColumns().size(); i++)
-        {
+        for (int i = 0; i < tablePlaylists.getColumns().size(); i++) {
             ((TableColumn) (tablePlaylists.getColumns().get(i))).setVisible(false);
             ((TableColumn) (tablePlaylists.getColumns().get(i))).setVisible(true);
         }
     }
+
+    /**
+     * Parse the selected file to the filemanager
+     *
+     * @param event
+     */
+    @FXML
+    private void handleDrag(DragEvent event) {
+        Dragboard db = event.getDragboard();
+        songModel.addFilesFromDrag(db.getFiles());
+    }
+
+    /**
+     * Returns to standard theme
+     *
+     * @param event
+     */
+    @FXML
+    private void switchToDefault(MouseEvent event) {
+        anchorPaneColor.setStyle("-fx-table-cell-border-color: #f092b0");
+        ColorAdjust colorAdjust = new ColorAdjust();
+        colorAdjust.setHue(0);
+        colorAdjust.setSaturation(0);
+        tableCurrentPlaylist.setEffect(colorAdjust);
+        tablePlaylists.setEffect(colorAdjust);
+        tableSongs.setEffect(colorAdjust);
+    }
+
+    /**
+     * Switches to pink theme
+     *
+     * @param event
+     */
+    @FXML
+    private void switchToPink(MouseEvent event) {
+        ColorAdjust colorAdjust = new ColorAdjust();
+        colorAdjust.setHue(-0.3);
+        colorAdjust.setSaturation(0.1);
+        anchorPaneColor.setStyle("-fx-background-color: #f092b0");
+        tableCurrentPlaylist.setEffect(colorAdjust);
+        tablePlaylists.setEffect(colorAdjust);
+        tableSongs.setEffect(colorAdjust);
+    }
+
+    /**
+     * Switches to a more manly blue theme
+     *
+     * @param event
+     */
+    @FXML
+    private void switchToBlue(MouseEvent event) {
+        ColorAdjust colorAdjust = new ColorAdjust();
+        colorAdjust.setHue(-0.8);
+        colorAdjust.setSaturation(0.1);
+        anchorPaneColor.setStyle("-fx-background-color: #39add1");
+        tableCurrentPlaylist.setEffect(colorAdjust);
+        tablePlaylists.setEffect(colorAdjust);
+        tableSongs.setEffect(colorAdjust);
+    }
+
+    /**
+     * Updates all info
+     */
+    public void updateInfo() {
+        updateCurrentPlaylistTotals();
+        updateSongTotals();
+        refreshTable();
+    }
+
 }

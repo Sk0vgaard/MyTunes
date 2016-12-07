@@ -136,34 +136,29 @@ public class NewEditSongController implements Initializable {
      */
     @FXML
     private void handleSaveButton() {
-        if(txtTitle.getText().isEmpty() 
-                || txtDuration.getText().isEmpty() 
-                || txtFile.getText().isEmpty())
-        {
+        if (txtTitle.getText().isEmpty()
+                || txtDuration.getText().isEmpty()
+                || txtFile.getText().isEmpty()) {
             Alert alert = new Alert(AlertType.WARNING);
             alert.setTitle("Missing information");
             alert.setHeaderText(null);
             alert.setContentText("Please fill in all required information to proceed.");
             alert.showAndWait();
-        }
-        else
-        {
+        } else {
             if (!currentSong.getTitle().get().equals("")) {
                 setSongInfo();
                 mtController.refreshTable();
             } else {
                 setSongInfo();
                 songModel.addSong(currentSong);
-                mtController.updateSongTotals();
             }
-            
+
             // get a handle to the stage
             Stage stage = (Stage) txtTitle.getScene().getWindow();
             // do what you have to do
             stage.close();
         }
 
-        
     }
 
     private void setSongInfo() {
@@ -196,6 +191,10 @@ public class NewEditSongController implements Initializable {
 
     public void setComboGenre(String comboGenre) {
         this.comboGenre.getSelectionModel().select(comboGenre);
+    }
+
+    public void setPath(String path) {
+        txtFile.setText(path);
     }
 
     /**
