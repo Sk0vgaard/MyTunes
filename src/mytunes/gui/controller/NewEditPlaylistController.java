@@ -29,6 +29,7 @@ public class NewEditPlaylistController implements Initializable {
 
     private Playlist currentPlaylist = new Playlist("", "", "");
     private final PlaylistModel playlistModel = PlaylistModel.getInstance();
+    private final MyTunesController mtController = MyTunesController.getInstance();
 
     /**
      * Initializes the controller class.
@@ -81,6 +82,7 @@ public class NewEditPlaylistController implements Initializable {
         } else {
             currentPlaylist.setName(txtName.getText());
             playlistModel.addPlaylist(currentPlaylist);
+
         }
         stage = (Stage) txtName.getScene().getWindow();
         // do what you have to do

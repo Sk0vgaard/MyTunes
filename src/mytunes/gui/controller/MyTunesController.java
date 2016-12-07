@@ -241,6 +241,15 @@ public class MyTunesController implements Initializable {
     }
 
     /**
+     * Gets the playlist table
+     *
+     * @return
+     */
+    public TableView getPlaylistTable() {
+        return tablePlaylists;
+    }
+
+    /**
      * Checks if the "add image" or the "edit image" was clicked and opens the
      * corresponding view
      *
@@ -429,11 +438,11 @@ public class MyTunesController implements Initializable {
         } else {
             playingView.selectFirst();
         }
-        
+
         Song nextSong = selectedView.getSelectedItem();
         return nextSong;
     }
-    
+
     /**
      * Finds which view the current played song is from. Then plays the next
      * song in that view.
@@ -516,6 +525,9 @@ public class MyTunesController implements Initializable {
             if (result.get() == ButtonType.OK) {
                 btnAddPlaylist.fireEvent(event);
             }
+        } else {
+            tablePlaylists.getSelectionModel().selectFirst();
+            handleSelectPlaylist(null);
         }
     }
 
@@ -744,7 +756,7 @@ public class MyTunesController implements Initializable {
      * @param event
      */
     @FXML
-    private void handleSelectPlaylist(MouseEvent event) throws NullPointerException {
+    public void handleSelectPlaylist(MouseEvent event) throws NullPointerException {
         try {
             int playlistId = tablePlaylists.getSelectionModel().getSelectedItem().getId();
             playlistModel.setPlaylistID(playlistId);
@@ -907,7 +919,6 @@ public class MyTunesController implements Initializable {
      */
     @FXML
     private void handleTwitter(MouseEvent event) throws IOException, URISyntaxException {
-        System.out.println("Tweeting!");
         String playlist = playlistModel.getCurrentPlaylistAsString();
         String tweetText = "I listen to these artists: " + playlist;
         String encodedURL = URLEncoder.encode(tweetText, "UTF-8");
