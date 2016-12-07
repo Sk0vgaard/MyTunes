@@ -751,9 +751,10 @@ public class MyTunesController implements Initializable {
      */
     public void updateSongTotals() {
         lblTotalSongs.setText(songModel.getSongs().size() + "");
-        String duration = songModel.getTotalDurationAllSongs();
-        duration = duration.replace(".", ":");
-        lblTotalDuration.setText(duration);
+        double duration = songModel.getTotalDurationAllSongs();
+        String durationString = String.format("%.2f", duration);
+        durationString = durationString.replace(",", ":");
+        lblTotalDuration.setText(durationString);
     }
 
     /**
@@ -761,9 +762,10 @@ public class MyTunesController implements Initializable {
      */
     public void updateCurrentPlaylistTotals() {
         lblPlaylistSongs.setText(playlistModel.getCurrentPlaylist().size() + "");
-        String duration = playlistModel.getDurationOfPlaylist();
-        duration = duration.replace(".", ":");
-        lblPlaylistDuration.setText(duration);
+        double duration = playlistModel.getDurationOfPlaylist();
+        String durationString = String.format("%.2f", duration);
+        durationString = durationString.replace(",", ":");
+        lblPlaylistDuration.setText(durationString);
     }
 
     @FXML

@@ -48,7 +48,7 @@ public class MathManager implements Serializable {
      * @param list
      * @return
      */
-    public String totalDuration(ArrayList<Song> list) {
+    public double totalDuration(ArrayList<Song> list) {
         int minutes = 0;
         int seconds = 0;
         for (Song song : list) {
@@ -61,9 +61,9 @@ public class MathManager implements Serializable {
             minutes += seconds / A_MINUTE;
             seconds = seconds % A_MINUTE;
         }
+                
         double totalDuration = (double) minutes + (double) seconds / (double) A_MINUTE;
         totalDuration = convertToMinutes(totalDuration);
-        String durationAsString = String.valueOf(totalDuration);
-        return durationAsString;
+        return totalDuration;
     }
 }
