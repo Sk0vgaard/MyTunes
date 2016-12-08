@@ -25,11 +25,11 @@ public class SongModel {
 
     private final MyTunesController mtController;
 
-    private ObservableList<Song> songs;
+    private final ObservableList<Song> songs;
 
     private final ObservableList<Song> savedSongs;
 
-    private ObservableList<Song> songsFromSearch;
+    private final ObservableList<Song> songsFromSearch;
 
     private final MusicPlayer musicPlayer;
 

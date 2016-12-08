@@ -218,7 +218,10 @@
             </HBox>
 
                             <Label layoutX="604.0" layoutY="8.0" text="Theme:" />
-            <JFXTextField fx:id="txtSearch" layoutX="577.0" layoutY="60.0" onKeyPressed="#handleEnterSearch" promptText="Search for a song" />
+            <JFXTextField fx:id="txtSearch" layoutX="577.0" layoutY="60.0" onKeyPressed="#handleEnterSearch" promptText="Search for a song">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></JFXTextField>
 
             </children>
         </Pane>

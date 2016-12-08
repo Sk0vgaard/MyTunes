@@ -19,7 +19,7 @@ public class PlaylistModel {
 
     private static PlaylistModel instance;
 
-    private ObservableList<Song> currentPlaylist;
+    private final ObservableList<Song> currentPlaylist;
     private final ObservableList<Playlist> playlists;
 
     private Playlist selectedPlaylist;
