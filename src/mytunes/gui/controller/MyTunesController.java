@@ -144,23 +144,26 @@ public class MyTunesController implements Initializable {
         songModel = SongModel.getInstance();
         playlistModel = PlaylistModel.getInstance();
 
-        btnPlay.setImage(play);
-
-        speaker.setImage(normal);
-
-        lblTime.setText("");
+        initializeDesign();
 
         initializeTables();
-
-        //Set a heartily welcome message
-        lblIsPlaying.setText(IDLE_TEXT);
 
         selectedView = tableSongs.getSelectionModel(); //Setting the default view to tableSongs.
         playingView = tableSongs.getSelectionModel(); //Setting the default playingView.
 
         //Add listeners to tables
         addChangeListenersToTables();
+    }
 
+    private void initializeDesign() {
+        btnPlay.setImage(play);
+
+        speaker.setImage(normal);
+
+        lblTime.setText("");
+
+        //Set a heartily welcome message
+        lblIsPlaying.setText(IDLE_TEXT);
     }
 
     /**
@@ -207,7 +210,7 @@ public class MyTunesController implements Initializable {
         updateCurrentPlaylistTotals();
 
         //Add song to current playlist
-        clmCurrentPlaylistTrack.setCellValueFactory(column -> new ReadOnlyObjectWrapper<>(tableCurrentPlaylist.getItems().indexOf(column.getValue())).asString());
+        clmCurrentPlaylistTrack.setCellValueFactory(column -> new ReadOnlyObjectWrapper<>(tableCurrentPlaylist.getItems().indexOf(column.getValue()) + 1).asString());
         clmCurrentPlaylistTitle.setCellValueFactory(i -> i.getValue().getTitle());
         tableCurrentPlaylist.setItems(playlistModel.getCurrentPlaylist());
 
@@ -438,7 +441,7 @@ public class MyTunesController implements Initializable {
             } else {
                 playingView.selectPrevious();
             }
-            
+
         }
 
         Song nextSong = selectedView.getSelectedItem();
@@ -694,15 +697,17 @@ public class MyTunesController implements Initializable {
         sliderVolume.valueProperty().addListener(new InvalidationListener() {
             @Override
             public void invalidated(Observable observable) {
-                if (sliderVolume.isValueChanging()) {
-                    songModel.switchVolume(sliderVolume.getValue() / 100.0);
-                    if (speaker.getImage().equals(mute)) {
-                        speaker.setImage(normal);
-                    }
-                } else if (sliderVolume.isPressed()) {
-                    songModel.switchVolume(sliderVolume.getValue() / 100.0);
-                    if (speaker.getImage().equals(mute)) {
-                        speaker.setImage(normal);
+                if (songModel.isMusicPlayerPlaying()) {
+                    if (sliderVolume.isValueChanging()) {
+                        songModel.switchVolume(sliderVolume.getValue() / 100.0);
+                        if (speaker.getImage().equals(mute)) {
+                            speaker.setImage(normal);
+                        }
+                    } else if (sliderVolume.isPressed()) {
+                        songModel.switchVolume(sliderVolume.getValue() / 100.0);
+                        if (speaker.getImage().equals(mute)) {
+                            speaker.setImage(normal);
+                        }
                     }
                 }
             }
