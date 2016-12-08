@@ -853,7 +853,7 @@ public class MyTunesController implements Initializable {
      */
     @FXML
     private void switchToDefault(MouseEvent event) {
-        anchorPaneColor.setStyle("-fx-table-cell-border-color: #f092b0");
+        anchorPaneColor.setStyle("");
         ColorAdjust colorAdjust = new ColorAdjust();
         colorAdjust.setHue(0);
         colorAdjust.setSaturation(0);
