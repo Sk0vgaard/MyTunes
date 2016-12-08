@@ -75,6 +75,13 @@ public class MathManager implements Serializable {
                 
         double totalDuration = (double) minutes + (double) seconds / (double) A_MINUTE;
         totalDuration = convertToMinutes(totalDuration);
+        
+        if(totalDuration > A_MINUTE)
+        {
+            double placeholder = totalDuration / A_MINUTE;
+            hours += (int) placeholder;
+        }
+        
         String stringDuration = String.format("%.2f", totalDuration);
         
         if(hours > 0)
