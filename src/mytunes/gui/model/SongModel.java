@@ -5,14 +5,16 @@
  */
 package mytunes.gui.model;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import mytunes.be.Playlist;
 import mytunes.be.Song;
 import mytunes.bll.FileManager;
+import mytunes.bll.MathManager;
 import mytunes.bll.MusicPlayer;
 import mytunes.dal.MusicDAO;
 import mytunes.gui.controller.MyTunesController;
@@ -21,26 +23,21 @@ public class SongModel {
 
     private static SongModel instance;
 
-    private int playlistID;
-
-    private MyTunesController mtController;
+    private final MyTunesController mtController;
 
     private final ObservableList<Song> songs;
-    private final ObservableList<Song> currentPlaylist;
-    private final ObservableList<Playlist> playlists;
 
-    private final ArrayList<Song> savedSongs;
+    private final ObservableList<Song> savedSongs;
+
+    private final ObservableList<Song> songsFromSearch;
 
     private final MusicPlayer musicPlayer;
 
-    private final FileManager fileManager;
+    private FileManager fileManager;
 
-    private final MusicDAO musicDao = MusicDAO.getInstance();
+    private final MusicDAO musicDao;
+    private final MathManager mathManager;
 
-    private static final String MOCK_PATH = System.getProperty("user.dir").replace('\\', '/') + "/src/mytunes/assets/mp3/";
-
-    //TODO ALH: We need to be able to retrieve the List, so that we can show it in the GUI
-    //TODO ALH: We need a method to add songs to the List, so that our other awesome developers can call this method and add a new song!
     /**
      * If SongModel has not been instantiated, make a new instance off of it and
      * return it. If there already is an instance of SongModel, return that
@@ -57,13 +54,14 @@ public class SongModel {
 
     private SongModel() {
         songs = FXCollections.observableArrayList();
-        currentPlaylist = FXCollections.observableArrayList();
-        playlists = FXCollections.observableArrayList();
+        songsFromSearch = FXCollections.observableArrayList();
         musicPlayer = MusicPlayer.getInstance();
+        musicDao = MusicDAO.getInstance();
+        mathManager = MathManager.getInstance();
         musicPlayer.setSongModel(this);
-        savedSongs = new ArrayList<>();
+        savedSongs = FXCollections.observableArrayList();
         fileManager = new FileManager();
-        mockupSongs();
+        mtController = MyTunesController.getInstance();
     }
 
     /**
@@ -75,138 +73,13 @@ public class SongModel {
     }
 
     /**
-     * Returns the currentPlaylist.
+     * Returns all the songs in an ArrayList.
      *
      * @return
      */
-    public ObservableList<Song> getCurrentPlaylist() {
-        return currentPlaylist;
-    }
-
-    /**
-     * Updates the currentPlaylist with the given arrayList.
-     *
-     * @param playlist
-     */
-    public void updateCurrentPlaylist(ArrayList<Song> playlist) {
-
-        currentPlaylist.clear();
-        for (Song song : playlist) {
-            currentPlaylist.add(song);
-        }
-    }
-
-    /**
-     * Returns the songs in the observableList as ArrayList.
-     *
-     * @return
-     */
-    public ArrayList<Song> getCurrentPlaylistAsArrayList() {
-        ArrayList<Song> playlist = new ArrayList<>();
-        for (Song song : currentPlaylist) {
-            playlist.add(song);
-        }
-        return playlist;
-    }
-
-    public ObservableList<Playlist> getPlaylists() {
-        return playlists;
-    }
-
-    /**
-     * Creates some mockup songs
-     */
-    private void mockupSongs() {
-
-        Song excited = new Song(
-                "I'm So excited",
-                "Pointer Sisters",
-                "POP",
-                "3.42");
-        excited.setFileName(MOCK_PATH + "excited.mp3");
-
-        Song beatIt = new Song(
-                "Beat It",
-                "Michael Jackson",
-                "POP", "3.42");
-        beatIt.setFileName(MOCK_PATH + "beatIt.mp3");
-
-        Song bohemian = new Song(
-                "Bohemian Rhapsody",
-                "Queen",
-                "POP",
-                "6.06");
-        bohemian.setFileName(MOCK_PATH + "bohemian.mp3");
-
-        Song happyRock = new Song("BetterRock",
-                "Lynyrd Skynyrd",
-                "Rock",
-                "4.30");
-        happyRock.setFileName(MOCK_PATH + "alabama.mp3");
-
-        Song baby = new Song(
-                "Baby",
-                "Justin Bieber",
-                "POP",
-                "2.5");
-        baby.setFileName(MOCK_PATH + "baby.mp3");
-
-        Song cc1 = new Song(
-                "Voice of Truth",
-                "Casting Crowns",
-                "Christian",
-                "3.25");
-        cc1.setFileName(MOCK_PATH + "voiceOfTruth.mp3");
-
-        Song cc2 = new Song(
-                "What this world needs",
-                "Casting Crowns",
-                "Chritian",
-                "3.25");
-        cc2.setFileName(MOCK_PATH + "whatThisWorldNeeds.mp3");
-
-        Song cc3 = new Song(
-                "Does anybody hear her",
-                "Casting Crowns",
-                "Christian",
-                "3.25");
-        cc3.setFileName(MOCK_PATH + "doesAnybodyHearHer.mp3");
-
-        Playlist mj = new Playlist("Michael fucking Jackson", "1", "3.42");
-        Playlist cc = new Playlist("Casting Crowns", "3", "10");
-
-        mj.getSongsInPlaylist().add(beatIt);
-        cc.getSongsInPlaylist().add(cc1);
-        cc.getSongsInPlaylist().add(cc2);
-        cc.getSongsInPlaylist().add(cc3);
-
-        Song testEnd = new Song(
-                "TestEnd",
-                "RandomGuy",
-                "Not Really",
-                "0.16");
-        testEnd.setFileName(MOCK_PATH + "testEnd.mp3");
-
-        Song testPiano = new Song(
-                "TestPiano",
-                "Random",
-                "Nope",
-                "0.19");
-        testPiano.setFileName(MOCK_PATH + "piano.mp3");
-
-        songs.add(testPiano);
-        songs.add(excited);
-        songs.add(beatIt);
-        songs.add(bohemian);
-        songs.add(happyRock);
-        songs.add(baby);
-        songs.add(cc1);
-        songs.add(cc2);
-        songs.add(cc3);
-        songs.add(testEnd);
-
-        playlists.add(mj);
-        playlists.add(cc);
+    public ArrayList<Song> getSongsAsAraryList() {
+        ArrayList<Song> songsAsArrayList = new ArrayList<>(songs);
+        return songsAsArrayList;
     }
 
     /**
@@ -215,7 +88,7 @@ public class SongModel {
      * @param song
      */
     public void playSelectedSong(Song song) {
-        //Check if the MusicPlayer is currentplay at all
+        //Check if the MusicPlayer is current playing at all
         if (musicPlayer.isPlaying()) {
             //If it is playing, then check if it is the same song we want to resume
             if (musicPlayer.getCurrentSong().equals(song)) {
@@ -228,6 +101,16 @@ public class SongModel {
         } else {
             musicPlayer.playSong(song);
         }
+        trackTime();
+    }
+
+    /**
+     * Check if music player is playing
+     *
+     * @return
+     */
+    public boolean isMusicPlayerPlaying() {
+        return musicPlayer.isPlaying();
     }
 
     /**
@@ -259,9 +142,9 @@ public class SongModel {
      * Replays the song
      */
     public void replaySong() {
-        if (musicPlayer.isPlaying()) {
-            musicPlayer.replaySong();
-        }
+        Song playingSong = getCurrentSongPlaying();
+        musicPlayer.stopPlaying();
+        playSelectedSong(playingSong);
     }
 
     /**
@@ -270,14 +153,22 @@ public class SongModel {
      * @param searchString
      */
     public void searchSong(String searchString) {
-        ArrayList<Song> songsFromSearch = new ArrayList<>();
+        boolean hasSong = false;
         savedSongs.addAll(songs);
-        songs.clear();
         for (Song savedSong : savedSongs) {
-            if (savedSong.getTitle().get().toLowerCase().contains(searchString)) {
-                songsFromSearch.add(savedSong);
+            if (savedSong.getTitle().get().toLowerCase().contains(searchString)
+                    || savedSong.getGenre().get().toLowerCase().contains(searchString)) {
+                for (Song song : songsFromSearch) {
+                    if (song.getTitle().get().equals(savedSong.getTitle().get())) {
+                        hasSong = true;
+                    }
+                }
+                if (!hasSong) {
+                    songsFromSearch.add(savedSong);
+                }
             }
         }
+        songs.clear();
         songs.addAll(songsFromSearch);
     }
 
@@ -285,11 +176,7 @@ public class SongModel {
      * Reset search
      */
     public void clearSearch() {
-        if (!savedSongs.isEmpty()) {
-            songs.clear();
-            songs.addAll(savedSongs);
-            savedSongs.clear();
-        }
+        loadSavedSongs();
     }
 
     /**
@@ -302,13 +189,17 @@ public class SongModel {
     }
 
     /**
-     * Sets the mtController so the SongModel has a reference to the
-     * MyTunesController.
+     * Add song from drag
      *
-     * @param mtController
+     * @param files
      */
-    public void setMyTunesController(MyTunesController mtController) {
-        this.mtController = mtController;
+    public void addFilesFromDrag(List<File> files) {
+        ArrayList<File> songsToAdd = fileManager.getSongFilesFromDrag(files);
+        for (File file : songsToAdd) {
+            fileManager = new FileManager();
+            fileManager.getMetaData(file);
+            addSong(fileManager.getSong());
+        }
     }
 
     /**
@@ -330,90 +221,90 @@ public class SongModel {
     }
 
     /**
-     * Mute
+     * Shuffles all the songs
      */
-    public void mute() {
-        musicPlayer.setVolume(0);
+    public void shuffleSongs() {
+        Collections.shuffle(songs);
     }
 
     /**
-     * Unmute
+     * Adds the parsed song
      *
-     * @param lastValue
+     * @param parsedSong
      */
-    public void unmute(double lastValue) {
-        musicPlayer.setVolume(lastValue);
-    }
-
-    /**
-     * Shuffle the current playlist
-     */
-    public void shuffleCurrentPlaylist() {
-        Collections.shuffle(currentPlaylist);
-    }
-
-    /**
-     * Add song to playlist
-     *
-     * @param song
-     */
-    public void addSongToPlaylist(Song song) {
-        currentPlaylist.add(song);
-        for (Playlist playlist : playlists) {
-            if (playlist.getId() == playlistID) {
-                playlist.addSong(song);
+    public void addSong(Song parsedSong) {
+        boolean exists = false;
+        //Loop through songs and check if new one is there
+        for (Song song : songs) {
+            if (song.getTitle().get().equals(parsedSong.getTitle().get())) {
+                exists = true;
             }
         }
-        savePlaylists();
-    }
-
-    /**
-     * Add song to songs
-     *
-     * @param song
-     */
-    public void addPlaylist(Playlist playlist) {
-        playlists.add(playlist);
-    }
-
-    public void addSong(Song song) {
-        songs.add(song);
-        saveSongs();
+        //If another one with the same title isn't there then we add!
+        if (exists == false) {
+            songs.add(parsedSong);
+            saveSongs();
+        }
+        mtController.updateInfo();
     }
 
     /**
      * Save the songs
      */
     private void saveSongs() {
-        ArrayList<Song> songsToSave = new ArrayList<>(this.songs);
-        musicDao.writeSongs(songsToSave);
-    }
-
-    /**
-     * Save playlists
-     */
-    private void savePlaylists() {
-        ArrayList<Playlist> playlistsToSave = new ArrayList<>(playlists);
-        musicDao.writePlaylists(playlistsToSave);
+        musicDao.writeSongs(getSongsAsAraryList());
     }
 
     /**
      * Load saved songs
      */
     public void loadSavedSongs() {
-        if (!musicDao.getSongsFromFile().isEmpty()) {
-            songs.clear();
-            songs.addAll(musicDao.getSongsFromFile());
+        if (musicDao.isSongsThere()) {
+            ArrayList<Song> songsFromFile = musicDao.getSongsFromFile();
+            if (!songsFromFile.isEmpty()) {
+                songs.clear();
+                songs.addAll(songsFromFile);
+            }
+        } else {
+            System.out.println("Sheit songs.data isn't there!");
         }
     }
 
-    public void deleteSong(Song songToDelete) {
-        songs.remove(songToDelete);
+    /**
+     * Removes song
+     *
+     * @param songsToDelete
+     */
+    public void deleteSong(ObservableList<Song> songsToDelete) {
+        songs.removeAll(songsToDelete);
         saveSongs();
 
     }
 
-    public void setPlaylistID(int playlistID) {
-        this.playlistID = playlistID;
+    /**
+     * Gets the total duration of all songs as double.
+     *
+     * @return
+     */
+    public String getTotalDurationAllSongs() {
+        String totalduration;
+        totalduration = mathManager.totalDuration(getSongsAsAraryList());
+        return totalduration;
+    }
+
+    /**
+     * Updates the music player
+     */
+    public void trackTime() {
+        musicPlayer.trackTime();
+    }
+
+    /**
+     * Sends time change to music player
+     *
+     * @param time
+     */
+    public void setNewTime(Double time) {
+        musicPlayer.setNewTime(time);
     }
 }

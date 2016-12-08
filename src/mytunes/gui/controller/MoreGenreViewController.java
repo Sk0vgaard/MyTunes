@@ -18,38 +18,32 @@ import javafx.stage.Stage;
  *
  * @author mathi
  */
-public class MoreGenreViewController implements Initializable
-{
+public class MoreGenreViewController implements Initializable {
 
-    
     @FXML
     private TextField txtNewGenre;
+
+    private Stage stage;
 
     /**
      * Initializes the controller class.
      */
     @Override
-    public void initialize(URL url, ResourceBundle rb)
-    {
+    public void initialize(URL url, ResourceBundle rb) {
         // TODO
     }
 
     @FXML
-    private void btnHandleCancel(ActionEvent event)
-    {
-        // get a handle to the stage
-        Stage stage = (Stage) txtNewGenre.getScene().getWindow();
+    private void btnHandleCancel(ActionEvent event) {
+        stage = (Stage) txtNewGenre.getScene().getWindow();
         // do what you have to do
         stage.close();
     }
 
     @FXML
-    private void btnHandleOk(ActionEvent event)
-    {
-        NewEditSongController.getGenreList().add(txtNewGenre.getText());    
-        
-        // get a handle to the stage
-        Stage stage = (Stage) txtNewGenre.getScene().getWindow();
+    private void btnHandleOk(ActionEvent event) {
+        NewEditSongController.getGenreList().add(txtNewGenre.getText());
+        stage = (Stage) txtNewGenre.getScene().getWindow();
         // do what you have to do
         stage.close();
     }

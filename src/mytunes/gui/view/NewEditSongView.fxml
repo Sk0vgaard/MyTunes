@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.control.Accordion?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
@@ -12,22 +12,22 @@
 <AnchorPane id="AnchorPane" prefHeight="299.0" prefWidth="471.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mytunes.gui.controller.NewEditSongController">
    <children>
       <Accordion layoutX="99.0" layoutY="68.0" />
-      <Pane layoutX="13.0" layoutY="33.0" prefHeight="262.0" prefWidth="445.0">
+      <Pane layoutX="13.0" layoutY="33.0" prefHeight="262.0" prefWidth="445.0" stylesheets="@MyTunes.css">
          <children>
-            <Label layoutX="12.0" layoutY="14.0" text="Title" />
-            <Label layoutX="8.0" layoutY="51.0" text="Artist" />
-            <Label layoutX="6.0" layoutY="101.0" text="Genre" />
-            <Label layoutY="147.0" text="Duration" />
-            <Label layoutX="14.0" layoutY="184.0" text="File" />
-            <TextField fx:id="txtTitle" layoutX="52.0" layoutY="9.0" prefHeight="31.0" prefWidth="296.0" />
-            <TextField fx:id="txtArtist" layoutX="52.0" layoutY="46.0" prefHeight="31.0" prefWidth="296.0" />
-            <ComboBox fx:id="comboGenre" layoutX="52.0" layoutY="96.0" prefHeight="31.0" prefWidth="137.0" />
-            <Button fx:id="btnMore" layoutX="217.0" layoutY="96.0" mnemonicParsing="false" onAction="#handleMoreButton" text="More..." />
-            <TextField fx:id="txtDuration" layoutX="52.0" layoutY="140.0" prefHeight="31.0" prefWidth="137.0" />
-            <TextField fx:id="txtFile" layoutX="52.0" layoutY="179.0" prefHeight="31.0" prefWidth="296.0" />
-            <Button fx:id="btnChoose" layoutX="353.0" layoutY="179.0" mnemonicParsing="false" onAction="#handleChooseButton" text="Choose..." />
-            <Button fx:id="btnSave" layoutX="269.0" layoutY="218.0" mnemonicParsing="false" onAction="#handleSaveButton" prefHeight="31.0" prefWidth="79.0" text="Save" />
-            <Button fx:id="btnCancel" layoutX="359.0" layoutY="218.0" mnemonicParsing="false" onAction="#handleCancelButton" prefHeight="31.0" prefWidth="79.0" text="Cancel" />
+            <Label layoutX="12.0" layoutY="51.0" text="Title" />
+            <Label layoutX="8.0" layoutY="101.0" text="Artist" />
+            <Label layoutX="7.0" layoutY="147.0" text="Genre" />
+            <Label layoutY="183.0" text="Duration" />
+            <Label layoutX="14.0" layoutY="13.0" text="File" />
+            <JFXComboBox fx:id="comboGenre" layoutX="59.0" layoutY="143.0" prefHeight="25.0" prefWidth="130.0" promptText="Select" />
+            <JFXTextField fx:id="txtFile" layoutX="52.0" layoutY="6.0" maxWidth="296.0" minWidth="296.0" prefHeight="31.0" prefWidth="296.0" />
+            <JFXTextField fx:id="txtTitle" layoutX="52.0" layoutY="44.0" maxWidth="296.0" minWidth="296.0" prefHeight="31.0" prefWidth="296.0" />
+            <JFXTextField fx:id="txtArtist" layoutX="52.0" layoutY="94.0" maxWidth="296.0" minWidth="296.0" prefHeight="31.0" prefWidth="296.0" />
+            <JFXTextField fx:id="txtDuration" layoutX="52.0" layoutY="176.0" maxWidth="296.0" minWidth="137.0" prefHeight="31.0" prefWidth="137.0" />
+            <JFXButton layoutX="359.0" layoutY="18.0" onAction="#handleChooseButton" text="Choose..." />
+            <JFXButton layoutX="200.0" layoutY="143.0" onAction="#handleMoreButton" text="More..." />
+            <JFXButton cancelButton="true" layoutX="359.0" layoutY="218.0" onAction="#handleCancelButton" text="Cancel" />
+            <JFXButton defaultButton="true" layoutX="281.0" layoutY="218.0" onAction="#handleCancelButton" text="Save" />
          </children>
       </Pane>
       <Label alignment="CENTER" layoutY="-2.0" prefHeight="31.0" prefWidth="471.0" style="-fx-border-color: black;" text="New/Edit Song">

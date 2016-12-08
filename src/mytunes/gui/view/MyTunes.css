@@ -1,0 +1,11 @@
+.slider .thumb{
+  -fx-background-color: blue;
+}
+
+.jfx-radio-button {
+    -fx-selected-color: blue;
+}
+
+.text-field {
+  -fx-prompt-text-fill: #000;
+}

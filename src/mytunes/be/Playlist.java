@@ -5,63 +5,97 @@
  */
 package mytunes.be;
 
+import java.io.FileNotFoundException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.collections.ObservableList;
 import mytunes.bll.IDCreator;
+import mytunes.bll.MathManager;
 
-public class Playlist {
+public class Playlist implements Serializable {
+
+    private MathManager mathManager = MathManager.getInstance();
 
     private int id = 0;
-    private final StringProperty name;
-    private final StringProperty songs;
-    private final StringProperty duration;
+    private String name;
+    private String songs;
+    private String duration;
 
     private final ArrayList<Song> songsInPlaylist;
 
     public Playlist(String name, String songs, String duration) //String songs)
     {
-        this.name = new SimpleStringProperty();
-        this.songs = new SimpleStringProperty();
-        this.duration = new SimpleStringProperty();
+        this.name = name;
+        this.songs = songs;
+        this.duration = duration;
         songsInPlaylist = new ArrayList<>();
-        id = IDCreator.createPlaylistId();
-
-        setName(name);
-        setSongs(songs);
-        setDuration(duration);
+        try {
+            id = IDCreator.createPlaylistId();
+        } catch (FileNotFoundException ex) {
+            System.out.println("Id messed up");
+        }
     }
 
     public void setName(String name) {
-        this.name.set(name);
+        this.name = name;
     }
 
     public void setSongs(String songs) {
-        this.songs.set(songs);
+        this.songs = songs;
     }
 
     public void setDuration(String duration) {
-        this.duration.set(duration);
+        this.duration = duration;
     }
 
     public StringProperty getName() {
-        return name;
+        StringProperty propertyName = new SimpleStringProperty(name);
+        return propertyName;
     }
 
     public StringProperty getSongs() {
-        return songs;
+        songs = songsInPlaylist.size() + "";
+        StringProperty propertySongs = new SimpleStringProperty(songs);
+        return propertySongs;
     }
 
     public StringProperty getDuration() {
-        return duration;
+        duration = mathManager.totalDuration(songsInPlaylist) + "";
+        StringProperty propertyDuration = new SimpleStringProperty(duration);
+        return propertyDuration;
     }
 
     public ArrayList<Song> getSongsInPlaylist() {
         return songsInPlaylist;
     }
 
+    /**
+     * Add a song to the playlist.
+     *
+     * @param song
+     */
     public void addSong(Song song) {
         songsInPlaylist.add(song);
+    }
+
+    /**
+     * Add songs to the playlist
+     *
+     * @param newSongs
+     */
+    public void addSongs(ObservableList<Song> newSongs) {
+        songsInPlaylist.addAll(newSongs);
+    }
+
+    /**
+     * Removes a song from the playlist.
+     *
+     * @param song
+     */
+    public void removeSong(Song song) {
+        songsInPlaylist.remove(song);
     }
 
     /**

@@ -6,10 +6,14 @@
 package mytunes.bll;
 
 import java.io.IOException;
+import javafx.application.Platform;
+import javafx.beans.Observable;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaException;
 import javafx.scene.media.MediaPlayer;
+import javafx.util.Duration;
 import mytunes.be.Song;
+import mytunes.gui.controller.MyTunesController;
 import mytunes.gui.model.SongModel;
 
 public class MusicPlayer {
@@ -18,7 +22,9 @@ public class MusicPlayer {
 
     private SongModel songModel;
 
-    private MediaPlayer myTunesPlayer;
+    private MyTunesController mtController = MyTunesController.getInstance();
+
+    private static MediaPlayer myTunesPlayer;
 
     private boolean isPlaying = false;
 
@@ -51,11 +57,12 @@ public class MusicPlayer {
      */
     public void playSong(Song song) throws MediaException {
         //Pick the song to be played and put it in the myTunesPlayer.
-        pick = new Media("file:///" + song.getFileName().get().replace('\\', '/'));
+        pick = new Media(song.getFileName().get());
         myTunesPlayer = new MediaPlayer(pick);
         myTunesPlayer.play();
         isPlaying = true;
         currentSong = song;
+
         myTunesPlayer.setOnEndOfMedia(new Runnable() //Listens for when a song ends.
         {
             @Override
@@ -93,14 +100,6 @@ public class MusicPlayer {
     }
 
     /**
-     * Restarts the current song
-     */
-    public void replaySong() {
-        myTunesPlayer.stop();
-        myTunesPlayer.play();
-    }
-
-    /**
      *
      * @return status of MyTunesPlayer playing
      */
@@ -123,5 +122,42 @@ public class MusicPlayer {
      */
     public void setVolume(double volume) {
         myTunesPlayer.setVolume(volume);
+    }
+
+    /**
+     * Get musicplayer
+     */
+    public static MediaPlayer getPlayer() {
+        return myTunesPlayer;
+    }
+
+    /**
+     * Starts tracking the songs time and updates the display for it
+     */
+    public void trackTime() {
+        myTunesPlayer.currentTimeProperty().addListener((Observable ov) -> {
+            Platform.runLater(new Runnable() {
+                public void run() {
+                    Duration duration = MusicPlayer.getPlayer().getTotalDuration();
+                    Duration currentTime = MusicPlayer.getPlayer().getCurrentTime();
+                    mtController.getTimeLabel().setText(TimeManager.formatTime(currentTime, duration));
+                    mtController.getMusicSlider().setDisable(duration.isUnknown());
+                    if (!mtController.getMusicSlider().isDisabled() && duration.greaterThan(Duration.ZERO)) {
+                        mtController.getMusicSlider().setProgress(currentTime.toSeconds() / duration.toSeconds());
+                    }
+
+                }
+            });
+        });
+    }
+
+    /**
+     * Changes the song to the current time provided
+     *
+     * @param time
+     */
+    public void setNewTime(Double time) {
+        myTunesPlayer.seek(myTunesPlayer.getTotalDuration()
+                .multiply(time));
     }
 }
