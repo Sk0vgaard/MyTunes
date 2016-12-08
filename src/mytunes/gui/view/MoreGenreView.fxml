@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="122.0" prefWidth="279.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.60" fx:controller="mytunes.gui.controller.MoreGenreViewController">
+<AnchorPane id="AnchorPane" prefHeight="122.0" prefWidth="279.0" stylesheets="@MyTunes.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mytunes.gui.controller.MoreGenreViewController">
    <children>
       <Label layoutX="14.0" layoutY="38.0" prefHeight="17.0" prefWidth="70.0" text="New Genre:" />
-      <TextField fx:id="txtNewGenre" layoutX="100.0" layoutY="34.0" prefHeight="25.0" prefWidth="164.0" />
-      <Button layoutX="212.0" layoutY="85.0" mnemonicParsing="false" onAction="#btnHandleCancel" text="Cancel" />
-      <Button layoutX="166.0" layoutY="85.0" mnemonicParsing="false" onAction="#btnHandleOk" text="Ok" />
+      <JFXTextField fx:id="txtNewGenre" layoutX="92.0" layoutY="31.0" />
+      <JFXButton defaultButton="true" layoutX="134.0" layoutY="85.0" onAction="#btnHandleOk" text="OK" />
+      <JFXButton cancelButton="true" layoutX="189.0" layoutY="85.0" onAction="#btnHandleCancel" text="Cancel" />
    </children>
 </AnchorPane>

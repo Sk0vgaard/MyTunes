@@ -6,7 +6,6 @@
     -fx-selected-color: blue;
 }
 
-.button {
-  -fx-button-type: RAISED;
-  -fx-background-color: blue;
+.jfx-button {
+    -fx-background-color: #ccc;
 }
