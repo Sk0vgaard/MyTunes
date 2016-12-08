@@ -88,10 +88,11 @@ GitHub.sublime-settings
 ### NetBeans ###
 nbproject/private/
 build/
-nbbuild/
 dist/
+nbbuild/
 nbdist/
 .nb-gradle/
+*.data
 
 
 ### Intellij ###
@@ -1853,7 +1854,10 @@ obj/
 .mtj.tmp/
 
 # Package Files #
+!dist/lib/
 *.jar
+!jaudiotagger*.jar
+!jfoenix*.jar
 *.war
 *.ear
 

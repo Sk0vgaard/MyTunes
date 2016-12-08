@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane id="AnchorPane" prefHeight="122.0" prefWidth="279.0" stylesheets="@MyTunes.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mytunes.gui.controller.MoreGenreViewController">
+   <children>
+      <Label layoutX="14.0" layoutY="38.0" prefHeight="17.0" prefWidth="70.0" text="New Genre:" />
+      <JFXTextField fx:id="txtNewGenre" layoutX="92.0" layoutY="31.0" />
+      <JFXButton defaultButton="true" layoutX="134.0" layoutY="85.0" onAction="#btnHandleOk" text="OK" />
+      <JFXButton cancelButton="true" layoutX="189.0" layoutY="85.0" onAction="#btnHandleCancel" text="Cancel" />
+   </children>
+</AnchorPane>
