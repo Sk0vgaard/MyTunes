@@ -254,6 +254,15 @@ public class MyTunesController implements Initializable {
     }
 
     /**
+     * Gets the song table
+     *
+     * @return
+     */
+    public TableView getSongTable() {
+        return tableSongs;
+    }
+
+    /**
      * Checks if the "add image" or the "edit image" was clicked and opens the
      * corresponding view
      *
@@ -516,8 +525,8 @@ public class MyTunesController implements Initializable {
      */
     @FXML
     private void handleSongToPlaylist(MouseEvent event) throws IOException {
+        ObservableList<Song> songsToAddToPlaylist = tableSongs.getSelectionModel().getSelectedItems();
         if (tablePlaylists.getSelectionModel().getSelectedItem() != null && tableSongs.getSelectionModel().getSelectedItem() != null) {
-            ObservableList<Song> songsToAddToPlaylist = tableSongs.getSelectionModel().getSelectedItems();
             playlistModel.addSongsToPlaylist(songsToAddToPlaylist);
         } //If there is no playlist created, pop a dialog and create a new playlist.
         else if (tablePlaylists.getSelectionModel().isEmpty()) {

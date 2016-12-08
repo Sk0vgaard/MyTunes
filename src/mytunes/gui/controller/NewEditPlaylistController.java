@@ -28,6 +28,15 @@ public class NewEditPlaylistController implements Initializable {
 
     private Stage stage;
 
+    private static NewEditPlaylistController instance;
+
+    public static NewEditPlaylistController getInstance() {
+        if (instance == null) {
+            instance = new NewEditPlaylistController();
+        }
+        return instance;
+    }
+
     private Playlist currentPlaylist = new Playlist("", "", "");
     private final PlaylistModel playlistModel = PlaylistModel.getInstance();
     private final MyTunesController mtController = MyTunesController.getInstance();
@@ -86,6 +95,8 @@ public class NewEditPlaylistController implements Initializable {
             mtController.getPlaylistTable().getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
             mtController.getPlaylistTable().getSelectionModel().selectLast();
             mtController.handleSelectPlaylist(null);
+            //TODO ALH: Make this really nice
+            playlistModel.addSongsToPlaylist(mtController.getSongTable().getSelectionModel().getSelectedItems());
 
         }
         mtController.refreshTable();
