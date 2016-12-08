@@ -78,17 +78,24 @@ public class MathManager implements Serializable {
         
         if(totalDuration > A_MINUTE)
         {
-            double placeholder = totalDuration / A_MINUTE;
+            double placeholder = totalDuration / A_MINUTE;            
             hours += (int) placeholder;
+            totalDuration = totalDuration % A_MINUTE;
         }
         
         String stringDuration = String.format("%.2f", totalDuration);
         
-        if(hours > 0)
+        if(totalDuration < 10)
         {
-            
+            stringDuration = 0 + stringDuration;
+        }
+        
+        if(hours > 0)
+        {            
             stringDuration = hours + "," + stringDuration;
         }
+        
+        stringDuration = stringDuration.replace(",", ":");
         
         return stringDuration;
     }
