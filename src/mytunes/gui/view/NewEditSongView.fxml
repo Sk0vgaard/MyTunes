@@ -27,7 +27,7 @@
             <JFXButton layoutX="359.0" layoutY="18.0" onAction="#handleChooseButton" text="Choose..." />
             <JFXButton layoutX="200.0" layoutY="143.0" onAction="#handleMoreButton" text="More..." />
             <JFXButton cancelButton="true" layoutX="359.0" layoutY="218.0" onAction="#handleCancelButton" text="Cancel" />
-            <JFXButton defaultButton="true" layoutX="281.0" layoutY="218.0" onAction="#handleCancelButton" text="Save" />
+            <JFXButton defaultButton="true" layoutX="281.0" layoutY="218.0" onAction="#handleSaveButton" text="Save" />
          </children>
       </Pane>
       <Label alignment="CENTER" layoutY="-2.0" prefHeight="31.0" prefWidth="471.0" style="-fx-border-color: black;" text="New/Edit Song">
