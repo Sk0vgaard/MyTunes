@@ -88,6 +88,7 @@ public class NewEditPlaylistController implements Initializable {
             mtController.handleSelectPlaylist(null);
 
         }
+        mtController.refreshTable();
         stage = (Stage) txtName.getScene().getWindow();
         // do what you have to do
         stage.close();
