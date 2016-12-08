@@ -10,6 +10,7 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import mytunes.be.Playlist;
@@ -82,6 +83,9 @@ public class NewEditPlaylistController implements Initializable {
         } else {
             currentPlaylist.setName(txtName.getText());
             playlistModel.addPlaylist(currentPlaylist);
+            mtController.getPlaylistTable().getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+            mtController.getPlaylistTable().getSelectionModel().selectLast();
+            mtController.handleSelectPlaylist(null);
 
         }
         stage = (Stage) txtName.getScene().getWindow();

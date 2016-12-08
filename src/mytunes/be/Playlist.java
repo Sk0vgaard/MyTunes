@@ -8,15 +8,14 @@ package mytunes.be;
 import java.io.FileNotFoundException;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.collections.ObservableList;
 import mytunes.bll.IDCreator;
 import mytunes.bll.MathManager;
 
 public class Playlist implements Serializable {
-    
+
     private MathManager mathManager = MathManager.getInstance();
 
     private int id = 0;
@@ -32,11 +31,9 @@ public class Playlist implements Serializable {
         this.songs = songs;
         this.duration = duration;
         songsInPlaylist = new ArrayList<>();
-        try
-        {
+        try {
             id = IDCreator.createPlaylistId();
-        } catch (FileNotFoundException ex)
-        {
+        } catch (FileNotFoundException ex) {
             System.out.println("Id messed up");
         }
     }
@@ -73,21 +70,31 @@ public class Playlist implements Serializable {
     public ArrayList<Song> getSongsInPlaylist() {
         return songsInPlaylist;
     }
-    
+
     /**
      * Add a song to the playlist.
-     * @param song 
+     *
+     * @param song
      */
     public void addSong(Song song) {
         songsInPlaylist.add(song);
     }
-    
+
+    /**
+     * Add songs to the playlist
+     *
+     * @param newSongs
+     */
+    public void addSongs(ObservableList<Song> newSongs) {
+        songsInPlaylist.addAll(newSongs);
+    }
+
     /**
      * Removes a song from the playlist.
-     * @param song 
+     *
+     * @param song
      */
-    public void removeSong(Song song)
-    {
+    public void removeSong(Song song) {
         songsInPlaylist.remove(song);
     }
 

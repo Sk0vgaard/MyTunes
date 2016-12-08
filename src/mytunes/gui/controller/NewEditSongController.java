@@ -32,7 +32,6 @@ import mytunes.gui.model.SongModel;
  */
 public class NewEditSongController implements Initializable {
 
-    private SongModel songModel = SongModel.getInstance();
     @FXML
     private TextField txtTitle;
     @FXML
@@ -43,6 +42,10 @@ public class NewEditSongController implements Initializable {
     private TextField txtDuration;
     @FXML
     private TextField txtFile;
+
+    private Stage stage;
+
+    private SongModel songModel = SongModel.getInstance();
 
     private Stage primStage;
 
@@ -90,7 +93,7 @@ public class NewEditSongController implements Initializable {
      */
     @FXML
     private void handleMoreButton() throws IOException {
-        primStage = (Stage) txtTitle.getScene().getWindow();
+        stage = (Stage) txtTitle.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/MoreGenreView.fxml"));
         Parent root = loader.load();
 
@@ -98,7 +101,7 @@ public class NewEditSongController implements Initializable {
         editStage.setScene(new Scene(root));
 
         editStage.initModality(Modality.WINDOW_MODAL);
-        editStage.initOwner(primStage);
+        editStage.initOwner(stage);
 
         editStage.show();
 
@@ -145,7 +148,7 @@ public class NewEditSongController implements Initializable {
             }
 
             // get a handle to the stage
-            Stage stage = (Stage) txtTitle.getScene().getWindow();
+            stage = (Stage) txtTitle.getScene().getWindow();
             // do what you have to do
             stage.close();
         }
@@ -194,7 +197,7 @@ public class NewEditSongController implements Initializable {
     @FXML
     private void handleCancelButton() {
         // get a handle to the stage
-        Stage stage = (Stage) txtFile.getScene().getWindow();
+        stage = (Stage) txtFile.getScene().getWindow();
         // do what you have to do
         stage.close();
     }

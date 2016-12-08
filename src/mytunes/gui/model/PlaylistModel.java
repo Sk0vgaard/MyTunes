@@ -19,10 +19,10 @@ public class PlaylistModel {
 
     private static PlaylistModel instance;
 
-    private final ObservableList<Song> currentPlaylist;
+    private ObservableList<Song> currentPlaylist;
     private final ObservableList<Playlist> playlists;
 
-    private int playlistID;
+    private Playlist selectedPlaylist;
 
     private final MathManager mathManager;
     private final MyTunesController mtController;
@@ -50,6 +50,16 @@ public class PlaylistModel {
      */
     public ObservableList<Song> getCurrentPlaylist() {
         return currentPlaylist;
+    }
+
+    /**
+     * Set current playlist
+     *
+     * @param playlist
+     */
+    public void setCurrentPlaylist(ObservableList<Song> playlist) {
+        currentPlaylist.clear();
+        currentPlaylist.addAll(playlist);
     }
 
     /**
@@ -101,21 +111,13 @@ public class PlaylistModel {
     /**
      * Add song to playlist
      *
-     * @param newSong
+     * @param songsToAdd
      */
-    public void addSongToPlaylist(Song newSong) {
-        boolean hasSong = false;
-        for (Song song : currentPlaylist) {
-            if (song.getId() == newSong.getId()) {
-                hasSong = true;
-            }
-        }
-        if (!hasSong) {
-            currentPlaylist.add(newSong);
-            for (Playlist playlist : playlists) {
-                if (playlist.getId() == playlistID) {
-                    playlist.addSong(newSong);
-                }
+    public void addSongsToPlaylist(ObservableList<Song> songsToAdd) {
+        for (Song song : songsToAdd) {
+            if (!currentPlaylist.contains(song)) {
+                currentPlaylist.add(song);
+                selectedPlaylist.addSong(song);
             }
         }
         savePlaylists();
@@ -142,15 +144,19 @@ public class PlaylistModel {
      * Load saved playlists
      *
      */
-    public void loadSavedPlaylists() {
-        if (musicDao.isPlaylistsThere()) {
-            ArrayList<Playlist> playlistsFromFile = musicDao.getPlaylistsFromFile();
-            if (!playlistsFromFile.isEmpty()) {
-                playlists.clear();
-                playlists.addAll(playlistsFromFile);
+    public void loadSavedPlaylists() throws NullPointerException {
+        try {
+            if (musicDao.isPlaylistsThere()) {
+                ArrayList<Playlist> playlistsFromFile = musicDao.getPlaylistsFromFile();
+                if (!playlistsFromFile.isEmpty()) {
+                    playlists.clear();
+                    playlists.addAll(playlistsFromFile);
+                }
+            } else {
+                System.out.println("Sheit playlist.data isn't there!");
             }
-        } else {
-            System.out.println("Sheit playlist.data isn't there!");
+        } catch (NullPointerException npe) {
+            System.out.println("Sheit playlist.data is corrupt! " + npe);
         }
     }
 
@@ -186,10 +192,11 @@ public class PlaylistModel {
     /**
      * Sets the current playlist id
      *
-     * @param playlistID
+     * @param playlist
      */
-    public void setPlaylistID(int playlistID) {
-        this.playlistID = playlistID;
+    public void setSelectedPlaylist(Playlist playlist) {
+        System.out.println("PlaylistID is now " + playlist.getId());
+        selectedPlaylist = playlist;
     }
 
     /**

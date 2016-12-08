@@ -20,6 +20,7 @@ import javafx.beans.Observable;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -511,11 +512,7 @@ public class MyTunesController implements Initializable {
     private void handleSongToPlaylist(MouseEvent event) throws IOException {
         if (tablePlaylists.getSelectionModel().getSelectedItem() != null && tableSongs.getSelectionModel().getSelectedItem() != null) {
             ObservableList<Song> songsToAddToPlaylist = tableSongs.getSelectionModel().getSelectedItems();
-            for (int i = 0; i < songsToAddToPlaylist.size(); i++) {
-                playlistModel.addSongToPlaylist(songsToAddToPlaylist.get(i));
-            }
-            playlistModel.savePlaylists();
-            updateInfo();
+            playlistModel.addSongsToPlaylist(songsToAddToPlaylist);
         } //If there is no playlist created, pop a dialog and create a new playlist.
         else if (tablePlaylists.getSelectionModel().isEmpty()) {
             Alert alert = new Alert(AlertType.INFORMATION);
@@ -526,10 +523,9 @@ public class MyTunesController implements Initializable {
             if (result.get() == ButtonType.OK) {
                 btnAddPlaylist.fireEvent(event);
             }
-        } else {
-            tablePlaylists.getSelectionModel().selectFirst();
-            handleSelectPlaylist(null);
         }
+        playlistModel.savePlaylists();
+        updateInfo();
     }
 
     /**
@@ -759,14 +755,12 @@ public class MyTunesController implements Initializable {
     @FXML
     public void handleSelectPlaylist(MouseEvent event) throws NullPointerException {
         try {
-            int playlistId = tablePlaylists.getSelectionModel().getSelectedItem().getId();
-            playlistModel.setPlaylistID(playlistId);
-            ArrayList<Song> list = tablePlaylists.getSelectionModel().getSelectedItem().getSongsInPlaylist();
-            playlistModel.updateCurrentPlaylist(list);
-
-            updateCurrentPlaylistTotals();
+            Playlist selectedPlaylist = tablePlaylists.getSelectionModel().getSelectedItem();
+            ObservableList<Song> songsFromList = FXCollections.observableArrayList();
+            songsFromList.addAll(selectedPlaylist.getSongsInPlaylist());
+            playlistModel.setCurrentPlaylist(songsFromList);
+            playlistModel.setSelectedPlaylist(selectedPlaylist);
         } catch (Exception e) {
-
             System.out.println("Selection error " + e);
         }
     }
