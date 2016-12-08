@@ -142,9 +142,9 @@ public class SongModel {
      * Replays the song
      */
     public void replaySong() {
-        if (musicPlayer.isPlaying()) {
-            musicPlayer.replaySong();
-        }
+        Song playingSong = getCurrentSongPlaying();
+        musicPlayer.stopPlaying();
+        playSelectedSong(playingSong);
     }
 
     /**

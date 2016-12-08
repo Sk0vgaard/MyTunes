@@ -100,14 +100,6 @@ public class MusicPlayer {
     }
 
     /**
-     * Restarts the current song
-     */
-    public void replaySong() {
-        myTunesPlayer.stop();
-        myTunesPlayer.play();
-    }
-
-    /**
      *
      * @return status of MyTunesPlayer playing
      */

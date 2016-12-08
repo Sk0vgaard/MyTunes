@@ -22,9 +22,7 @@ public class MusicDAO {
 
     private static MusicDAO instance;
 
-    private final String path = System.getProperty("user.dir").replace('\\', '/') + "/src/mytunes/data/";
-    
-    private final String ID_FILE = "id.txt"; 
+    private final String ID_FILE = "id.txt";
 
     private ArrayList<Song> savedSongs;
     private ArrayList<Playlist> savedPlaylists;
@@ -123,42 +121,41 @@ public class MusicDAO {
         boolean playlistsExists = playlists.exists();
         return playlistsExists;
     }
-    
+
     /**
      * Saves the id to a file.
+     *
      * @param id
-     * @throws FileNotFoundException 
+     * @throws FileNotFoundException
      */
-    public void saveIdFile(int id) throws FileNotFoundException
-    {
+    public void saveIdFile(int id) throws FileNotFoundException {
         PrintWriter out = new PrintWriter(ID_FILE);
         out.println(id);
         out.close();
     }
-    
+
     /**
      * Gets the id from the idFile.
+     *
      * @return
-     * @throws FileNotFoundException 
+     * @throws FileNotFoundException
      */
-    public int getIdFile() throws FileNotFoundException
-    {
+    public int getIdFile() throws FileNotFoundException {
         int id = 0;
         File inputFile = new File(ID_FILE);
         Scanner in = new Scanner(inputFile);
-        if(in.hasNextInt())
-        {
+        if (in.hasNextInt()) {
             id = in.nextInt();
         }
         return id;
     }
-    
+
     /**
      * Checks if the file containg id's exists.
-     * @return 
+     *
+     * @return
      */
-    public boolean isIdFileThere()
-    {
+    public boolean isIdFileThere() {
         File file = new File(ID_FILE);
         boolean fileExists = file.exists();
         return fileExists;
