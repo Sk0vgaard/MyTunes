@@ -25,9 +25,11 @@ public class SongModel {
 
     private final MyTunesController mtController;
 
-    private final ObservableList<Song> songs;
+    private ObservableList<Song> songs;
 
-    private final ArrayList<Song> savedSongs;
+    private final ObservableList<Song> savedSongs;
+
+    private ObservableList<Song> songsFromSearch;
 
     private final MusicPlayer musicPlayer;
 
@@ -52,11 +54,12 @@ public class SongModel {
 
     private SongModel() {
         songs = FXCollections.observableArrayList();
+        songsFromSearch = FXCollections.observableArrayList();
         musicPlayer = MusicPlayer.getInstance();
         musicDao = MusicDAO.getInstance();
         mathManager = MathManager.getInstance();
         musicPlayer.setSongModel(this);
-        savedSongs = new ArrayList<>();
+        savedSongs = FXCollections.observableArrayList();
         fileManager = new FileManager();
         mtController = MyTunesController.getInstance();
     }
@@ -150,15 +153,22 @@ public class SongModel {
      * @param searchString
      */
     public void searchSong(String searchString) {
-        ArrayList<Song> songsFromSearch = new ArrayList<>();
+        boolean hasSong = false;
         savedSongs.addAll(songs);
-        songs.clear();
         for (Song savedSong : savedSongs) {
             if (savedSong.getTitle().get().toLowerCase().contains(searchString)
                     || savedSong.getGenre().get().toLowerCase().contains(searchString)) {
-                songsFromSearch.add(savedSong);
+                for (Song song : songsFromSearch) {
+                    if (song.getTitle().get().equals(savedSong.getTitle().get())) {
+                        hasSong = true;
+                    }
+                }
+                if (!hasSong) {
+                    songsFromSearch.add(savedSong);
+                }
             }
         }
+        songs.clear();
         songs.addAll(songsFromSearch);
     }
 
@@ -166,11 +176,7 @@ public class SongModel {
      * Reset search
      */
     public void clearSearch() {
-        if (!savedSongs.isEmpty()) {
-            songs.clear();
-            songs.addAll(savedSongs);
-            savedSongs.clear();
-        }
+        loadSavedSongs();
     }
 
     /**

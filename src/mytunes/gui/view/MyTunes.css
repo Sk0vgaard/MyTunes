@@ -5,3 +5,8 @@
 .jfx-radio-button {
     -fx-selected-color: blue;
 }
+
+.button {
+  -fx-button-type: RAISED;
+  -fx-background-color: blue;
+}
