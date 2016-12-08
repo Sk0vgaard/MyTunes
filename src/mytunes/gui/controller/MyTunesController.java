@@ -430,7 +430,7 @@ public class MyTunesController implements Initializable {
         songModel.stopPlaying();
         Song currentSong = songModel.getCurrentSongPlaying();
         playingView.select(currentSong);
-        if (tableCurrentPlaylist.getSelectionModel().getFocusedIndex() + 1 == playlistModel.getCurrentPlaylist().size()) {
+        if (tableCurrentPlaylist.getSelectionModel().getFocusedIndex() + 1 == playlistModel.getCurrentPlaylist().size() && goForward) {
             playingView.selectFirst();
         } else {
             if (goForward) {
