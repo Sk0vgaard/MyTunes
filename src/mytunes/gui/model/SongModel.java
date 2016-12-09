@@ -254,7 +254,7 @@ public class SongModel {
     /**
      * Save the songs
      */
-    private void saveSongs() {
+    public void saveSongs() {
         musicDao.writeSongs(getSongsAsAraryList());
     }
 

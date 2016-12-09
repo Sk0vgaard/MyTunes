@@ -147,6 +147,8 @@ public class NewEditSongController implements Initializable {
                 songModel.addSong(currentSong);
             }
 
+            songModel.saveSongs();
+
             // get a handle to the stage
             stage = (Stage) txtTitle.getScene().getWindow();
             // do what you have to do
