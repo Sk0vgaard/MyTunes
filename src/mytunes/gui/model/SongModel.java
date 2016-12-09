@@ -150,14 +150,16 @@ public class SongModel {
     /**
      * Search for song from parsed string
      *
-     * @param searchString
+     * @param search
      */
-    public void searchSong(String searchString) {
+    public void searchSong(String search) {
+        String searchString = search.toLowerCase();
         boolean hasSong = false;
         savedSongs.addAll(songs);
         for (Song savedSong : savedSongs) {
             if (savedSong.getTitle().get().toLowerCase().contains(searchString)
-                    || savedSong.getGenre().get().toLowerCase().contains(searchString)) {
+                    || savedSong.getGenre().get().toLowerCase().contains(searchString)
+                    || savedSong.getArtist().get().toLowerCase().contains(searchString)) {
                 for (Song song : songsFromSearch) {
                     if (song.getTitle().get().equals(savedSong.getTitle().get())) {
                         hasSong = true;
@@ -176,6 +178,7 @@ public class SongModel {
      * Reset search
      */
     public void clearSearch() {
+        songsFromSearch.clear();
         loadSavedSongs();
     }
 
