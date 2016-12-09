@@ -376,6 +376,7 @@ public class MyTunesController implements Initializable {
         playingView = selectedView;
         btnPlay.setImage(pause);
         lblIsPlaying.setText(selectedSong.getTitle().get() + IS_PLAYING);
+        checkVolume();
     }
 
     /**
