@@ -423,6 +423,7 @@ public class MyTunesController implements Initializable {
     private void handleClearSearch() {
         songModel.clearSearch();
         txtSearch.setText("");
+        updateSongTotals();
     }
 
     /**

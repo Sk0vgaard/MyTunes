@@ -172,6 +172,7 @@ public class SongModel {
         }
         songs.clear();
         songs.addAll(songsFromSearch);
+        mtController.updateSongTotals();
     }
 
     /**
