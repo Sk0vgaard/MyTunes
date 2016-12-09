@@ -736,15 +736,18 @@ public class MyTunesController implements Initializable {
      */
     @FXML
     private void handleMute(MouseEvent event) {
-        if (speaker.getImage().equals(normal)) {
-            lastVolume = sliderVolume.getValue();
-            songModel.switchVolume(0);
-            sliderVolume.setValue(0);
-            speaker.setImage(mute);
-        } else {
-            sliderVolume.setValue(lastVolume);
-            speaker.setImage(normal);
-            checkVolume();
+        if (songModel.isMusicPlayerPlaying())
+        {
+            if (speaker.getImage().equals(normal)) {
+                lastVolume = sliderVolume.getValue();
+                songModel.switchVolume(0);
+                sliderVolume.setValue(0);
+                speaker.setImage(mute);
+            } else {
+                sliderVolume.setValue(lastVolume);
+                speaker.setImage(normal);
+                checkVolume();
+            }
         }
     }
 
