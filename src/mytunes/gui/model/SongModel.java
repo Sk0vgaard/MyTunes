@@ -155,6 +155,8 @@ public class SongModel {
     public void searchSong(String search) {
         String searchString = search.toLowerCase();
         boolean hasSong = false;
+        songsFromSearch.clear();
+        loadSavedSongs();
         savedSongs.addAll(songs);
         for (Song savedSong : savedSongs) {
             if (savedSong.getTitle().get().toLowerCase().contains(searchString)

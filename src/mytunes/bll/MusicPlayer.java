@@ -22,7 +22,7 @@ public class MusicPlayer {
 
     private SongModel songModel;
 
-    private MyTunesController mtController = MyTunesController.getInstance();
+    private final MyTunesController mtController = MyTunesController.getInstance();
 
     private static MediaPlayer myTunesPlayer;
 
