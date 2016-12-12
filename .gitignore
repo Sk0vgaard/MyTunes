@@ -1854,7 +1854,7 @@ obj/
 .mtj.tmp/
 
 # Package Files #
-!dist/lib/
+!dist
 *.jar
 !jaudiotagger*.jar
 !jfoenix*.jar

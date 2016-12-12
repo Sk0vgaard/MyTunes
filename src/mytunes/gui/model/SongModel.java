@@ -155,9 +155,13 @@ public class SongModel {
     public void searchSong(String search) {
         String searchString = search.toLowerCase();
         boolean hasSong = false;
+        //Clear former search results
         songsFromSearch.clear();
+        //Load the saved songs for a fresh search
         loadSavedSongs();
+        //Create new list of all songs to search in
         savedSongs.addAll(songs);
+        //If title, genre or artist matches the search criteria, then create add song to list of results
         for (Song savedSong : savedSongs) {
             if (savedSong.getTitle().get().toLowerCase().contains(searchString)
                     || savedSong.getGenre().get().toLowerCase().contains(searchString)
@@ -172,6 +176,7 @@ public class SongModel {
                 }
             }
         }
+        //Show only the search result(s) and update the totals
         songs.clear();
         songs.addAll(songsFromSearch);
         mtController.updateSongTotals();

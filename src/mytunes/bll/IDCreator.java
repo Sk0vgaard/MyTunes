@@ -9,12 +9,12 @@ import java.io.FileNotFoundException;
 import mytunes.dal.MusicDAO;
 
 public class IDCreator {
-    
-    private static MusicDAO musicDAO = MusicDAO.getInstance();
+
+    private static final MusicDAO MUSIC_DAO = MusicDAO.getInstance();
 
     private static int songId = 0;
     private static int playListId = 0;
-    
+
     private int lastPlayListId;
 
     /**
@@ -33,13 +33,12 @@ public class IDCreator {
      * @return
      * @throws java.io.FileNotFoundException
      */
-    public static int createPlaylistId() throws FileNotFoundException{
-        if(musicDAO.isIdFileThere())
-        {
-            playListId = musicDAO.getIdFile();
+    public static int createPlaylistId() throws FileNotFoundException {
+        if (MUSIC_DAO.isIdFileThere()) {
+            playListId = MUSIC_DAO.getIdFile();
         }
         playListId++;
-        musicDAO.saveIdFile(playListId);
+        MUSIC_DAO.saveIdFile(playListId);
         return playListId;
     }
 

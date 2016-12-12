@@ -61,17 +61,16 @@ public class FileManager {
             selectedSong.setGenre(tag.getFirst(FieldKey.GENRE));
             selectedSong.setDuration(header.getTrackLengthAsString());
             path = song.toURI().toASCIIString();
-            path = path.replace("\\", "/");
             selectedSong.setFilePath(path);
         } catch (CannotReadException ex) {
-            Logger.getLogger(FileManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
             Logger.getLogger(FileManager.class.getName()).log(Level.SEVERE, null, ex);
         } catch (TagException ex) {
             Logger.getLogger(FileManager.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ReadOnlyFileException ex) {
             Logger.getLogger(FileManager.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InvalidAudioFrameException ex) {
+            Logger.getLogger(FileManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
             Logger.getLogger(FileManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
