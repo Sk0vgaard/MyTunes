@@ -488,8 +488,7 @@ public class MyTunesController implements Initializable {
      * @param event
      */
     @FXML
-    private void handleSongDeleteButton(MouseEvent event
-    ) {
+    private void handleSongDeleteButton(MouseEvent event) {
         try {
             ObservableList<Song> songsToDelete = tableSongs.getSelectionModel().getSelectedItems();
             Alert alert;

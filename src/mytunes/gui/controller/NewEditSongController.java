@@ -162,7 +162,7 @@ public class NewEditSongController implements Initializable {
         currentSong.setArtist(txtArtist.getText());
         currentSong.setGenre(comboGenre.getValue());
         currentSong.setDuration(txtDuration.getText());
-        currentSong.setFileName(txtFile.getText());
+        currentSong.setFilePath(txtFile.getText());
     }
 
     public void setTxtTitle(String newString) {

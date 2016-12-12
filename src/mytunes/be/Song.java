@@ -88,7 +88,7 @@ public class Song implements Serializable {
      *
      * @param path
      */
-    public void setFileName(String path) {
+    public void setFilePath(String path) {
         this.fileName = path;
     }
 

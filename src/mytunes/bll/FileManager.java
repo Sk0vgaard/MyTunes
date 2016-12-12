@@ -62,7 +62,7 @@ public class FileManager {
             selectedSong.setDuration(header.getTrackLengthAsString());
             path = song.toURI().toASCIIString();
             path = path.replace("\\", "/");
-            selectedSong.setFileName(path);
+            selectedSong.setFilePath(path);
         } catch (CannotReadException ex) {
             Logger.getLogger(FileManager.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
